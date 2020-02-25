@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clt.dao.BookDao">
+
+    <resultMap type="com.clt.entity.Book" id="BookMap">
+        <result property="bookId" column="book_id" jdbcType="VARCHAR"/>
+        <result property="categoryId" column="category_id" jdbcType="VARCHAR"/>
+        <result property="bookName" column="book_name" jdbcType="VARCHAR"/>
+        <result property="bookDescribe" column="book_describe" jdbcType="VARCHAR"/>
+        <result property="author" column="author" jdbcType="VARCHAR"/>
+        <result property="published" column="published" jdbcType="VARCHAR"/>
+        <result property="price" column="price" jdbcType="NUMERIC"/>
+        <result property="bookStatus" column="book_status" jdbcType="VARCHAR"/>
+        <result property="img" column="img" jdbcType="VARCHAR"/>
+        <result property="ebook" column="ebook" jdbcType="OTHER"/>
+        <result property="location" column="location" jdbcType="VARCHAR"/>
+        <result property="zanNumber" column="zan_number" jdbcType="INTEGER"/>
+        <result property="score" column="score" jdbcType="OTHER"/>
+        <result property="inputTime" column="input_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BookMap">
+        select
+          book_id, category_id, book_name, book_describe, author, published, price, book_status, img, ebook, location, zan_number, score, input_time, update_time
+        from library.book
+        where book_id = #{bookId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BookMap">
+        select
+          book_id, category_id, book_name, book_describe, author, published, price, book_status, img, ebook, location, zan_number, score, input_time, update_time
+        from library.book
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BookMap">
+        select
+          book_id, category_id, book_name, book_describe, author, published, price, book_status, img, ebook, location, zan_number, score, input_time, update_time
+        from library.book
+        <where>
+            <if test="bookId != null and bookId != ''">
+                and book_id = #{bookId}
+            </if>
+            <if test="categoryId != null and categoryId != ''">
+                and category_id = #{categoryId}
+            </if>
+            <if test="bookName != null and bookName != ''">
+                and book_name = #{bookName}
+            </if>
+            <if test="bookDescribe != null and bookDescribe != ''">
+                and book_describe = #{bookDescribe}
+            </if>
+            <if test="author != null and author != ''">
+                and author = #{author}
+            </if>
+            <if test="published != null and published != ''">
+                and published = #{published}
+            </if>
+            <if test="price != null">
+                and price = #{price}
+            </if>
+            <if test="bookStatus != null and bookStatus != ''">
+                and book_status = #{bookStatus}
+            </if>
+            <if test="img != null and img != ''">
+                and img = #{img}
+            </if>
+            <if test="ebook != null">
+                and ebook = #{ebook}
+            </if>
+            <if test="location != null and location != ''">
+                and location = #{location}
+            </if>
+            <if test="zanNumber != null">
+                and zan_number = #{zanNumber}
+            </if>
+            <if test="score != null">
+                and score = #{score}
+            </if>
+            <if test="inputTime != null">
+                and input_time = #{inputTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="bookId" useGeneratedKeys="true">
+        insert into library.book(category_id, book_name, book_describe, author, published, price, book_status, img, ebook, location, zan_number, score, input_time, update_time)
+        values (#{categoryId}, #{bookName}, #{bookDescribe}, #{author}, #{published}, #{price}, #{bookStatus}, #{img}, #{ebook}, #{location}, #{zanNumber}, #{score}, #{inputTime}, #{updateTime})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update library.book
+        <set>
+            <if test="categoryId != null and categoryId != ''">
+                category_id = #{categoryId},
+            </if>
+            <if test="bookName != null and bookName != ''">
+                book_name = #{bookName},
+            </if>
+            <if test="bookDescribe != null and bookDescribe != ''">
+                book_describe = #{bookDescribe},
+            </if>
+            <if test="author != null and author != ''">
+                author = #{author},
+            </if>
+            <if test="published != null and published != ''">
+                published = #{published},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="bookStatus != null and bookStatus != ''">
+                book_status = #{bookStatus},
+            </if>
+            <if test="img != null and img != ''">
+                img = #{img},
+            </if>
+            <if test="ebook != null">
+                ebook = #{ebook},
+            </if>
+            <if test="location != null and location != ''">
+                location = #{location},
+            </if>
+            <if test="zanNumber != null">
+                zan_number = #{zanNumber},
+            </if>
+            <if test="score != null">
+                score = #{score},
+            </if>
+            <if test="inputTime != null">
+                input_time = #{inputTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        where book_id = #{bookId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from library.book where book_id = #{bookId}
+    </delete>
+
+</mapper>

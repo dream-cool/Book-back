@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clt.dao.PermissionDao">
+
+    <resultMap type="com.clt.entity.Permission" id="PermissionMap">
+        <result property="userId" column="user_id" jdbcType="VARCHAR"/>
+        <result property="bookR" column="book_r" jdbcType="OTHER"/>
+        <result property="bookW" column="book_w" jdbcType="OTHER"/>
+        <result property="userR" column="user_r" jdbcType="OTHER"/>
+        <result property="userW" column="user_w" jdbcType="OTHER"/>
+        <result property="borrowingR" column="borrowing_r" jdbcType="OTHER"/>
+        <result property="borrowingW" column="borrowing_w" jdbcType="OTHER"/>
+        <result property="categoryW" column="category_w" jdbcType="OTHER"/>
+        <result property="statisticsR" column="statistics_r" jdbcType="OTHER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="PermissionMap">
+        select
+          user_id, book_r, book_w, user_r, user_w, borrowing_r, borrowing_w, category_w, statistics_r
+        from library.permission
+        where user_id = #{userId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="PermissionMap">
+        select
+          user_id, book_r, book_w, user_r, user_w, borrowing_r, borrowing_w, category_w, statistics_r
+        from library.permission
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="PermissionMap">
+        select
+          user_id, book_r, book_w, user_r, user_w, borrowing_r, borrowing_w, category_w, statistics_r
+        from library.permission
+        <where>
+            <if test="userId != null and userId != ''">
+                and user_id = #{userId}
+            </if>
+            <if test="bookR != null">
+                and book_r = #{bookR}
+            </if>
+            <if test="bookW != null">
+                and book_w = #{bookW}
+            </if>
+            <if test="userR != null">
+                and user_r = #{userR}
+            </if>
+            <if test="userW != null">
+                and user_w = #{userW}
+            </if>
+            <if test="borrowingR != null">
+                and borrowing_r = #{borrowingR}
+            </if>
+            <if test="borrowingW != null">
+                and borrowing_w = #{borrowingW}
+            </if>
+            <if test="categoryW != null">
+                and category_w = #{categoryW}
+            </if>
+            <if test="statisticsR != null">
+                and statistics_r = #{statisticsR}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="userId" useGeneratedKeys="true">
+        insert into library.permission(book_r, book_w, user_r, user_w, borrowing_r, borrowing_w, category_w, statistics_r)
+        values (#{bookR}, #{bookW}, #{userR}, #{userW}, #{borrowingR}, #{borrowingW}, #{categoryW}, #{statisticsR})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update library.permission
+        <set>
+            <if test="bookR != null">
+                book_r = #{bookR},
+            </if>
+            <if test="bookW != null">
+                book_w = #{bookW},
+            </if>
+            <if test="userR != null">
+                user_r = #{userR},
+            </if>
+            <if test="userW != null">
+                user_w = #{userW},
+            </if>
+            <if test="borrowingR != null">
+                borrowing_r = #{borrowingR},
+            </if>
+            <if test="borrowingW != null">
+                borrowing_w = #{borrowingW},
+            </if>
+            <if test="categoryW != null">
+                category_w = #{categoryW},
+            </if>
+            <if test="statisticsR != null">
+                statistics_r = #{statisticsR},
+            </if>
+        </set>
+        where user_id = #{userId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from library.permission where user_id = #{userId}
+    </delete>
+
+</mapper>

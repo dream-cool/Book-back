@@ -16,6 +16,10 @@ spring:
       stat-view-servlet: #访问监控网页的登录用户名和密码
         login-username: druid
         login-password: druid
+  servlet:
+    multipart:
+      location: D://file
+      max-file-size: 100MB
 
 mybatis:
   mapper-locations: classpath:/mapper/*Dao.xml
@@ -23,7 +27,7 @@ mybatis:
 
 jwt:
   tokenHeader: Authorization #JWT存储的请求头
-  secret: mySecret #JWT加解密使用的密钥
+  secret: clt #JWT加解密使用的密钥
   expiration: 604800 #JWT的超期限时间(60*60*24)
   tokenHead: Bearer  #JWT负载中拿到开头
 

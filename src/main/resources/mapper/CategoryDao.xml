@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clt.dao.CategoryDao">
+
+    <resultMap type="com.clt.entity.Category" id="CategoryMap">
+        <result property="categoryId" column="category_id" jdbcType="INTEGER"/>
+        <result property="firstCategory" column="first_category" jdbcType="VARCHAR"/>
+        <result property="secondCategory" column="second_category" jdbcType="VARCHAR"/>
+        <result property="thirdCategory" column="third_category" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="CategoryMap">
+        select
+          category_id, first_category, second_category, third_category
+        from library.category
+        where category_id = #{categoryId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="CategoryMap">
+        select
+          category_id, first_category, second_category, third_category
+        from library.category
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="CategoryMap">
+        select
+          category_id, first_category, second_category, third_category
+        from library.category
+        <where>
+            <if test="categoryId != null">
+                and category_id = #{categoryId}
+            </if>
+            <if test="firstCategory != null and firstCategory != ''">
+                and first_category = #{firstCategory}
+            </if>
+            <if test="secondCategory != null and secondCategory != ''">
+                and second_category = #{secondCategory}
+            </if>
+            <if test="thirdCategory != null and thirdCategory != ''">
+                and third_category = #{thirdCategory}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="categoryId" useGeneratedKeys="true">
+        insert into library.category(first_category, second_category, third_category)
+        values (#{firstCategory}, #{secondCategory}, #{thirdCategory})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update library.category
+        <set>
+            <if test="firstCategory != null and firstCategory != ''">
+                first_category = #{firstCategory},
+            </if>
+            <if test="secondCategory != null and secondCategory != ''">
+                second_category = #{secondCategory},
+            </if>
+            <if test="thirdCategory != null and thirdCategory != ''">
+                third_category = #{thirdCategory},
+            </if>
+        </set>
+        where category_id = #{categoryId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from library.category where category_id = #{categoryId}
+    </delete>
+
+</mapper>

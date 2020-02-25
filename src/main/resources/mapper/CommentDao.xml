@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clt.dao.CommentDao">
+
+    <resultMap type="com.clt.entity.Comment" id="CommentMap">
+        <result property="bookId" column="book_id" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="VARCHAR"/>
+        <result property="commentTime" column="comment_time" jdbcType="TIMESTAMP"/>
+        <result property="zanFlag" column="Zan_flag" jdbcType="OTHER"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="score" column="score" jdbcType="OTHER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="CommentMap">
+        select
+          book_id, user_id, comment_time, Zan_flag, content, score
+        from library.comment
+        where book_id = #{bookId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="CommentMap">
+        select
+          book_id, user_id, comment_time, Zan_flag, content, score
+        from library.comment
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="CommentMap">
+        select
+          book_id, user_id, comment_time, Zan_flag, content, score
+        from library.comment
+        <where>
+            <if test="bookId != null and bookId != ''">
+                and book_id = #{bookId}
+            </if>
+            <if test="userId != null and userId != ''">
+                and user_id = #{userId}
+            </if>
+            <if test="commentTime != null">
+                and comment_time = #{commentTime}
+            </if>
+            <if test="zanFlag != null">
+                and Zan_flag = #{zanFlag}
+            </if>
+            <if test="content != null and content != ''">
+                and content = #{content}
+            </if>
+            <if test="score != null">
+                and score = #{score}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="bookId" useGeneratedKeys="true">
+        insert into library.comment(Zan_flag, content, score)
+        values (#{zanFlag}, #{content}, #{score})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update library.comment
+        <set>
+            <if test="zanFlag != null">
+                Zan_flag = #{zanFlag},
+            </if>
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+            <if test="score != null">
+                score = #{score},
+            </if>
+        </set>
+        where book_id = #{bookId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from library.comment where book_id = #{bookId}
+    </delete>
+
+</mapper>
