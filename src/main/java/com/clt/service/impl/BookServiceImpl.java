@@ -3,6 +3,7 @@ package com.clt.service.impl;
 import com.clt.entity.Book;
 import com.clt.dao.BookDao;
 import com.clt.service.BookService;
+import com.clt.utils.UUIDUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -50,6 +51,9 @@ public class BookServiceImpl implements BookService {
      */
     @Override
     public Book insert(Book book) {
+        if (book != null){
+            book.setBookId(UUIDUtil.getUUID());
+        }
         this.bookDao.insert(book);
         return book;
     }
