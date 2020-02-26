@@ -7,17 +7,17 @@ import java.util.List;
  * (Comment)表服务接口
  *
  * @author makejava
- * @since 2020-02-25 19:04:35
+ * @since 2020-02-26 09:34:56
  */
 public interface CommentService {
 
     /**
      * 通过ID查询单条数据
      *
-     * @param bookId 主键
+     * @param commentId 主键
      * @return 实例对象
      */
-    Comment queryById(String bookId);
+    Comment queryById(String commentId);
 
     /**
      * 查询多条数据
@@ -47,9 +47,9 @@ public interface CommentService {
     /**
      * 通过主键删除数据
      *
-     * @param bookId 主键
+     * @param commentId 主键
      * @return 是否成功
      */
-    boolean deleteById(String bookId);
+    boolean deleteById(String commentId);
 
 }

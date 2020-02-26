@@ -3,24 +3,25 @@
 <mapper namespace="com.clt.dao.MessageDao">
 
     <resultMap type="com.clt.entity.Message" id="MessageMap">
+        <result property="messageId" column="message_id" jdbcType="VARCHAR"/>
         <result property="userId" column="user_id" jdbcType="VARCHAR"/>
         <result property="sendingTime" column="sending_time" jdbcType="TIMESTAMP"/>
         <result property="content" column="content" jdbcType="VARCHAR"/>
-        <result property="status" column="status" jdbcType="OTHER"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="MessageMap">
         select
-          user_id, sending_time, content, status
+          message_id, user_id, sending_time, content, status
         from library.message
-        where user_id = #{userId}
+        where message_id = #{messageId}
     </select>
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="MessageMap">
         select
-          user_id, sending_time, content, status
+          message_id, user_id, sending_time, content, status
         from library.message
         limit #{offset}, #{limit}
     </select>
@@ -28,9 +29,12 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="MessageMap">
         select
-          user_id, sending_time, content, status
+          message_id, user_id, sending_time, content, status
         from library.message
         <where>
+            <if test="messageId != null and messageId != ''">
+                and message_id = #{messageId}
+            </if>
             <if test="userId != null and userId != ''">
                 and user_id = #{userId}
             </if>
@@ -47,15 +51,18 @@
     </select>
 
     <!--新增所有列-->
-    <insert id="insert" keyProperty="userId" useGeneratedKeys="true">
-        insert into library.message(sending_time, content, status)
-        values (#{sendingTime}, #{content}, #{status})
+    <insert id="insert">
+        insert into library.message(message_id, user_id, sending_time, content, status)
+        values (#{messageId}, #{userId}, #{sendingTime}, #{content}, #{status})
     </insert>
 
     <!--通过主键修改数据-->
     <update id="update">
         update library.message
         <set>
+            <if test="userId != null and userId != ''">
+                user_id = #{userId},
+            </if>
             <if test="sendingTime != null">
                 sending_time = #{sendingTime},
             </if>
@@ -66,12 +73,12 @@
                 status = #{status},
             </if>
         </set>
-        where user_id = #{userId}
+        where message_id = #{messageId}
     </update>
 
     <!--通过主键删除-->
     <delete id="deleteById">
-        delete from library.message where user_id = #{userId}
+        delete from library.message where message_id = #{messageId}
     </delete>
 
 </mapper>

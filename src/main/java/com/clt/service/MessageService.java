@@ -7,17 +7,17 @@ import java.util.List;
  * (Message)表服务接口
  *
  * @author makejava
- * @since 2020-02-25 19:04:45
+ * @since 2020-02-26 09:36:02
  */
 public interface MessageService {
 
     /**
      * 通过ID查询单条数据
      *
-     * @param userId 主键
+     * @param messageId 主键
      * @return 实例对象
      */
-    Message queryById(String userId);
+    Message queryById(String messageId);
 
     /**
      * 查询多条数据
@@ -47,9 +47,9 @@ public interface MessageService {
     /**
      * 通过主键删除数据
      *
-     * @param userId 主键
+     * @param messageId 主键
      * @return 是否成功
      */
-    boolean deleteById(String userId);
+    boolean deleteById(String messageId);
 
 }

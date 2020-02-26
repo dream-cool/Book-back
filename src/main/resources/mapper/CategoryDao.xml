@@ -47,9 +47,9 @@
     </select>
 
     <!--新增所有列-->
-    <insert id="insert" keyProperty="categoryId" useGeneratedKeys="true">
-        insert into library.category(first_category, second_category, third_category)
-        values (#{firstCategory}, #{secondCategory}, #{thirdCategory})
+    <insert id="insert">
+        insert into library.category(category_id, first_category, second_category, third_category)
+        values (#{categoryId}, #{firstCategory}, #{secondCategory}, #{thirdCategory})
     </insert>
 
     <!--通过主键修改数据-->

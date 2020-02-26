@@ -20,6 +20,11 @@ import java.io.Serializable;
 public class Message implements Serializable {
     private static final long serialVersionUID = -71244208830908192L;
     /**
+     * 信息id
+     */
+    @ApiModelProperty("信息id")
+    private String messageId;
+    /**
     * 用户id
     */
     @ApiModelProperty("用户id")

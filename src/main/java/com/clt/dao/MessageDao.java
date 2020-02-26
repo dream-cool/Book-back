@@ -9,7 +9,7 @@ import java.util.List;
  * (Message)表数据库访问层
  *
  * @author makejava
- * @since 2020-02-25 19:04:45
+ * @since 2020-02-26 09:36:01
  */
 @Mapper
 public interface MessageDao {
@@ -17,10 +17,10 @@ public interface MessageDao {
     /**
      * 通过ID查询单条数据
      *
-     * @param userId 主键
+     * @param messageId 主键
      * @return 实例对象
      */
-    Message queryById(String userId);
+    Message queryById(String messageId);
 
     /**
      * 查询指定行数据
@@ -59,9 +59,9 @@ public interface MessageDao {
     /**
      * 通过主键删除数据
      *
-     * @param userId 主键
+     * @param messageId 主键
      * @return 影响行数
      */
-    int deleteById(String userId);
+    int deleteById(String messageId);
 
 }

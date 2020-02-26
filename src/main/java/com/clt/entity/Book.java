@@ -55,9 +55,9 @@ public class Book implements Serializable {
     @ApiModelProperty("价格")
     private Double price;
     /**
-    * 书籍状态  在库 已借
+    * 书籍状态  在库 已借 损坏
     */
-    @ApiModelProperty("书籍状态  在库 已借")
+    @ApiModelProperty("书籍状态  在库 已借 损坏")
     private String bookStatus;
     /**
     * 书籍封面

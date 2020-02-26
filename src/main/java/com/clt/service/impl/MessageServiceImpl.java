@@ -12,7 +12,7 @@ import java.util.List;
  * (Message)表服务实现类
  *
  * @author makejava
- * @since 2020-02-25 19:04:45
+ * @since 2020-02-26 09:36:02
  */
 @Service("messageService")
 public class MessageServiceImpl implements MessageService {
@@ -22,12 +22,12 @@ public class MessageServiceImpl implements MessageService {
     /**
      * 通过ID查询单条数据
      *
-     * @param userId 主键
+     * @param messageId 主键
      * @return 实例对象
      */
     @Override
-    public Message queryById(String userId) {
-        return this.messageDao.queryById(userId);
+    public Message queryById(String messageId) {
+        return this.messageDao.queryById(messageId);
     }
 
     /**
@@ -63,17 +63,17 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public Message update(Message message) {
         this.messageDao.update(message);
-        return this.queryById(message.getUserId());
+        return this.queryById(message.getMessageId());
     }
 
     /**
      * 通过主键删除数据
      *
-     * @param userId 主键
+     * @param messageId 主键
      * @return 是否成功
      */
     @Override
-    public boolean deleteById(String userId) {
-        return this.messageDao.deleteById(userId) > 0;
+    public boolean deleteById(String messageId) {
+        return this.messageDao.deleteById(messageId) > 0;
     }
 }

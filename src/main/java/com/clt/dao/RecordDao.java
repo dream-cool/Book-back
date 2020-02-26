@@ -9,7 +9,7 @@ import java.util.List;
  * (Record)表数据库访问层
  *
  * @author makejava
- * @since 2020-02-25 19:05:06
+ * @since 2020-02-26 09:36:21
  */
 @Mapper
 public interface RecordDao {
@@ -17,10 +17,10 @@ public interface RecordDao {
     /**
      * 通过ID查询单条数据
      *
-     * @param userId 主键
+     * @param recordId 主键
      * @return 实例对象
      */
-    Record queryById(String userId);
+    Record queryById(String recordId);
 
     /**
      * 查询指定行数据
@@ -59,9 +59,9 @@ public interface RecordDao {
     /**
      * 通过主键删除数据
      *
-     * @param userId 主键
+     * @param recordId 主键
      * @return 影响行数
      */
-    int deleteById(String userId);
+    int deleteById(String recordId);
 
 }

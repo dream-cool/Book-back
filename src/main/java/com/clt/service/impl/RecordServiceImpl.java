@@ -12,7 +12,7 @@ import java.util.List;
  * (Record)表服务实现类
  *
  * @author makejava
- * @since 2020-02-25 19:05:06
+ * @since 2020-02-26 09:36:22
  */
 @Service("recordService")
 public class RecordServiceImpl implements RecordService {
@@ -22,12 +22,12 @@ public class RecordServiceImpl implements RecordService {
     /**
      * 通过ID查询单条数据
      *
-     * @param userId 主键
+     * @param recordId 主键
      * @return 实例对象
      */
     @Override
-    public Record queryById(String userId) {
-        return this.recordDao.queryById(userId);
+    public Record queryById(String recordId) {
+        return this.recordDao.queryById(recordId);
     }
 
     /**
@@ -63,17 +63,17 @@ public class RecordServiceImpl implements RecordService {
     @Override
     public Record update(Record record) {
         this.recordDao.update(record);
-        return this.queryById(record.getUserId());
+        return this.queryById(record.getRecordId());
     }
 
     /**
      * 通过主键删除数据
      *
-     * @param userId 主键
+     * @param recordId 主键
      * @return 是否成功
      */
     @Override
-    public boolean deleteById(String userId) {
-        return this.recordDao.deleteById(userId) > 0;
+    public boolean deleteById(String recordId) {
+        return this.recordDao.deleteById(recordId) > 0;
     }
 }

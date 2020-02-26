@@ -1,17 +1,21 @@
 package com.clt.controller;
 
+import com.clt.utils.ResultUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.List;
 
 /**
  * @author ：clt
@@ -21,90 +25,107 @@ import java.io.*;
 public class FileController {
 
     Logger logger = LoggerFactory.getLogger(FileController.class);
+    
+    @Value("${spring.servlet.multipart.location}")
+    private String path; 
 
-    @RequestMapping(value = "/upload", method = {RequestMethod.POST})
-    public String upload(@RequestParam(required = false) String dir, @RequestParam(required = false) MultipartFile file) {
+    /**
+     * 实现文件上传
+     */
+    @RequestMapping(value = "/file", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultUtil fileUpload(@RequestParam("file") MultipartFile file) {
+        if (file.isEmpty()) {
+            return ResultUtil.failed("文件为空");
+        }
+        String fileName = file.getOriginalFilename();
+        int size = (int) file.getSize();
+        logger.info(fileName + "-->" + size);
+        File dest = new File(path + "/" + fileName);
+        if (!dest.getParentFile().exists()) {
+            dest.getParentFile().mkdir();
+        }
         try {
-            System.out.println("upload start = " + System.currentTimeMillis());
-            String videoUrl = uploadFile(file, dir);
-            System.out.println("upload end = " + System.currentTimeMillis());
-            return "上传成功";
-        } catch (Exception var3) {
-            return "fail";
+            file.transferTo(dest);
+            return ResultUtil.success(null);
+        } catch (IllegalStateException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return ResultUtil.failed("文件为空");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return ResultUtil.failed("文件为空");
         }
     }
 
-    public String uploadFile(MultipartFile file, String resSort) throws Exception {
-        String shortPath =  file.getOriginalFilename();
-        File dest = new File("D://file", shortPath);
-        if (!dest.getParentFile().exists()) {
-            boolean rel = dest.getParentFile().mkdirs();
-            if (!rel) {
-                throw new Exception("文件夹创建失败");
+    /**
+     * 实现多文件上传
+     *
+     **/
+    @RequestMapping(value = "/multifile", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultUtil multifileUpload(
+            @RequestParam("fileName") List<MultipartFile> files) {
+        if (files.isEmpty()) {
+            return ResultUtil.failed("文件为空");
+        }
+        for (MultipartFile file : files) {
+            String fileName = file.getOriginalFilename();
+            int size = (int) file.getSize();
+            logger.info(fileName + "-->" + size);
+
+            if (file.isEmpty()) {
+                return ResultUtil.failed("文件为空");
+            } else {
+                File dest = new File(path + "/" + fileName);
+                if (!dest.getParentFile().exists()) {
+                    dest.getParentFile().mkdir();
+                }
+                try {
+                    file.transferTo(dest);
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                    return ResultUtil.failed();
+                }
             }
         }
-        InputStream is = file.getInputStream();
-        OutputStream os = new FileOutputStream(dest);
-        try {
-            byte[] buffer = new byte[8 * 1024];
-            int bytesRead;
-            while ((bytesRead = is.read(buffer)) != -1) {
-                os.write(buffer, 0, bytesRead);
-            }
-        } catch (Exception e) {
-            throw e;
-        } finally {
-            if (is != null) {
-                is.close();
-            }
-            if (os != null) {
-                os.close();
-            }
-        }
-        return shortPath;
+        return ResultUtil.success(null);
     }
 
     @RequestMapping("/download")
-    public String downloadFile(HttpServletRequest request, HttpServletResponse response) {
-        String fileName = "aim_test.txt";// 设置文件名，根据业务需要替换成要下载的文件名
-        if (fileName != null) {
-            //设置文件路径
-            String realPath = "D://aim//";
-            File file = new File(realPath , fileName);
-            if (file.exists()) {
-                response.setContentType("application/force-download");// 设置强制下载不打开
-                response.addHeader("Content-Disposition", "attachment;fileName=" + fileName);// 设置文件名
-                byte[] buffer = new byte[1024];
-                FileInputStream fis = null;
-                BufferedInputStream bis = null;
-                try {
-                    fis = new FileInputStream(file);
-                    bis = new BufferedInputStream(fis);
-                    OutputStream os = response.getOutputStream();
-                    int i = bis.read(buffer);
-                    while (i != -1) {
-                        os.write(buffer, 0, i);
-                        i = bis.read(buffer);
-                    }
-                    System.out.println("success");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    if (bis != null) {
-                        try {
-                            bis.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    if (fis != null) {
-                        try {
-                            fis.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
+    public ResultUtil downLoad(HttpServletResponse response, String filename, String filePath) throws UnsupportedEncodingException {
+        File file = new File(filePath + "/" + filename);
+        if(file.exists()){
+            response.setContentType("application/vnd.ms-excel;charset=UTF-8");
+            response.setCharacterEncoding("UTF-8");
+            response.setHeader("Content-Disposition", "attachment;fileName=" +   java.net.URLEncoder.encode(filename,"UTF-8"));
+            byte[] buffer = new byte[1024];
+            FileInputStream fis = null;
+            BufferedInputStream bis = null;
+            OutputStream os = null;
+            try {
+                os = response.getOutputStream();
+                fis = new FileInputStream(file);
+                bis = new BufferedInputStream(fis);
+                int i = bis.read(buffer);
+                while(i != -1){
+                    os.write(buffer);
+                    i = bis.read(buffer);
                 }
+
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            logger.info("----------file download---" + filename);
+            try {
+                bis.close();
+                fis.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
         }
         return null;

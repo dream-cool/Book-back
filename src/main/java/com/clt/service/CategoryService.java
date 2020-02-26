@@ -51,6 +51,6 @@ public interface CategoryService {
      * @param categoryId 主键
      * @return 是否成功
      */
-    boolean deleteById(Object categoryId);
+    boolean deleteById(Integer categoryId);
 
 }

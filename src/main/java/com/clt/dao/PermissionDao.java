@@ -9,7 +9,7 @@ import java.util.List;
  * (Permission)表数据库访问层
  *
  * @author makejava
- * @since 2020-02-25 19:04:55
+ * @since 2020-02-26 09:39:14
  */
 @Mapper
 public interface PermissionDao {

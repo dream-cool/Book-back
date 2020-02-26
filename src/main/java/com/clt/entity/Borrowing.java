@@ -2,6 +2,8 @@ package com.clt.entity;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
 import java.io.Serializable;
@@ -12,9 +14,16 @@ import java.io.Serializable;
  * @author makejava
  * @since 2020-02-25 19:03:35
  */
+@Getter
+@Setter
 @ApiModel("借阅信息实体")
 public class Borrowing implements Serializable {
     private static final long serialVersionUID = -84104176779408312L;
+    /**
+     * 借阅id
+     */
+    @ApiModelProperty("借阅id")
+    private String borrowingId;
     /**
     * 书籍id
     */
@@ -60,78 +69,5 @@ public class Borrowing implements Serializable {
     */
     @ApiModelProperty("操作人")
     private String operator;
-
-
-    public String getBookId() {
-        return bookId;
-    }
-
-    public void setBookId(String bookId) {
-        this.bookId = bookId;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getBookName() {
-        return bookName;
-    }
-
-    public void setBookName(String bookName) {
-        this.bookName = bookName;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public Date getApplicationTime() {
-        return applicationTime;
-    }
-
-    public void setApplicationTime(Date applicationTime) {
-        this.applicationTime = applicationTime;
-    }
-
-    public Date getBorrowingTime() {
-        return borrowingTime;
-    }
-
-    public void setBorrowingTime(Date borrowingTime) {
-        this.borrowingTime = borrowingTime;
-    }
-
-    public Date getReturnTime() {
-        return returnTime;
-    }
-
-    public void setReturnTime(Date returnTime) {
-        this.returnTime = returnTime;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getOperator() {
-        return operator;
-    }
-
-    public void setOperator(String operator) {
-        this.operator = operator;
-    }
 
 }

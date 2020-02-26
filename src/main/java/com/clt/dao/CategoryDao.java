@@ -62,6 +62,6 @@ public interface CategoryDao {
      * @param categoryId 主键
      * @return 影响行数
      */
-    int deleteById(Object categoryId);
+    int deleteById(Integer categoryId);
 
 }

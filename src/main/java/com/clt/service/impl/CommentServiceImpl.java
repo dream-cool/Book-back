@@ -12,7 +12,7 @@ import java.util.List;
  * (Comment)表服务实现类
  *
  * @author makejava
- * @since 2020-02-25 19:04:35
+ * @since 2020-02-26 09:34:56
  */
 @Service("commentService")
 public class CommentServiceImpl implements CommentService {
@@ -22,12 +22,12 @@ public class CommentServiceImpl implements CommentService {
     /**
      * 通过ID查询单条数据
      *
-     * @param bookId 主键
+     * @param commentId 主键
      * @return 实例对象
      */
     @Override
-    public Comment queryById(String bookId) {
-        return this.commentDao.queryById(bookId);
+    public Comment queryById(String commentId) {
+        return this.commentDao.queryById(commentId);
     }
 
     /**
@@ -63,17 +63,17 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Comment update(Comment comment) {
         this.commentDao.update(comment);
-        return this.queryById(comment.getBookId());
+        return this.queryById(comment.getCommentId());
     }
 
     /**
      * 通过主键删除数据
      *
-     * @param bookId 主键
+     * @param commentId 主键
      * @return 是否成功
      */
     @Override
-    public boolean deleteById(String bookId) {
-        return this.commentDao.deleteById(bookId) > 0;
+    public boolean deleteById(String commentId) {
+        return this.commentDao.deleteById(commentId) > 0;
     }
 }

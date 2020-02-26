@@ -12,10 +12,10 @@
         <result property="price" column="price" jdbcType="NUMERIC"/>
         <result property="bookStatus" column="book_status" jdbcType="VARCHAR"/>
         <result property="img" column="img" jdbcType="VARCHAR"/>
-        <result property="ebook" column="ebook" jdbcType="OTHER"/>
+        <result property="ebook" column="ebook" jdbcType="INTEGER"/>
         <result property="location" column="location" jdbcType="VARCHAR"/>
         <result property="zanNumber" column="zan_number" jdbcType="INTEGER"/>
-        <result property="score" column="score" jdbcType="OTHER"/>
+        <result property="score" column="score" jdbcType="INTEGER"/>
         <result property="inputTime" column="input_time" jdbcType="TIMESTAMP"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
     </resultMap>
@@ -91,9 +91,9 @@
     </select>
 
     <!--新增所有列-->
-    <insert id="insert" keyProperty="bookId" useGeneratedKeys="true">
-        insert into library.book(category_id, book_name, book_describe, author, published, price, book_status, img, ebook, location, zan_number, score, input_time, update_time)
-        values (#{categoryId}, #{bookName}, #{bookDescribe}, #{author}, #{published}, #{price}, #{bookStatus}, #{img}, #{ebook}, #{location}, #{zanNumber}, #{score}, #{inputTime}, #{updateTime})
+    <insert id="insert">
+        insert into library.book(book_id, category_id, book_name, book_describe, author, published, price, book_status, img, ebook, location, zan_number, score, input_time, update_time)
+        values (#{bookId}, #{categoryId}, #{bookName}, #{bookDescribe}, #{author}, #{published}, #{price}, #{bookStatus}, #{img}, #{ebook}, #{location}, #{zanNumber}, #{score}, #{inputTime}, #{updateTime})
     </insert>
 
     <!--通过主键修改数据-->

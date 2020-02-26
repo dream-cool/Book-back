@@ -7,7 +7,7 @@ import java.util.List;
  * (Book)表服务接口
  *
  * @author makejava
- * @since 2020-02-25 19:03:24
+ * @since 2020-02-26 09:39:53
  */
 public interface BookService {
 

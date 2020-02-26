@@ -7,17 +7,17 @@ import java.util.List;
  * (Record)表服务接口
  *
  * @author makejava
- * @since 2020-02-25 19:05:06
+ * @since 2020-02-26 09:36:21
  */
 public interface RecordService {
 
     /**
      * 通过ID查询单条数据
      *
-     * @param userId 主键
+     * @param recordId 主键
      * @return 实例对象
      */
-    Record queryById(String userId);
+    Record queryById(String recordId);
 
     /**
      * 查询多条数据
@@ -47,9 +47,9 @@ public interface RecordService {
     /**
      * 通过主键删除数据
      *
-     * @param userId 主键
+     * @param recordId 主键
      * @return 是否成功
      */
-    boolean deleteById(String userId);
+    boolean deleteById(String recordId);
 
 }

@@ -3,13 +3,14 @@ package com.clt.dao;
 import com.clt.entity.Book;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 /**
  * (Book)表数据库访问层
  *
  * @author makejava
- * @since 2020-02-25 19:03:24
+ * @since 2020-02-26 09:39:52
  */
 @Mapper
 public interface BookDao {

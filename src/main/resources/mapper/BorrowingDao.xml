@@ -3,6 +3,7 @@
 <mapper namespace="com.clt.dao.BorrowingDao">
 
     <resultMap type="com.clt.entity.Borrowing" id="BorrowingMap">
+        <result property="borrowingId" column="borrowing_id" jdbcType="VARCHAR"/>
         <result property="bookId" column="book_id" jdbcType="VARCHAR"/>
         <result property="userId" column="user_id" jdbcType="VARCHAR"/>
         <result property="bookName" column="book_name" jdbcType="VARCHAR"/>
@@ -17,15 +18,15 @@
     <!--查询单个-->
     <select id="queryById" resultMap="BorrowingMap">
         select
-          book_id, user_id, book_name, user_name, application_time, borrowing_time, return_time, status, operator
+          borrowing_id, book_id, user_id, book_name, user_name, application_time, borrowing_time, return_time, status, operator
         from library.borrowing
-        where book_id = #{bookId}
+        where borrowing_id = #{borrowingId}
     </select>
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="BorrowingMap">
         select
-          book_id, user_id, book_name, user_name, application_time, borrowing_time, return_time, status, operator
+          borrowing_id, book_id, user_id, book_name, user_name, application_time, borrowing_time, return_time, status, operator
         from library.borrowing
         limit #{offset}, #{limit}
     </select>
@@ -33,9 +34,12 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="BorrowingMap">
         select
-          book_id, user_id, book_name, user_name, application_time, borrowing_time, return_time, status, operator
+          borrowing_id, book_id, user_id, book_name, user_name, application_time, borrowing_time, return_time, status, operator
         from library.borrowing
         <where>
+            <if test="borrowingId != null and borrowingId != ''">
+                and borrowing_id = #{borrowingId}
+            </if>
             <if test="bookId != null and bookId != ''">
                 and book_id = #{bookId}
             </if>
@@ -67,15 +71,21 @@
     </select>
 
     <!--新增所有列-->
-    <insert id="insert" keyProperty="bookId" useGeneratedKeys="true">
-        insert into library.borrowing(book_name, user_name, application_time, borrowing_time, return_time, status, operator)
-        values (#{bookName}, #{userName}, #{applicationTime}, #{borrowingTime}, #{returnTime}, #{status}, #{operator})
+    <insert id="insert">
+        insert into library.borrowing(borrowing_id, book_id, user_id, book_name, user_name, application_time, borrowing_time, return_time, status, operator)
+        values (#{borrowingId}, #{bookId}, #{userId}, #{bookName}, #{userName}, #{applicationTime}, #{borrowingTime}, #{returnTime}, #{status}, #{operator})
     </insert>
 
     <!--通过主键修改数据-->
     <update id="update">
         update library.borrowing
         <set>
+            <if test="bookId != null and bookId != ''">
+                book_id = #{bookId},
+            </if>
+            <if test="userId != null and userId != ''">
+                user_id = #{userId},
+            </if>
             <if test="bookName != null and bookName != ''">
                 book_name = #{bookName},
             </if>
@@ -98,12 +108,12 @@
                 operator = #{operator},
             </if>
         </set>
-        where book_id = #{bookId}
+        where borrowing_id = #{borrowingId}
     </update>
 
     <!--通过主键删除-->
     <delete id="deleteById">
-        delete from library.borrowing where book_id = #{bookId}
+        delete from library.borrowing where borrowing_id = #{borrowingId}
     </delete>
 
 </mapper>

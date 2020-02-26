@@ -73,7 +73,7 @@ public class CategoryServiceImpl implements CategoryService {
      * @return 是否成功
      */
     @Override
-    public boolean deleteById(Object categoryId) {
+    public boolean deleteById(Integer categoryId) {
         return this.categoryDao.deleteById(categoryId) > 0;
     }
 }

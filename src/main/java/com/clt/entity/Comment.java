@@ -20,6 +20,11 @@ import java.io.Serializable;
 public class Comment implements Serializable {
     private static final long serialVersionUID = 796800846076565731L;
     /**
+     * 评论id
+     */
+    @ApiModelProperty("评论id")
+    private String commentId;
+    /**
     * 书籍id
     */
     @ApiModelProperty("书籍id")

@@ -2,6 +2,8 @@ package com.clt.entity;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
 import java.io.Serializable;
@@ -13,8 +15,15 @@ import java.io.Serializable;
  * @since 2020-02-25 19:05:06
  */
 @ApiModel("浏览记录实体类")
+@Getter
+@Setter
 public class Record implements Serializable {
     private static final long serialVersionUID = 385869734048860757L;
+    /**
+     * 记录id
+     */
+    @ApiModelProperty("记录id")
+    private String recordId;
     /**
     * 用户id
     */
@@ -35,38 +44,10 @@ public class Record implements Serializable {
     */
     @ApiModelProperty("书籍封面")
     private String bookImg;
-
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getBookId() {
-        return bookId;
-    }
-
-    public void setBookId(String bookId) {
-        this.bookId = bookId;
-    }
-
-    public Date getBrowsingTime() {
-        return browsingTime;
-    }
-
-    public void setBrowsingTime(Date browsingTime) {
-        this.browsingTime = browsingTime;
-    }
-
-    public String getBookImg() {
-        return bookImg;
-    }
-
-    public void setBookImg(String bookImg) {
-        this.bookImg = bookImg;
-    }
+    /**
+     * 书籍名称
+     */
+    @ApiModelProperty("书籍名称")
+    private String bookName;
 
 }

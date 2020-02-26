@@ -7,7 +7,7 @@ import java.util.List;
  * (Permission)表服务接口
  *
  * @author makejava
- * @since 2020-02-25 19:04:55
+ * @since 2020-02-26 09:39:15
  */
 public interface PermissionService {
 

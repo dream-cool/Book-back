@@ -9,7 +9,7 @@ import java.util.List;
  * (Comment)表数据库访问层
  *
  * @author makejava
- * @since 2020-02-25 19:04:35
+ * @since 2020-02-26 09:34:55
  */
 @Mapper
 public interface CommentDao {
@@ -17,10 +17,10 @@ public interface CommentDao {
     /**
      * 通过ID查询单条数据
      *
-     * @param bookId 主键
+     * @param commentId 主键
      * @return 实例对象
      */
-    Comment queryById(String bookId);
+    Comment queryById(String commentId);
 
     /**
      * 查询指定行数据
@@ -59,9 +59,9 @@ public interface CommentDao {
     /**
      * 通过主键删除数据
      *
-     * @param bookId 主键
+     * @param commentId 主键
      * @return 影响行数
      */
-    int deleteById(String bookId);
+    int deleteById(String commentId);
 
 }

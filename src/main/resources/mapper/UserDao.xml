@@ -79,9 +79,9 @@
     </select>
 
     <!--新增所有列-->
-    <insert id="insert" keyProperty="userId" useGeneratedKeys="true">
-        insert into library.user(user_name, password, sex, IDcard, tel, email, credit, status, role, register_time, last_login_time)
-        values (#{userName}, #{password}, #{sex}, #{idcard}, #{tel}, #{email}, #{credit}, #{status}, #{role}, #{registerTime}, #{lastLoginTime})
+    <insert id="insert">
+        insert into library.user(user_id,user_name, password, sex, IDcard, tel, email, credit, status, role, register_time, last_login_time)
+        values (#{userId},#{userName}, #{password}, #{sex}, #{idcard}, #{tel}, #{email}, #{credit}, #{status}, #{role}, #{registerTime}, #{lastLoginTime})
     </insert>
 
     <!--通过主键修改数据-->
