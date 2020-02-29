@@ -38,7 +38,7 @@ public interface RecordDao {
      * @param record 实例对象
      * @return 对象列表
      */
-    List<Record> queryAll(Record record);
+    List<Record> queryAllByCondition(Record record);
 
     /**
      * 新增数据

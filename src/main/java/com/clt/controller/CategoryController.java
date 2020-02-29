@@ -98,7 +98,7 @@ public class CategoryController {
      */
     @PutMapping("")
     public ResultUtil<Category> update(@RequestBody Category category) {
-        if (this.categoryService.queryById(category.getCategoryId()) == null){
+        if (this.categoryService.queryById(category.getCategoryId()) == null) {
             return ResultUtil.failed("修改失败，没有找到对应信息");
         }
         Category updateCategory = this.categoryService.update(category);
@@ -117,7 +117,7 @@ public class CategoryController {
      */
     @DeleteMapping("/{id}")
     public ResultUtil<Boolean> delete(@PathVariable String id) {
-        if (this.categoryService.queryById(id) == null){
+        if (this.categoryService.queryById(id) == null) {
             return ResultUtil.failed("删除失败，没有找到对应信息");
         }
         boolean flag = this.categoryService.deleteById(id);
@@ -131,7 +131,7 @@ public class CategoryController {
 
     @GetMapping("/treeList")
     @ApiOperation("查询所有书籍类别列表信息")
-    public JSONArray getCategoryList(){
+    public JSONArray getCategoryList() {
         //休眠100毫秒，以便前端界面先加载表格组件
         try {
             Thread.sleep(100);
@@ -143,10 +143,9 @@ public class CategoryController {
     }
 
     @GetMapping("typeInfo")
-    public Map<Object,Object> getTypeInfo(){
+    public Map<Object, Object> getTypeInfo() {
         return categoryService.getTypeInfo();
     }
-
 
 
 }

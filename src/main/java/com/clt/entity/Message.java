@@ -5,9 +5,10 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-import java.util.Date;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * (Message)实体类
@@ -17,6 +18,7 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
+@ToString
 @ApiModel("信息实体")
 public class Message implements Serializable {
     private static final long serialVersionUID = -71244208830908192L;
@@ -26,24 +28,24 @@ public class Message implements Serializable {
     @ApiModelProperty("信息id")
     private String messageId;
     /**
-    * 用户id
-    */
+     * 用户id
+     */
     @ApiModelProperty("用户id")
     private String userId;
     /**
-    * 发送时间
-    */
+     * 发送时间
+     */
     @ApiModelProperty("发送时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date sendingTime;
     /**
-    * 信息内容
-    */
+     * 信息内容
+     */
     @ApiModelProperty("信息内容")
     private String content;
     /**
-    * 信息状态  已读、未读
-    */
+     * 信息状态  已读、未读
+     */
     @ApiModelProperty("信息状态  已读、未读")
     private Integer status;
 

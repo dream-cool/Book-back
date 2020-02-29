@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * (Borrowing)表控制层
@@ -73,17 +74,25 @@ public class BorrowingController {
         }
     }
 
-
+    /**
+     * 分页查询数据
+     *
+     * @param pageNum 起始
+     * @param pageSize  条数
+     * @param borrowing 借阅实体，筛选条件
+     * @return 满足条件的数据
+     */
     @GetMapping("")
     @ApiOperation("分页查询数据")
     public ResultUtil<PageInfo<Borrowing>> selectAllByPage(
             @ApiParam("页码") @RequestParam(required = false) Integer pageNum,
-            @ApiParam("每页大小") @RequestParam(required = false) Integer pageSize
+            @ApiParam("每页大小") @RequestParam(required = false) Integer pageSize,
+            Borrowing borrowing
     ) {
         pageNum = (pageNum == null || pageNum < 0) ? 1 : pageNum;
         pageSize = (pageSize == null || pageSize < 0) ? 10 : pageSize;
         PageHelper.startPage(pageNum, pageSize);
-        List<Borrowing> typeList = this.borrowingService.queryAll();
+        List<Borrowing> typeList = this.borrowingService.queryAllByCondition(borrowing);
         PageInfo<Borrowing> pageInfo = new PageInfo<>(typeList);
         if (pageInfo != null) {
             return ResultUtil.success(pageInfo, "查询成功");
@@ -91,6 +100,18 @@ public class BorrowingController {
             return ResultUtil.failed("查询失败");
         }
     }
+
+    @GetMapping("/handleApplying/{borrowingId}")
+    @ApiOperation("处理申请借阅的书籍")
+    public ResultUtil<Borrowing> handleApplying(
+            @ApiParam("操作") @RequestParam(value = "operation") String operation,
+            @ApiParam("操作人员") @RequestParam(value = "userName") String userName,
+            @ApiParam("借阅编号") @PathVariable String borrowingId
+    ){
+        return this.borrowingService.handleApplying(operation,userName,borrowingId);
+    }
+
+
 
 
     /**
@@ -117,7 +138,7 @@ public class BorrowingController {
      */
     @PutMapping("")
     public ResultUtil<Borrowing> update(@RequestBody Borrowing borrowing) {
-        if (this.borrowingService.queryById(borrowing.getBookId()) == null){
+        if (this.borrowingService.queryById(borrowing.getBookId()) == null) {
             return ResultUtil.failed("修改失败，没有找到对应信息");
         }
         Borrowing updateBorrowing = this.borrowingService.update(borrowing);
@@ -136,7 +157,7 @@ public class BorrowingController {
      */
     @DeleteMapping("/{id}")
     public ResultUtil<Boolean> delete(@PathVariable String id) {
-        if (this.borrowingService.queryById(id) == null){
+        if (this.borrowingService.queryById(id) == null) {
             return ResultUtil.failed("修改失败，没有找到对应信息");
         }
         boolean flag = this.borrowingService.deleteById(id);

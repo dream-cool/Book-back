@@ -38,7 +38,7 @@ public interface PermissionDao {
      * @param permission 实例对象
      * @return 对象列表
      */
-    List<Permission> queryAll(Permission permission);
+    List<Permission> queryAllByCondition(Permission permission);
 
     /**
      * 新增数据
@@ -63,5 +63,6 @@ public interface PermissionDao {
      * @return 影响行数
      */
     int deleteById(String userId);
+
 
 }

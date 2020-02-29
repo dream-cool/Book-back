@@ -3,6 +3,8 @@ package com.clt.controller;
 import com.clt.entity.Permission;
 import com.clt.service.PermissionService;
 import com.clt.utils.ResultUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -59,15 +61,18 @@ public class PermissionController {
      */
     @GetMapping("")
     @ApiOperation("分页查询数据")
-    public ResultUtil<List<Permission>> selectAllByLimit(
-            @ApiParam("起始") Integer offset,
-            @ApiParam("条数") Integer limit
+    public ResultUtil<PageInfo<Permission>> selectAllByLimit(
+            @ApiParam("页码") @RequestParam(required = false) Integer pageNum,
+            @ApiParam("每页大小") @RequestParam(required = false) Integer pageSize,
+            Permission permission
     ) {
-        offset = (offset == null || offset < 0) ? 0 : offset;
-        limit = (limit == null || limit < 0) ? 10 : limit;
-        List<Permission> permissions = this.permissionService.queryAllByLimit(offset, limit);
-        if (permissions != null) {
-            return ResultUtil.success(permissions, "查询成功");
+        pageNum = (pageNum == null || pageNum < 0) ? 1 : pageNum;
+        pageSize = (pageSize == null || pageSize < 0) ? 10 : pageSize;
+        PageHelper.startPage(pageNum, pageSize);
+        List<Permission> permissions = this.permissionService.queryAllByCondition(permission);
+        PageInfo<Permission> pageInfo = new PageInfo<>(permissions);
+        if (pageInfo != null) {
+            return ResultUtil.success(pageInfo, "查询成功");
         } else {
             return ResultUtil.failed("查询失败");
         }
@@ -100,7 +105,7 @@ public class PermissionController {
     @PutMapping("")
     @ApiOperation("更新单条数据")
     public ResultUtil<Permission> update(@RequestBody Permission permission) {
-        if (this.permissionService.queryById(permission.getUserId()) == null){
+        if (this.permissionService.queryById(permission.getUserId()) == null) {
             return ResultUtil.failed("修改失败，没有找到对应信息");
         }
         Permission updatePermission = this.permissionService.update(permission);
@@ -120,7 +125,7 @@ public class PermissionController {
     @DeleteMapping("/{id}")
     @ApiOperation("删除单条数据")
     public ResultUtil<Boolean> delete(@PathVariable String id) {
-        if (this.permissionService.queryById(id) == null){
+        if (this.permissionService.queryById(id) == null) {
             return ResultUtil.failed("修改失败，没有找到对应信息");
         }
         boolean flag = this.permissionService.deleteById(id);

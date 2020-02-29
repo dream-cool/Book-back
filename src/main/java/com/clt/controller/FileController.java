@@ -24,16 +24,16 @@ import java.util.List;
 public class FileController {
 
     Logger logger = LoggerFactory.getLogger(FileController.class);
-    
+
     @Value("${spring.servlet.multipart.location}")
     private String path;
 
     /**
      * @param fileName 文件名
      * @return 返回文件后缀名
-     *  根据文件名获取文件后缀名
+     * 根据文件名获取文件后缀名
      */
-    private String getFileSuffixName(String fileName){
+    private String getFileSuffixName(String fileName) {
         return fileName.split("\\.")[1];
     }
 
@@ -46,9 +46,9 @@ public class FileController {
         if (file.isEmpty()) {
             return ResultUtil.failed("文件为空");
         }
-        String fileName = UUIDUtil.getUUID()+"."+getFileSuffixName(file.getOriginalFilename());
+        String fileName = UUIDUtil.getUUID() + "." + getFileSuffixName(file.getOriginalFilename());
         int size = (int) file.getSize();
-        logger.info("文件名:"+ fileName + "-->" + size);
+        logger.info("文件名:" + fileName + "-->" + size);
         File dest = new File(path + "/" + fileName);
         if (!dest.getParentFile().exists()) {
             dest.getParentFile().mkdir();
@@ -69,7 +69,6 @@ public class FileController {
 
     /**
      * 实现多文件上传
-     *
      **/
     @RequestMapping(value = "/multifile", method = RequestMethod.POST)
     @ResponseBody
@@ -105,10 +104,10 @@ public class FileController {
     @RequestMapping("/download")
     public ResultUtil downLoad(HttpServletResponse response, String filename, String filePath) throws UnsupportedEncodingException {
         File file = new File(filePath + "/" + filename);
-        if(file.exists()){
+        if (file.exists()) {
             response.setContentType("application/vnd.ms-excel;charset=UTF-8");
             response.setCharacterEncoding("UTF-8");
-            response.setHeader("Content-Disposition", "attachment;fileName=" +   java.net.URLEncoder.encode(filename,"UTF-8"));
+            response.setHeader("Content-Disposition", "attachment;fileName=" + java.net.URLEncoder.encode(filename, "UTF-8"));
             byte[] buffer = new byte[1024];
             FileInputStream fis = null;
             BufferedInputStream bis = null;
@@ -118,7 +117,7 @@ public class FileController {
                 fis = new FileInputStream(file);
                 bis = new BufferedInputStream(fis);
                 int i = bis.read(buffer);
-                while(i != -1){
+                while (i != -1) {
                     os.write(buffer);
                     i = bis.read(buffer);
                 }

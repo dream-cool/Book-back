@@ -52,4 +52,5 @@ public interface UserService {
      */
     boolean deleteById(String userId);
 
+    List<User> queryAllByCondition(User user);
 }

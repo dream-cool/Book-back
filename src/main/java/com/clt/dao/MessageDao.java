@@ -38,7 +38,7 @@ public interface MessageDao {
      * @param message 实例对象
      * @return 对象列表
      */
-    List<Message> queryAll(Message message);
+    List<Message> queryAllByCondition(Message message);
 
     /**
      * 新增数据

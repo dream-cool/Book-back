@@ -28,7 +28,7 @@
     </select>
 
     <!--通过实体作为筛选条件查询-->
-    <select id="queryAll" resultMap="RecordMap">
+    <select id="queryAllByCondition" resultMap="RecordMap">
         select
           record_id, user_id, book_id, browsing_time, book_img, book_name
         from library.record

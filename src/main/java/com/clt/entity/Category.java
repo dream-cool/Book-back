@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 
@@ -16,6 +17,7 @@ import java.io.Serializable;
 
 @Getter
 @Setter
+@ToString
 @ApiModel("书籍类别实体")
 public class Category implements Serializable {
     private static final long serialVersionUID = -18433112059573873L;

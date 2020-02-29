@@ -52,4 +52,5 @@ public interface RecordService {
      */
     boolean deleteById(String recordId);
 
+    List<Record> queryAllByCondition(Record record);
 }

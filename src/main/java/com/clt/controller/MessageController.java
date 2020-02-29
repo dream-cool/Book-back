@@ -3,6 +3,8 @@ package com.clt.controller;
 import com.clt.entity.Message;
 import com.clt.service.MessageService;
 import com.clt.utils.ResultUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -53,21 +55,24 @@ public class MessageController {
     /**
      * 分页查询数据
      *
-     * @param offset 起始
-     * @param limit  条数
+     * @param pageNum  起始
+     * @param pageSize 条数
      * @return 多条数据
      */
     @GetMapping("")
     @ApiOperation("分页查询数据")
-    public ResultUtil<List<Message>> selectAllByLimit(
-            @ApiParam("起始") Integer offset,
-            @ApiParam("条数") Integer limit
+    public ResultUtil<PageInfo<Message>> selectAllByLimit(
+            @ApiParam("页码") @RequestParam(required = false) Integer pageNum,
+            @ApiParam("每页大小") @RequestParam(required = false) Integer pageSize,
+            Message message
     ) {
-        offset = (offset == null || offset < 0) ? 0 : offset;
-        limit = (limit == null || limit < 0) ? 10 : limit;
-        List<Message> messages = this.messageService.queryAllByLimit(offset, limit);
-        if (messages != null) {
-            return ResultUtil.success(messages, "查询成功");
+        pageNum = (pageNum == null || pageNum < 0) ? 1 : pageNum;
+        pageSize = (pageSize == null || pageSize < 0) ? 10 : pageSize;
+        PageHelper.startPage(pageNum, pageSize);
+        List<Message> messages = this.messageService.queryAllByCondition(message);
+        PageInfo<Message> pageInfo = new PageInfo<>(messages);
+        if (pageInfo != null) {
+            return ResultUtil.success(pageInfo, "查询成功");
         } else {
             return ResultUtil.failed("查询失败");
         }
@@ -100,7 +105,7 @@ public class MessageController {
     @PutMapping("")
     @ApiOperation("更新单条数据")
     public ResultUtil<Message> update(@RequestBody Message message) {
-        if (this.messageService.queryById(message.getMessageId()) == null){
+        if (this.messageService.queryById(message.getMessageId()) == null) {
             return ResultUtil.failed("修改失败，没有找到对应信息");
         }
         Message updateMessage = this.messageService.update(message);
@@ -120,7 +125,7 @@ public class MessageController {
     @DeleteMapping("/{id}")
     @ApiOperation("删除单条数据")
     public ResultUtil<Boolean> delete(@PathVariable String id) {
-        if (this.messageService.queryById(id) == null){
+        if (this.messageService.queryById(id) == null) {
             return ResultUtil.failed("删除失败，没有找到对应信息");
         }
         boolean flag = this.messageService.deleteById(id);

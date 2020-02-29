@@ -56,4 +56,6 @@ public interface CommentService {
      * 查询所欲数据
      */
     List<Comment> queryAll();
+
+    List<Comment> queryAllByCondition(Comment comment);
 }

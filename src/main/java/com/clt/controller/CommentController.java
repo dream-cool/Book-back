@@ -1,6 +1,5 @@
 package com.clt.controller;
 
-import com.clt.entity.Borrowing;
 import com.clt.entity.Comment;
 import com.clt.service.CommentService;
 import com.clt.utils.ResultUtil;
@@ -81,12 +80,13 @@ public class CommentController {
     @ApiOperation("分页查询数据")
     public ResultUtil<PageInfo<Comment>> selectAllByPage(
             @ApiParam("页码") @RequestParam(required = false) Integer pageNum,
-            @ApiParam("每页大小") @RequestParam(required = false) Integer pageSize
+            @ApiParam("每页大小") @RequestParam(required = false) Integer pageSize,
+            Comment comment
     ) {
         pageNum = (pageNum == null || pageNum < 0) ? 1 : pageNum;
         pageSize = (pageSize == null || pageSize < 0) ? 10 : pageSize;
         PageHelper.startPage(pageNum, pageSize);
-        List<Comment> typeList = this.commentService.queryAll();
+        List<Comment> typeList = this.commentService.queryAllByCondition(comment);
         PageInfo<Comment> pageInfo = new PageInfo<>(typeList);
         if (pageInfo != null) {
             return ResultUtil.success(pageInfo, "查询成功");
@@ -122,7 +122,7 @@ public class CommentController {
     @PutMapping("")
     @ApiOperation("通过实体数据更新单条数据")
     public ResultUtil<Comment> update(@RequestBody Comment comment) {
-        if (this.commentService.queryById(comment.getCommentId()) == null){
+        if (this.commentService.queryById(comment.getCommentId()) == null) {
             return ResultUtil.failed("修改失败，没有找到对应信息");
         }
         Comment updateComment = this.commentService.update(comment);
@@ -142,7 +142,7 @@ public class CommentController {
     @DeleteMapping("/{id}")
     @ApiOperation("通过主键删除单条数据")
     public ResultUtil<Boolean> delete(@PathVariable String id) {
-        if (this.commentService.queryById(id) == null){
+        if (this.commentService.queryById(id) == null) {
             return ResultUtil.failed("删除失败，没有找到对应信息");
         }
         boolean flag = this.commentService.deleteById(id);

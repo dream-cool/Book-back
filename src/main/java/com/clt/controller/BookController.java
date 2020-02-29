@@ -79,10 +79,8 @@ public class BookController {
     public ResultUtil<PageInfo<Book>> selectAllByPage(
             @ApiParam("页码") @RequestParam(value = "pageNum", required = false) Integer pageNum,
             @ApiParam("每页大小") @RequestParam(value = "pageSize", required = false) Integer pageSize,
-            @ApiParam("书籍实体")@RequestBody(required = false) Book book
-    )
-
-    {
+            Book book
+    ) {
         pageNum = (pageNum == null || pageNum < 0) ? 1 : pageNum;
         pageSize = (pageSize == null || pageSize < 0) ? 10 : pageSize;
         PageHelper.startPage(pageNum, pageSize);

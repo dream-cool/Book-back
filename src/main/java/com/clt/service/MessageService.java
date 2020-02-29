@@ -52,4 +52,5 @@ public interface MessageService {
      */
     boolean deleteById(String messageId);
 
+    List<Message> queryAllByCondition(Message message);
 }

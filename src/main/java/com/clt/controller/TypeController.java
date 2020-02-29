@@ -1,20 +1,16 @@
 package com.clt.controller;
 
-import com.clt.entity.Book;
 import com.clt.entity.Type;
-import com.clt.service.BookService;
 import com.clt.service.TypeService;
 import com.clt.utils.ResultUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.Map;
 
 /**
  * (Type)表控制层
@@ -30,7 +26,6 @@ public class TypeController {
      */
     @Resource
     private TypeService typeService;
-
 
 
     /**
@@ -64,7 +59,7 @@ public class TypeController {
     public ResultUtil<List<Type>> selectAllByLimit(
             @ApiParam("起始") Integer offset,
             @ApiParam("条数") Integer limit
-    ){
+    ) {
         offset = (offset == null || offset < 0) ? 0 : offset;
         limit = (limit == null || limit < 0) ? 10 : limit;
         List<Type> TypeList = this.typeService.queryAllByLimit(offset, limit);
@@ -81,7 +76,7 @@ public class TypeController {
     public ResultUtil<PageInfo<Type>> selectAllByPage(
             @ApiParam("页码") @RequestParam(required = false) Integer pageNum,
             @ApiParam("每页大小") @RequestParam(required = false) Integer pageSize,
-            @ApiParam("type 实体") @RequestBody(required = false) Type type
+            Type type
     ) {
         pageNum = (pageNum == null || pageNum < 0) ? 1 : pageNum;
         pageSize = (pageSize == null || pageSize < 0) ? 10 : pageSize;
@@ -118,9 +113,6 @@ public class TypeController {
     }
 
 
-
-
-
     /**
      * 通过实体数据新增单条数据
      *
@@ -145,7 +137,7 @@ public class TypeController {
      */
     @PutMapping("")
     public ResultUtil<Type> update(@RequestBody Type type) {
-        if (this.typeService.queryById(type.getId()) == null){
+        if (this.typeService.queryById(type.getId()) == null) {
             return ResultUtil.failed("修改失败，没有找到对应信息");
         }
         Type updateType = this.typeService.update(type);
@@ -164,7 +156,7 @@ public class TypeController {
      */
     @DeleteMapping("/{id}")
     public ResultUtil<Boolean> delete(@PathVariable Integer id) {
-        if (this.typeService.queryById(id) == null){
+        if (this.typeService.queryById(id) == null) {
             return ResultUtil.failed("删除失败，没有找到对应信息");
         }
         boolean flag = this.typeService.deleteById(id);

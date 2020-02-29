@@ -11,7 +11,7 @@
  Target Server Version : 80019
  File Encoding         : 65001
 
- Date: 29/02/2020 18:50:28
+ Date: 29/02/2020 22:27:20
 */
 
 SET NAMES utf8mb4;
@@ -68,6 +68,7 @@ CREATE TABLE `borrowing`  (
   `book_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '书籍名称',
   `user_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户姓名',
   `application_time` timestamp(0) NULL DEFAULT NULL COMMENT '申请时间',
+  `handle_time` timestamp(0) NULL DEFAULT NULL COMMENT '处理时间',
   `borrowing_time` timestamp(0) NULL DEFAULT NULL COMMENT '借阅时间',
   `return_time` timestamp(0) NULL DEFAULT NULL COMMENT '归还时间',
   `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '状态  申请、驳回、已借、逾期、归还',
@@ -78,7 +79,8 @@ CREATE TABLE `borrowing`  (
 -- ----------------------------
 -- Records of borrowing
 -- ----------------------------
-INSERT INTO `borrowing` VALUES ('2', '2', '1', '1', '1', '2020-02-05 13:05:19', '2020-02-21 13:05:21', '2020-02-28 13:05:23', '1', '1');
+INSERT INTO `borrowing` VALUES ('2', '2', '1', '1', '1', '2020-02-05 13:05:19', '2020-02-29 14:20:21', '2020-02-21 13:05:21', '2020-02-28 13:05:23', '3', 'cl');
+INSERT INTO `borrowing` VALUES ('24', '24', '24', '24', '24', '2020-02-05 20:59:37', NULL, '2020-02-23 20:59:39', '2020-02-26 20:59:43', '2', '2');
 
 -- ----------------------------
 -- Table structure for category
@@ -129,6 +131,7 @@ CREATE TABLE `comment`  (
 -- Records of comment
 -- ----------------------------
 INSERT INTO `comment` VALUES ('1', '1', '1', '2020-02-06 13:08:45', 1, '1', 1);
+INSERT INTO `comment` VALUES ('2', '2', '2', '2020-02-29 21:05:32', 0, '2', 2);
 
 -- ----------------------------
 -- Table structure for message
@@ -146,6 +149,7 @@ CREATE TABLE `message`  (
 -- ----------------------------
 -- Records of message
 -- ----------------------------
+INSERT INTO `message` VALUES ('1', '1', '2020-03-01 21:12:02', '1', 0);
 INSERT INTO `message` VALUES ('2', '2', '2020-02-27 13:09:58', '1', 1);
 
 -- ----------------------------
@@ -168,6 +172,7 @@ CREATE TABLE `permission`  (
 -- ----------------------------
 -- Records of permission
 -- ----------------------------
+INSERT INTO `permission` VALUES ('1', 1, 0, 0, 0, 0, 0, 0, 0);
 INSERT INTO `permission` VALUES ('2', 2, 1, 1, 1, 1, 1, 1, 1);
 
 -- ----------------------------
@@ -204,7 +209,7 @@ CREATE TABLE `type`  (
   `hidden` int(0) NULL DEFAULT NULL,
   `create_time` timestamp(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 22 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of type

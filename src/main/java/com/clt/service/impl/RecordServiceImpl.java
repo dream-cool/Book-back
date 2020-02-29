@@ -76,4 +76,9 @@ public class RecordServiceImpl implements RecordService {
     public boolean deleteById(String recordId) {
         return this.recordDao.deleteById(recordId) > 0;
     }
+
+    @Override
+    public List<Record> queryAllByCondition(Record record) {
+        return this.recordDao.queryAllByCondition(record);
+    }
 }
