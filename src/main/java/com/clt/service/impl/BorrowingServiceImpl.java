@@ -76,4 +76,9 @@ public class BorrowingServiceImpl implements BorrowingService {
     public boolean deleteById(String borrowingId) {
         return this.borrowingDao.deleteById(borrowingId) > 0;
     }
+
+    @Override
+    public List<Borrowing> queryAll() {
+        return this.borrowingDao.queryAll();
+    }
 }

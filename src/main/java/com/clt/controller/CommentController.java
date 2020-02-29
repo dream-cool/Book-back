@@ -1,8 +1,11 @@
 package com.clt.controller;
 
+import com.clt.entity.Borrowing;
 import com.clt.entity.Comment;
 import com.clt.service.CommentService;
 import com.clt.utils.ResultUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -51,14 +54,14 @@ public class CommentController {
     }
 
     /**
-     * 分页查询数据
+     * 查询数据
      *
      * @param offset 起始
      * @param limit  条数
      * @return 多条数据
      */
-    @GetMapping("")
-    @ApiOperation("分页查询数据")
+    @GetMapping("/limit")
+    @ApiOperation("查询数据")
     public ResultUtil<List<Comment>> selectAllByLimit(
             @ApiParam("起始") Integer offset,
             @ApiParam("条数") Integer limit
@@ -68,6 +71,25 @@ public class CommentController {
         List<Comment> comments = this.commentService.queryAllByLimit(offset, limit);
         if (comments != null) {
             return ResultUtil.success(comments, "查询成功");
+        } else {
+            return ResultUtil.failed("查询失败");
+        }
+    }
+
+
+    @GetMapping("")
+    @ApiOperation("分页查询数据")
+    public ResultUtil<PageInfo<Comment>> selectAllByPage(
+            @ApiParam("页码") @RequestParam(required = false) Integer pageNum,
+            @ApiParam("每页大小") @RequestParam(required = false) Integer pageSize
+    ) {
+        pageNum = (pageNum == null || pageNum < 0) ? 1 : pageNum;
+        pageSize = (pageSize == null || pageSize < 0) ? 10 : pageSize;
+        PageHelper.startPage(pageNum, pageSize);
+        List<Comment> typeList = this.commentService.queryAll();
+        PageInfo<Comment> pageInfo = new PageInfo<>(typeList);
+        if (pageInfo != null) {
+            return ResultUtil.success(pageInfo, "查询成功");
         } else {
             return ResultUtil.failed("查询失败");
         }

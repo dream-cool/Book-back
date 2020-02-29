@@ -52,4 +52,8 @@ public interface BorrowingService {
      */
     boolean deleteById(String borrowingId);
 
+    /**
+     * 查询所有数据
+     */
+    List<Borrowing> queryAll();
 }

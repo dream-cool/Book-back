@@ -1,5 +1,6 @@
 package com.clt.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -47,16 +48,19 @@ public class Borrowing implements Serializable {
     /**
     * 申请时间
     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     @ApiModelProperty("申请时间")
     private Date applicationTime;
     /**
     * 借阅时间
     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     @ApiModelProperty("借阅时间")
     private Date borrowingTime;
     /**
     * 归还时间
     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     @ApiModelProperty("归还时间")
     private Date returnTime;
     /**

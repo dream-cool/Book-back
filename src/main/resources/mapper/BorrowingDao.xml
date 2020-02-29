@@ -31,8 +31,15 @@
         limit #{offset}, #{limit}
     </select>
 
-    <!--通过实体作为筛选条件查询-->
+
     <select id="queryAll" resultMap="BorrowingMap">
+        select
+          borrowing_id, book_id, user_id, book_name, user_name, application_time, borrowing_time, return_time, status, operator
+        from library.borrowing
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllByCondition" resultMap="BorrowingMap">
         select
           borrowing_id, book_id, user_id, book_name, user_name, application_time, borrowing_time, return_time, status, operator
         from library.borrowing
@@ -115,5 +122,6 @@
     <delete id="deleteById">
         delete from library.borrowing where borrowing_id = #{borrowingId}
     </delete>
+
 
 </mapper>

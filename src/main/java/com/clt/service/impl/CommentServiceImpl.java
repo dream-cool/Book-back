@@ -76,4 +76,9 @@ public class CommentServiceImpl implements CommentService {
     public boolean deleteById(String commentId) {
         return this.commentDao.deleteById(commentId) > 0;
     }
+
+    @Override
+    public List<Comment> queryAll() {
+        return this.commentDao.queryAll();
+    }
 }

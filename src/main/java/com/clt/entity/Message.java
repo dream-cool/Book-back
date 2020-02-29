@@ -1,5 +1,6 @@
 package com.clt.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -33,6 +34,7 @@ public class Message implements Serializable {
     * 发送时间
     */
     @ApiModelProperty("发送时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Date sendingTime;
     /**
     * 信息内容

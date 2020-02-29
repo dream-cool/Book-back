@@ -3,6 +3,8 @@ package com.clt.controller;
 import com.clt.entity.Borrowing;
 import com.clt.service.BorrowingService;
 import com.clt.utils.ResultUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
@@ -55,7 +57,7 @@ public class BorrowingController {
      * @param limit  条数
      * @return 多条数据
      */
-    @GetMapping("")
+    @GetMapping("/limit")
     @ApiOperation("分页查询数据")
     public ResultUtil<List<Borrowing>> selectAllByLimit(
             @ApiParam("起始") Integer offset,
@@ -66,6 +68,25 @@ public class BorrowingController {
         List<Borrowing> borrowings = this.borrowingService.queryAllByLimit(offset, limit);
         if (borrowings != null) {
             return ResultUtil.success(borrowings, "查询成功");
+        } else {
+            return ResultUtil.failed("查询失败");
+        }
+    }
+
+
+    @GetMapping("")
+    @ApiOperation("分页查询数据")
+    public ResultUtil<PageInfo<Borrowing>> selectAllByPage(
+            @ApiParam("页码") @RequestParam(required = false) Integer pageNum,
+            @ApiParam("每页大小") @RequestParam(required = false) Integer pageSize
+    ) {
+        pageNum = (pageNum == null || pageNum < 0) ? 1 : pageNum;
+        pageSize = (pageSize == null || pageSize < 0) ? 10 : pageSize;
+        PageHelper.startPage(pageNum, pageSize);
+        List<Borrowing> typeList = this.borrowingService.queryAll();
+        PageInfo<Borrowing> pageInfo = new PageInfo<>(typeList);
+        if (pageInfo != null) {
+            return ResultUtil.success(pageInfo, "查询成功");
         } else {
             return ResultUtil.failed("查询失败");
         }

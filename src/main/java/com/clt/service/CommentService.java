@@ -52,4 +52,8 @@ public interface CommentService {
      */
     boolean deleteById(String commentId);
 
+    /**
+     * 查询所欲数据
+     */
+    List<Comment> queryAll();
 }

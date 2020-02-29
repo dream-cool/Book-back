@@ -28,8 +28,14 @@
         limit #{offset}, #{limit}
     </select>
 
-    <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="CommentMap">
+        select
+          comment_id, book_id, user_id, comment_time, Zan_flag, content, score
+        from library.comment
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllByCondition" resultMap="CommentMap">
         select
           comment_id, book_id, user_id, comment_time, Zan_flag, content, score
         from library.comment
@@ -94,5 +100,6 @@
     <delete id="deleteById">
         delete from library.comment where comment_id = #{commentId}
     </delete>
+
 
 </mapper>

@@ -36,8 +36,14 @@
         limit #{offset}, #{limit}
     </select>
 
-    <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="BookMap">
+        select
+          book_id, category_id, book_name, book_describe, author, published, price, book_status, img, ebook, location, zan_number, score, input_time, update_time
+        from library.book
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllByCondition" resultMap="BookMap">
         select
           book_id, category_id, book_name, book_describe, author, published, price, book_status, img, ebook, location, zan_number, score, input_time, update_time
         from library.book
@@ -150,5 +156,6 @@
     <delete id="deleteById">
         delete from library.book where book_id = #{bookId}
     </delete>
+
 
 </mapper>

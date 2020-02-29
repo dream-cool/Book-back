@@ -2,6 +2,7 @@ package com.clt.service;
 
 import com.clt.entity.Book;
 import java.util.List;
+import java.util.Map;
 
 /**
  * (Book)表服务接口
@@ -52,4 +53,22 @@ public interface BookService {
      */
     boolean deleteById(String bookId);
 
+
+    /**
+     *  根据电子书页码返回具体内容
+     *
+     * @param bookId  书籍Id
+     * @param page  页码
+     * @param rows  行数
+     *
+     * @return 电子书文本内容
+     */
+    Map<Object, Object> getEbookInfo(Integer page, Integer rows, String bookId);
+
+    /**
+     * 分页查询数据
+     */
+    List<Book> queryAll();
+
+    List<Book> queryAllByCondition(Book book);
 }

@@ -1,5 +1,6 @@
 package com.clt.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -87,11 +88,13 @@ public class Book implements Serializable {
     /**
     * 录入时间
     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     @ApiModelProperty("录入时间")
     private Date inputTime;
     /**
     * 修改时间
     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     @ApiModelProperty("修改时间")
     private Date updateTime;
 
