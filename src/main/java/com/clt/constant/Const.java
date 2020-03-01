@@ -1,5 +1,7 @@
 package com.clt.constant;
 
+import com.sun.org.apache.bcel.internal.generic.RETURN;
+
 /**
  * @author ：clt
  * @Date ：Created in 19:10 2020/02/25
@@ -26,7 +28,9 @@ public class Const {
 
     public static final String BORROWING_STATUS_OVERDUE = "逾期";
 
-    public static final String BORROWING_STATUS_RETURNED = "归还";
+    public static final String BORROWING_STATUS_OVERDUE_RETURN = "逾期归还";
+
+    public static final String BORROWING_STATUS_NORMAL_RETURN = "正常归还";
 
     public static final String BOOK_IN_LIBRARY_STATUS = "在库";
 

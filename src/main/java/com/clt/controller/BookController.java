@@ -7,11 +7,16 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.apache.ibatis.annotations.Delete;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -31,6 +36,13 @@ public class BookController {
      */
     @Resource
     private BookService bookService;
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        dateFormat.setLenient(false);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+    }
 
     /**
      * 通过主键查询单条数据
@@ -81,11 +93,7 @@ public class BookController {
             @ApiParam("每页大小") @RequestParam(value = "pageSize", required = false) Integer pageSize,
             Book book
     ) {
-        pageNum = (pageNum == null || pageNum < 0) ? 1 : pageNum;
-        pageSize = (pageSize == null || pageSize < 0) ? 10 : pageSize;
-        PageHelper.startPage(pageNum, pageSize);
-        List<Book> typeList = this.bookService.queryAllByCondition(book);
-        PageInfo<Book> pageInfo = new PageInfo<>(typeList);
+        PageInfo<Book> pageInfo = this.bookService.queryAllByCondition(pageNum, pageSize, book);
         if (pageInfo != null) {
             return ResultUtil.success(pageInfo, "查询成功");
         } else {
@@ -148,6 +156,21 @@ public class BookController {
         }
     }
 
+    /**
+     * 通过主键批量删除数据
+     *
+     * @param ids id数组
+     * @return 删除结果
+     */
+    @GetMapping("/delete/batch")
+    public ResultUtil<Boolean> deleteBatch(@RequestParam(value = "ids") List<String> ids) {
+        logger.info(ids.toString());
+        ids.stream().forEach(id ->{
+            delete(id);
+        });
+        return ResultUtil.success(true, "删除成功");
+    }
+
 
     @GetMapping("/ebook/{bookId}")
     @ApiOperation("根据电子书页码返回具体内容")
@@ -159,5 +182,7 @@ public class BookController {
             @ApiParam(value = "电子书id", required = true) @PathVariable(value = "bookId") String bookId) {
         return ResultUtil.success(bookService.getEbookInfo(page, rows, bookId));
     }
+
+
 
 }

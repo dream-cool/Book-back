@@ -1,6 +1,8 @@
 package com.clt.service;
 
 import com.clt.entity.Book;
+import com.github.pagehelper.PageInfo;
+
 import java.util.List;
 import java.util.Map;
 
@@ -70,5 +72,5 @@ public interface BookService {
      */
     List<Book> queryAll();
 
-    List<Book> queryAllByCondition(Book book);
+    PageInfo<Book> queryAllByCondition(Integer pageNum, Integer pageSize, Book book);
 }

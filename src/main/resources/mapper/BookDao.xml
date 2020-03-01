@@ -55,19 +55,19 @@
                 and category_id = #{categoryId}
             </if>
             <if test="bookName != null and bookName != ''">
-                and book_name = #{bookName}
+                and book_name like "%"#{bookName}"%"
             </if>
             <if test="bookDescribe != null and bookDescribe != ''">
                 and book_describe = #{bookDescribe}
             </if>
             <if test="author != null and author != ''">
-                and author = #{author}
+                and author like "%"#{author}"%"
             </if>
             <if test="published != null and published != ''">
                 and published = #{published}
             </if>
             <if test="price != null">
-                and price = #{price}
+                and price >= #{price}
             </if>
             <if test="bookStatus != null and bookStatus != ''">
                 and book_status = #{bookStatus}
@@ -88,7 +88,7 @@
                 and score = #{score}
             </if>
             <if test="inputTime != null">
-                and input_time = #{inputTime}
+                and input_time &lt; #{inputTime}
             </if>
             <if test="updateTime != null">
                 and update_time = #{updateTime}

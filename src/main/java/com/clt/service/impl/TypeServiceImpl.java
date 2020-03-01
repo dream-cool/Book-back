@@ -67,6 +67,12 @@ public class TypeServiceImpl implements TypeService {
      * @return 处理后的类型实体
      */
     private Type beforeInsertType(Type type){
+        if (type.getPid() == null){
+            type.setLevel(1);
+        } else {
+            final Type parentType = queryById(type.getPid());
+            type.setLevel(parentType.getLevel()+1);
+        }
         type.setCreateTime(new Date());
         return type;
     }

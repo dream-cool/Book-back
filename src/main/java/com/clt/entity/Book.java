@@ -90,7 +90,6 @@ public class Book implements Serializable {
     /**
      * 录入时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @ApiModelProperty("录入时间")
     private Date inputTime;
     /**
