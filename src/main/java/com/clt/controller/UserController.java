@@ -3,6 +3,7 @@ package com.clt.controller;
 import com.clt.entity.User;
 import com.clt.service.UserService;
 import com.clt.utils.ResultUtil;
+import com.github.pagehelper.PageHelper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -53,19 +54,21 @@ public class UserController {
     /**
      * 分页查询数据
      *
-     * @param offset 起始
-     * @param limit  条数
+     * @param pageNum 起始
+     * @param pageSize  条数
      * @return 多条数据
      */
     @GetMapping("")
     @ApiOperation("分页查询数据")
     public ResultUtil<List<User>> selectAllByLimit(
-            @ApiParam("起始") Integer offset,
-            @ApiParam("条数") Integer limit
+            @ApiParam("页码") @RequestParam(required = false) Integer pageNum,
+            @ApiParam("每页大小") @RequestParam(required = false) Integer pageSize,
+            User user
     ) {
-        offset = (offset == null || offset < 0) ? 0 : offset;
-        limit = (limit == null || limit < 0) ? 10 : limit;
-        List<User> users = this.userService.queryAllByLimit(offset, limit);
+        pageNum = (pageNum == null || pageNum < 0) ? 1 : pageNum;
+        pageSize = (pageSize == null || pageSize < 0) ? 10 : pageSize;
+        PageHelper.startPage(pageNum, pageSize);
+        List<User> users = this.userService.queryAllByCondition(user);
         if (users != null) {
             return ResultUtil.success(users, "查询成功");
         } else {
@@ -100,7 +103,7 @@ public class UserController {
     @PutMapping("")
     @ApiOperation("更新单条数据")
     public ResultUtil<User> update(@RequestBody User user) {
-        if (this.userService.queryById(user.getUserId()) == null){
+        if (this.userService.queryById(user.getUserId()) == null) {
             return ResultUtil.failed("修改失败，没有找到对应信息");
         }
         User updateUser = this.userService.update(user);
@@ -120,7 +123,7 @@ public class UserController {
     @DeleteMapping("/{id}")
     @ApiOperation("删除单条数据")
     public ResultUtil<Boolean> delete(@PathVariable String id) {
-        if (this.userService.queryById(id) == null){
+        if (this.userService.queryById(id) == null) {
             return ResultUtil.failed("删除失败，没有找到对应信息");
         }
         boolean flag = this.userService.deleteById(id);

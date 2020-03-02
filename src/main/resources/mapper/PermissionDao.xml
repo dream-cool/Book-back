@@ -31,7 +31,7 @@
     </select>
 
     <!--通过实体作为筛选条件查询-->
-    <select id="queryAll" resultMap="PermissionMap">
+    <select id="queryAllByCondition" resultMap="PermissionMap">
         select
           user_id, book_r, book_w, user_r, user_w, borrowing_r, borrowing_w, category_w, statistics_r
         from library.permission

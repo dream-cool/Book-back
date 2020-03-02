@@ -1,12 +1,18 @@
 package com.clt.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.clt.dao.CategoryDao;
 import com.clt.entity.Category;
+import com.clt.factory.JsonFactory;
 import com.clt.service.CategoryService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * (Category)表服务实现类
@@ -26,7 +32,7 @@ public class CategoryServiceImpl implements CategoryService {
      * @return 实例对象
      */
     @Override
-    public Category queryById(Integer categoryId) {
+    public Category queryById(String categoryId) {
         return this.categoryDao.queryById(categoryId);
     }
 
@@ -73,7 +79,74 @@ public class CategoryServiceImpl implements CategoryService {
      * @return 是否成功
      */
     @Override
-    public boolean deleteById(Integer categoryId) {
+    public boolean deleteById(String categoryId) {
         return this.categoryDao.deleteById(categoryId) > 0;
+    }
+
+
+    @Override
+    public JSONArray getCategoryList() {
+        JSONArray json = new JSONArray();
+        List<Category> categoryList = this.categoryDao.queryAllByLimit(0,100 );
+        JSONObject allNode = JsonFactory.getTreeNode("true","全部", "全部", null, "0","0");
+        json.add(allNode);
+        for (Category category: categoryList) {
+            int level = 1;
+            while (level < 4){
+                /**
+                 * 遍历添加节点时需判断是否为父节点
+                 * 如果不是父节点则可以直接添加，否则需要遍历父节点下的子节点
+                 * 同时还需要针对父节点进行去重
+                 */
+                if (!category.isParent(level)){
+                    JSONObject subNode = JsonFactory.getTreeNode("false",category.getCategoryNameByLevel(level),
+                            category.getCategoryNameByLevel(level),
+                            level == 1 ? "0" : category.getCategoryIdByLevel(level-1),
+                            category.getCategoryIdByLevel(level),String.valueOf(level));
+                    json.add(subNode);
+                    break;
+                } else {
+                    //默认没重复
+                    boolean isRepeat = false;
+                    /**
+                     *	判断当前需要添加的父节点是否已经重复
+                     */
+                    if(json.size()>0){
+                        for(int i=0;i<json.size();i++){
+                            JSONObject job = json.getJSONObject(i);
+                            if (category.getCategoryIdByLevel(level).equals(job.get("id"))){
+                                isRepeat = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (!isRepeat){
+                        JSONObject supNode = JsonFactory.getTreeNode("true",category.getCategoryNameByLevel(level),
+                                category.getCategoryNameByLevel(level),
+                                level == 1 ? "0" : category.getCategoryIdByLevel(level-1),
+                                category.getCategoryIdByLevel(level),String.valueOf(level));
+                        json.add(supNode);
+                    }
+                }
+                level++;
+            }
+        }
+        return json;
+    }
+
+    @Override
+    public Map<Object, Object> getTypeInfo() {
+        List<Category> categoryList = this.categoryDao.queryAllByLimit(0,100 );
+        Map<Object,Object> result = new HashMap<>(16);
+        for (Category category: categoryList) {
+            result.put(category.getCategoryIdByLevel(1),category.getFirstType());
+            if (StringUtils.isNotEmpty(category.getSecondType())){
+                result.put(category.getCategoryIdByLevel(2),category.getSecondType());
+            }
+            if (StringUtils.isNotEmpty(category.getThirdType())){
+                result.put(category.getCategoryIdByLevel(3),category.getThirdType());
+            }
+        }
+        return  result;
     }
 }

@@ -3,6 +3,8 @@ package com.clt.controller;
 import com.clt.entity.Record;
 import com.clt.service.RecordService;
 import com.clt.utils.ResultUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
@@ -51,21 +53,24 @@ public class RecordController {
     /**
      * 分页查询数据
      *
-     * @param offset 起始
-     * @param limit  条数
+     * @param pageNum  起始
+     * @param pageSize 条数
      * @return 多条数据
      */
     @GetMapping("")
     @ApiOperation("分页查询数据")
-    public ResultUtil<List<Record>> selectAllByLimit(
-            @ApiParam("起始") Integer offset,
-            @ApiParam("条数") Integer limit
+    public ResultUtil<PageInfo<Record>> selectAllByLimit(
+            @ApiParam("页码") @RequestParam(required = false) Integer pageNum,
+            @ApiParam("每页大小") @RequestParam(required = false) Integer pageSize,
+            Record record
     ) {
-        offset = (offset == null || offset < 0) ? 0 : offset;
-        limit = (limit == null || limit < 0) ? 10 : limit;
-        List<Record> records = this.recordService.queryAllByLimit(offset, limit);
+        pageNum = (pageNum == null || pageNum < 0) ? 1 : pageNum;
+        pageSize = (pageSize == null || pageSize < 0) ? 10 : pageSize;
+        PageHelper.startPage(pageNum, pageSize);
+        List<Record> records = this.recordService.queryAllByCondition(record);
+        PageInfo<Record> pageInfo = new PageInfo<>(records);
         if (records != null) {
-            return ResultUtil.success(records, "查询成功");
+            return ResultUtil.success(pageInfo, "查询成功");
         } else {
             return ResultUtil.failed("查询失败");
         }
@@ -98,7 +103,7 @@ public class RecordController {
     @PutMapping("")
     @ApiOperation("更新单条数据")
     public ResultUtil<Record> update(@RequestBody Record record) {
-        if (this.recordService.queryById(record.getRecordId()) == null){
+        if (this.recordService.queryById(record.getRecordId()) == null) {
             return ResultUtil.failed("修改失败，没有找到对应信息");
         }
         Record updateRecord = this.recordService.update(record);
@@ -118,7 +123,7 @@ public class RecordController {
     @DeleteMapping("/{id}")
     @ApiOperation("删除单条数据")
     public ResultUtil<Boolean> delete(@PathVariable String id) {
-        if (this.recordService.queryById(id) == null){
+        if (this.recordService.queryById(id) == null) {
             return ResultUtil.failed("删除失败，没有找到对应信息");
         }
         boolean flag = this.recordService.deleteById(id);

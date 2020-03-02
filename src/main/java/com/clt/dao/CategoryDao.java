@@ -20,7 +20,7 @@ public interface CategoryDao {
      * @param categoryId 主键
      * @return 实例对象
      */
-    Category queryById(Integer categoryId);
+    Category queryById(String categoryId);
 
     /**
      * 查询指定行数据
@@ -62,6 +62,6 @@ public interface CategoryDao {
      * @param categoryId 主键
      * @return 影响行数
      */
-    int deleteById(Integer categoryId);
+    int deleteById(String categoryId);
 
 }

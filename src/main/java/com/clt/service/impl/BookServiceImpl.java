@@ -1,13 +1,25 @@
 package com.clt.service.impl;
 
-import com.clt.entity.Book;
 import com.clt.dao.BookDao;
+import com.clt.dao.TypeDao;
+import com.clt.entity.Book;
+import com.clt.entity.Type;
 import com.clt.service.BookService;
+import com.clt.service.TypeService;
+import com.clt.utils.FileUtil;
+import com.clt.utils.PageUtil;
 import com.clt.utils.UUIDUtil;
+import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
+import java.io.File;
+import java.util.*;
 
 /**
  * (Book)表服务实现类
@@ -17,8 +29,16 @@ import java.util.List;
  */
 @Service("bookService")
 public class BookServiceImpl implements BookService {
+
+    Logger logger = LoggerFactory.getLogger(BookServiceImpl.class);
     @Resource
     private BookDao bookDao;
+
+    @Autowired
+    private TypeDao typeDao;
+
+    @Autowired
+    private TypeService typeService;
 
     /**
      * 通过ID查询单条数据
@@ -35,7 +55,7 @@ public class BookServiceImpl implements BookService {
      * 查询多条数据
      *
      * @param offset 查询起始位置
-     * @param limit 查询条数
+     * @param limit  查询条数
      * @return 对象列表
      */
     @Override
@@ -51,10 +71,23 @@ public class BookServiceImpl implements BookService {
      */
     @Override
     public Book insert(Book book) {
-        if (book != null){
-            book.setBookId(UUIDUtil.getUUID());
-        }
+        beforeInsertBook(book);
         this.bookDao.insert(book);
+        return book;
+    }
+
+    /**
+     * 新增书籍之前对书籍实体数据进行完善
+     *
+     * @param book 前端书籍实体
+     * @return 返回处理后的书籍实体
+     */
+    private Book beforeInsertBook(Book book) {
+        if (book != null) {
+            book.setBookId(UUIDUtil.getUUID());
+            book.setZanNumber(0);
+            book.setUpdateTime(new Date());
+        }
         return book;
     }
 
@@ -80,4 +113,144 @@ public class BookServiceImpl implements BookService {
     public boolean deleteById(String bookId) {
         return this.bookDao.deleteById(bookId) > 0;
     }
+
+
+    @Value("${spring.servlet.multipart.location}")
+    private String path;
+
+    @Override
+    public Map<Object, Object> getEbookInfo(Integer page, Integer rows, String bookId) {
+        Book book = queryById(bookId);
+        String fileName = book.getLocation();
+        String location = path + "/" + fileName;
+        File file = new File(location);
+        String fileSize = FileUtil.getPrintSize(file.length());
+        page = page == null || page < 0 ? 1 : page;
+        rows = rows == null || rows < 0 ? 100 : rows;
+        List<String> ebookContent = FileUtil.getFileContent(page, rows, location);
+        Map<Object, Object> result = new HashMap<>(16);
+        result.put("pageIndex", page);
+        result.put("rows", rows);
+        result.put("total", ebookContent.size() * rows);
+        result.put("content", ebookContent.get(page));
+        result.put("book", book);
+        result.put("fileSize", fileSize);
+        return result;
+    }
+
+    @Override
+    public List<Book> queryAll() {
+        return this.bookDao.queryAll();
+    }
+
+
+    /**
+     * 根据Book实体中传入id 寻找到对应级联的Type
+     */
+    private Type targetType;
+
+    /**
+     * 对应级联Type中child的所有id
+     */
+    private Set<Integer> idSet = new HashSet<>();
+
+    @Override
+    public PageInfo<Book> queryAllByCondition(Integer pageNum, Integer pageSize, Book book) {
+        pageNum = (pageNum == null || pageNum < 0) ? 1 : pageNum;
+        pageSize = (pageSize == null || pageSize < 0) ? 10 : pageSize;
+        List<Book> books = beforeAllByCondition(book);
+        afterQueryAllByCondition(books);
+        return PageUtil.getPageInfo(pageNum, pageSize, books);
+    }
+
+
+    /**
+     * 查询之前根据书籍实体是否带了类别的筛选条件进行处理
+     *
+     * @param book 书籍实体
+     */
+    private List<Book> beforeAllByCondition(Book book) {
+        if (book != null && StringUtils.isNotEmpty(book.getCategoryId()) && StringUtils.isNoneBlank(book.getCategoryId())) {
+            List<Type> types = this.typeService.queryAllByCascade();
+            /**
+             * 遍历级联列表寻找需要的 targetType
+             */
+            for (Type type : types) {
+                resumeQueryTargetType(type, book.getCategoryId());
+            }
+            resumeQueryTypeForIdSet(targetType);
+            /**
+             * 针对某一类别下的所有类别
+             * 逐一寻找满足要求的图书
+             */
+            List<Book> books = new ArrayList<>(0);
+            logger.info("idSet -------" + idSet);
+            idSet.stream().forEach(id -> {
+                book.setCategoryId(String.valueOf(id));
+                books.addAll(this.bookDao.queryAllByCondition(book));
+            });
+            /**
+             * 容器处理完后进行销毁
+             */
+            idSet = new HashSet<>();
+            return books;
+        } else {
+            return bookDao.queryAllByCondition(book);
+        }
+    }
+
+    /**
+     * 递归寻找某一级联类别下的所有子类中
+     * 满足条件的类别 存入成员变量targetType
+     *
+     * @param type
+     * @param typeId
+     */
+    private void resumeQueryTargetType(Type type, String typeId) {
+        if (type != null && type.getId().equals(Integer.valueOf(typeId))) {
+            targetType = type;
+            logger.info("type----" + type);
+        }
+        if (type.getChild() != null && type.getChild().size() > 0) {
+            final List<Type> childList = type.getChild();
+            childList.stream().forEach(childType -> {
+                resumeQueryTargetType(childType, typeId);
+            });
+        }
+    }
+
+    /**
+     * 从级联类别中找到满足条件的类别后
+     * 再从该类别出发 递归子类别，将找到的所有
+     * 类别id存入idSet
+     *
+     * @param type 类别
+     */
+    private void resumeQueryTypeForIdSet(Type type) {
+        idSet.add(type.getId());
+        if (type.getChild() != null && !type.getChild().isEmpty()) {
+            final List<Type> childList = type.getChild();
+            childList.stream().forEach(childType -> {
+                resumeQueryTypeForIdSet(childType);
+            });
+        }
+    }
+
+    private void afterQueryAllByCondition(List<Book> books) {
+        final Map<Integer, String> typeCollection = getTypeTitleById();
+        books.stream().forEach(book -> {
+            book.setCategoryId(typeCollection.get(Integer.valueOf(book.getCategoryId())));
+        });
+    }
+
+    private Map<Integer, String> getTypeTitleById() {
+        Map<Integer, String> map = new HashMap<>();
+        final List<Type> types = typeDao.queryAll();
+        types.stream().forEach(type -> {
+            map.put(type.getId(), type.getTitle());
+        });
+        return map;
+    }
+
+
 }

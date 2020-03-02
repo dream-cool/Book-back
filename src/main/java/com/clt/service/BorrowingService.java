@@ -1,6 +1,8 @@
 package com.clt.service;
 
 import com.clt.entity.Borrowing;
+import com.clt.utils.ResultUtil;
+
 import java.util.List;
 
 /**
@@ -52,4 +54,12 @@ public interface BorrowingService {
      */
     boolean deleteById(String borrowingId);
 
+    /**
+     * 查询所有数据
+     */
+    List<Borrowing> queryAll();
+
+    List<Borrowing> queryAllByCondition(Borrowing borrowing);
+
+    ResultUtil<Borrowing> handleApplying(String operation, String userName, String borrowingId);
 }

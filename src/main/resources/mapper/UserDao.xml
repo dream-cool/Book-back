@@ -34,7 +34,7 @@
     </select>
 
     <!--通过实体作为筛选条件查询-->
-    <select id="queryAll" resultMap="UserMap">
+    <select id="queryAllByCondition" resultMap="UserMap">
         select
           user_id, user_name, password, sex, IDcard, tel, email, credit, status, role, register_time, last_login_time
         from library.user

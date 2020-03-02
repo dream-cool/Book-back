@@ -76,4 +76,9 @@ public class MessageServiceImpl implements MessageService {
     public boolean deleteById(String messageId) {
         return this.messageDao.deleteById(messageId) > 0;
     }
+
+    @Override
+    public List<Message> queryAllByCondition(Message message) {
+        return this.messageDao.queryAllByCondition(message);
+    }
 }

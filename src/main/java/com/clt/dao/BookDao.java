@@ -39,7 +39,14 @@ public interface BookDao {
      * @param book 实例对象
      * @return 对象列表
      */
-    List<Book> queryAll(Book book);
+    List<Book> queryAllByCondition(Book book);
+
+    /**
+     * 查询所有数据
+     *
+     * @return 对象列表
+     */
+    List<Book> queryAll();
 
     /**
      * 新增数据

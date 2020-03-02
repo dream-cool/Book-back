@@ -76,4 +76,9 @@ public class PermissionServiceImpl implements PermissionService {
     public boolean deleteById(String userId) {
         return this.permissionDao.deleteById(userId) > 0;
     }
+
+    @Override
+    public List<Permission> queryAllByCondition(Permission permission) {
+        return this.permissionDao.queryAllByCondition(permission);
+    }
 }

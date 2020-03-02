@@ -1,8 +1,10 @@
 package com.clt.service;
 
+import com.alibaba.fastjson.JSONArray;
 import com.clt.entity.Category;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * (Category)表服务接口
@@ -18,7 +20,7 @@ public interface CategoryService {
      * @param categoryId 主键
      * @return 实例对象
      */
-    Category queryById(Integer categoryId);
+    Category queryById(String categoryId);
 
     /**
      * 查询多条数据
@@ -51,6 +53,13 @@ public interface CategoryService {
      * @param categoryId 主键
      * @return 是否成功
      */
-    boolean deleteById(Integer categoryId);
+    boolean deleteById(String categoryId);
 
+
+    /**
+     * 查询所有书籍类别列表信息
+     */
+    JSONArray getCategoryList();
+
+    Map<Object, Object> getTypeInfo();
 }

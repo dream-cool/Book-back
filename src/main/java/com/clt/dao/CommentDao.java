@@ -38,7 +38,15 @@ public interface CommentDao {
      * @param comment 实例对象
      * @return 对象列表
      */
-    List<Comment> queryAll(Comment comment);
+    List<Comment> queryAllByCondition(Comment comment);
+
+
+    /**
+     *  查询所有数据
+     *
+     * @return 对象列表
+     */
+    List<Comment> queryAll();
 
     /**
      * 新增数据

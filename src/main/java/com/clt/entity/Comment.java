@@ -1,12 +1,14 @@
 package com.clt.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
-import java.util.Date;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * (Comment)实体类
@@ -16,6 +18,7 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
+@ToString
 @ApiModel("评论信息实体")
 public class Comment implements Serializable {
     private static final long serialVersionUID = 796800846076565731L;
@@ -25,33 +28,34 @@ public class Comment implements Serializable {
     @ApiModelProperty("评论id")
     private String commentId;
     /**
-    * 书籍id
-    */
+     * 书籍id
+     */
     @ApiModelProperty("书籍id")
     private String bookId;
     /**
-    * 用户id
-    */
+     * 用户id
+     */
     @ApiModelProperty("用户id")
     private String userId;
     /**
-    * 评论时间
-    */
+     * 评论时间
+     */
     @ApiModelProperty("评论时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date commentTime;
     /**
-    * 赞标志
-    */
+     * 赞标志
+     */
     @ApiModelProperty("赞标志")
     private Integer zanFlag;
     /**
-    * 评论内容
-    */
+     * 评论内容
+     */
     @ApiModelProperty("评论内容")
     private String content;
     /**
-    * 评分
-    */
+     * 评分
+     */
     @ApiModelProperty("评分")
     private Integer score;
 }

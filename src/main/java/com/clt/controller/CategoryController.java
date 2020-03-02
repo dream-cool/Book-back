@@ -1,5 +1,6 @@
 package com.clt.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.clt.entity.Category;
 import com.clt.service.CategoryService;
 import com.clt.utils.ResultUtil;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * (Category)表控制层
@@ -39,7 +41,7 @@ public class CategoryController {
     @ApiOperation("通过主键查询单条数据")
     public ResultUtil<Category> selectOne(
             @ApiParam("id")
-            @PathVariable Integer id) {
+            @PathVariable String id) {
         Category category = this.categoryService.queryById(id);
         if (category != null) {
             return ResultUtil.success(category);
@@ -96,7 +98,7 @@ public class CategoryController {
      */
     @PutMapping("")
     public ResultUtil<Category> update(@RequestBody Category category) {
-        if (this.categoryService.queryById(category.getCategoryId()) == null){
+        if (this.categoryService.queryById(category.getCategoryId()) == null) {
             return ResultUtil.failed("修改失败，没有找到对应信息");
         }
         Category updateCategory = this.categoryService.update(category);
@@ -114,8 +116,8 @@ public class CategoryController {
      * @return 删除结果
      */
     @DeleteMapping("/{id}")
-    public ResultUtil<Boolean> delete(@PathVariable Integer id) {
-        if (this.categoryService.queryById(id) == null){
+    public ResultUtil<Boolean> delete(@PathVariable String id) {
+        if (this.categoryService.queryById(id) == null) {
             return ResultUtil.failed("删除失败，没有找到对应信息");
         }
         boolean flag = this.categoryService.deleteById(id);
@@ -125,5 +127,25 @@ public class CategoryController {
             return ResultUtil.failed("删除失败");
         }
     }
+
+
+    @GetMapping("/treeList")
+    @ApiOperation("查询所有书籍类别列表信息")
+    public JSONArray getCategoryList() {
+        //休眠100毫秒，以便前端界面先加载表格组件
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            logger.error("context", e);
+            Thread.currentThread().interrupt();
+        }
+        return categoryService.getCategoryList();
+    }
+
+    @GetMapping("typeInfo")
+    public Map<Object, Object> getTypeInfo() {
+        return categoryService.getTypeInfo();
+    }
+
 
 }

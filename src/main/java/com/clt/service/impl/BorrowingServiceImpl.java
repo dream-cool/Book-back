@@ -2,10 +2,13 @@ package com.clt.service.impl;
 
 import com.clt.entity.Borrowing;
 import com.clt.dao.BorrowingDao;
+import com.clt.enums.BorrowingEnum;
 import com.clt.service.BorrowingService;
+import com.clt.utils.ResultUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -75,5 +78,32 @@ public class BorrowingServiceImpl implements BorrowingService {
     @Override
     public boolean deleteById(String borrowingId) {
         return this.borrowingDao.deleteById(borrowingId) > 0;
+    }
+
+    @Override
+    public List<Borrowing> queryAll() {
+        return this.borrowingDao.queryAll();
+    }
+
+    @Override
+    public List<Borrowing> queryAllByCondition(Borrowing borrowing) {
+        return this.borrowingDao.queryAllByCondition(borrowing);
+    }
+
+    @Override
+    public ResultUtil<Borrowing> handleApplying(String operation, String userName, String borrowingId) {
+        final Borrowing borrowingResult = queryById(borrowingId);
+        if (borrowingResult == null){
+            ResultUtil.failed("没有找到对应借阅信息");
+        }
+        borrowingResult.setStatus(BorrowingEnum.valueOf(operation).getCode());
+        borrowingResult.setOperator(userName);
+        borrowingResult.setHandleTime(new Date());
+        final Borrowing handleResult = update(borrowingResult);
+        if (handleResult != null){
+            return ResultUtil.success(handleResult,"处理成功");
+        } else {
+            return ResultUtil.failed("操作失败");
+        }
     }
 }
