@@ -3,11 +3,13 @@ package com.clt.service.impl;
 import com.clt.dao.BookDao;
 import com.clt.dao.TypeDao;
 import com.clt.entity.Book;
+import com.clt.entity.Category;
 import com.clt.entity.Type;
 import com.clt.service.BookService;
 import com.clt.service.TypeService;
 import com.clt.utils.FileUtil;
 import com.clt.utils.PageUtil;
+import com.clt.utils.ResultUtil;
 import com.clt.utils.UUIDUtil;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
@@ -161,6 +163,64 @@ public class BookServiceImpl implements BookService {
         List<Book> books = beforeAllByCondition(book);
         afterQueryAllByCondition(books);
         return PageUtil.getPageInfo(pageNum, pageSize, books);
+    }
+
+    /**
+     * 级联类别的所有数据
+     */
+    private List<Type> cascadeTypes;
+
+    /**
+     * @param id 书籍id
+     * @return 返回书籍的详细信息和书籍类别的层级id数组 [1,3,4]
+     *
+     */
+    @Override
+    public ResultUtil<Map<String, Object>> getBookDetail(String id) {
+        final Book book = this.queryById(id);
+        if (book == null) {
+            return ResultUtil.failed("没有找到书籍信息");
+        }
+        cascadeTypes = this.typeService.queryAllByCascade();
+        List<Integer> ids = new ArrayList<>(10);
+        ids = hanleCategory(Integer.valueOf(book.getCategoryId()), cascadeTypes,ids);
+        Collections.reverse(ids);
+        Map<String, Object> data = new HashMap<>(16);
+        data.put("typeList", ids);
+        data.put("book", book);
+        return ResultUtil.success(data, "查询成功");
+    }
+
+
+    /**
+     * 寻找目标id对应的层级父id数组集合
+     *
+     * 例如 小说(id = 1) > 中国小说（id = 3） > 武侠（id = 4）
+     * 则 寻找id为4的层级父id  即返回 [4,3,1]
+     *
+     * @param id 具体的类别id
+     * @param types 在哪些类型里面找
+     * @param ids 层级id的数组集合
+     */
+    private List<Integer> hanleCategory(Integer id, List<Type> types, List<Integer> ids){
+        if (id == null){
+            return ids;
+        }
+        for (Type type : types) {
+            if (type.getId().equals(id)){
+                /**
+                 * 如果找到目标id 则存进ids
+                 * 同时回溯递归其父id去寻找
+                 * 如果父id为空则回溯完毕
+                 */
+                ids.add(id);
+                this.hanleCategory(type.getPid(),cascadeTypes , ids);
+            }
+            if (type.getChild() != null && !type.getChild().isEmpty()) {
+                hanleCategory(id, type.getChild(), ids);
+            }
+        }
+        return ids;
     }
 
 

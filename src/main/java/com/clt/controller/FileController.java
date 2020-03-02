@@ -102,8 +102,11 @@ public class FileController {
     }
 
     @RequestMapping("/download")
-    public ResultUtil downLoad(HttpServletResponse response, String filename, String filePath) throws UnsupportedEncodingException {
-        File file = new File(filePath + "/" + filename);
+    public ResultUtil downLoad(HttpServletResponse response,
+                               @RequestParam(value = "filename") String filename,
+                               @RequestParam(value = "filePath", required = false) String filePath) throws UnsupportedEncodingException {
+        filePath = filePath == null ? "" : filePath;
+        File file = new File(path + "/" + filePath + "/" + filename);
         if (file.exists()) {
             response.setContentType("application/vnd.ms-excel;charset=UTF-8");
             response.setCharacterEncoding("UTF-8");

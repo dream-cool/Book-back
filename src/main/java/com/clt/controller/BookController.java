@@ -64,6 +64,20 @@ public class BookController {
     }
 
     /**
+     * 通过主键查询书籍详细信息
+     *
+     * @param id 主键
+     * @return 单条数据
+     */
+    @GetMapping("/detail/{id}")
+    @ApiOperation("通过主键查询单条数据")
+    public ResultUtil<Map<String,Object>> getBookDetail(
+            @ApiParam("id")
+            @PathVariable String id){
+        return this.bookService.getBookDetail(id);
+    }
+
+    /**
      * 查询部分数据
      *
      * @param offset 起始
@@ -125,13 +139,15 @@ public class BookController {
      * @return 更新的数据
      */
     @PutMapping("")
-    public ResultUtil<Book> update(@RequestBody Book book) {
+    public ResultUtil<Map<String,Object>> update(@RequestBody Book book) {
         if (this.bookService.queryById(book.getBookId()) == null) {
             return ResultUtil.failed("修改失败，没有找到对应信息");
         }
         Book updateBook = this.bookService.update(book);
-        if (updateBook != null) {
-            return ResultUtil.success(updateBook, "修改成功");
+        ResultUtil<Map<String, Object>> bookDetail = getBookDetail(updateBook.getBookId());
+        if (updateBook != null && bookDetail.getData() != null) {
+            bookDetail.setMessage("书籍修改成功");
+            return bookDetail;
         } else {
             return ResultUtil.failed();
         }
