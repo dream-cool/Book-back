@@ -92,10 +92,10 @@ public class FileUtil {
     }
 
 
-    public static List<String> getFileContent(int page, int rows, String fileName) {
+    public static List<String> getFileContent(int pageNum, int pageSize, String fileName) {
         List<String> list = new ArrayList<>();
         list.add(fileName);
-        rows = rows == 0 ? 100 : rows;
+        pageSize = pageSize == 0 ? 100 : pageSize;
         try(
                 BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), charset(fileName)))
         ) {
@@ -105,7 +105,7 @@ public class FileUtil {
             while ((str = br.readLine()) != null) {
                 sb.append(str);
                 sb.append("\n");
-                if (i % rows == 0) {
+                if (i % pageSize == 0) {
                     list.add(sb.toString());
                     sb = new StringBuilder();
                 }

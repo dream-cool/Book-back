@@ -47,6 +47,13 @@ public class Borrowing implements Serializable {
      */
     @ApiModelProperty("用户姓名")
     private String userName;
+
+    /**
+     * 借阅时长
+     */
+    @ApiModelProperty("借阅时长")
+    private String duration;
+
     /**
      * 申请时间
      */
@@ -64,7 +71,7 @@ public class Borrowing implements Serializable {
     /**
      * 借阅时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @ApiModelProperty("借阅时间")
     private Date borrowingTime;
     /**
@@ -77,11 +84,47 @@ public class Borrowing implements Serializable {
      * 状态  申请、驳回、已借、逾期、归还
      */
     @ApiModelProperty("状态")
-    private String status;
+    private String borrowingStatus;
     /**
      * 操作人
      */
     @ApiModelProperty("操作人")
     private String operator;
+
+    /**
+     * 备注
+     */
+    @ApiModelProperty("备注")
+    private String note;
+
+    /**
+     * 创建时间
+     */
+    @ApiModelProperty("创建时间")
+    private Date createTime;
+
+    /**
+     * 修改时间
+     */
+    @ApiModelProperty("修改时间")
+    private Date updateTime;
+
+    /**
+     * 备用字段1
+     */
+    @ApiModelProperty("备用字段1")
+    private String remark1;
+
+    /**
+     * 备用字段2
+     */
+    @ApiModelProperty("备用字段2")
+    private String remark2;
+
+    /**
+     * 备用字段3
+     */
+    @ApiModelProperty("备用字段3")
+    private String remark3;
 
 }

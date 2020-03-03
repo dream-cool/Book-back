@@ -81,13 +81,15 @@ public class BorrowingController {
      * @param pageSize  条数
      * @param borrowing 借阅实体，筛选条件
      * @return 满足条件的数据
+     *
+     * 由于需要传入实体类筛选数据，所有请求方式为post
      */
-    @GetMapping("")
+    @PostMapping("/all")
     @ApiOperation("分页查询数据")
     public ResultUtil<PageInfo<Borrowing>> selectAllByPage(
             @ApiParam("页码") @RequestParam(required = false) Integer pageNum,
             @ApiParam("每页大小") @RequestParam(required = false) Integer pageSize,
-            Borrowing borrowing
+            @RequestBody(required = false) Borrowing borrowing
     ) {
         pageNum = (pageNum == null || pageNum < 0) ? 1 : pageNum;
         pageSize = (pageSize == null || pageSize < 0) ? 10 : pageSize;
@@ -99,6 +101,12 @@ public class BorrowingController {
         } else {
             return ResultUtil.failed("查询失败");
         }
+    }
+
+    @GetMapping("/get/borrowingStatus")
+    @ApiOperation("获取借阅状态数组")
+    public ResultUtil<Map<String,Object>> getBorrowingStatus(){
+        return this.borrowingService.getBorrowingStatus();
     }
 
     @GetMapping("/handleApplying/{borrowingId}")

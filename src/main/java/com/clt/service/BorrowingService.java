@@ -4,6 +4,7 @@ import com.clt.entity.Borrowing;
 import com.clt.utils.ResultUtil;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * (Borrowing)表服务接口
@@ -62,4 +63,6 @@ public interface BorrowingService {
     List<Borrowing> queryAllByCondition(Borrowing borrowing);
 
     ResultUtil<Borrowing> handleApplying(String operation, String userName, String borrowingId);
+
+    ResultUtil<Map<String,Object>> getBorrowingStatus();
 }

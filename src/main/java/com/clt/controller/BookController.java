@@ -192,11 +192,11 @@ public class BookController {
     @ApiOperation("根据电子书页码返回具体内容")
     public ResultUtil<Map<Object, Object>> getEbookInfo(
             @ApiParam(value = "页码", required = true, defaultValue = "1")
-            @RequestParam(value = "page", required = false) Integer page,
-            @ApiParam(value = "每页大小", required = true, defaultValue = "15")
-            @RequestParam(value = "rows", required = false) Integer rows,
+            @RequestParam(value = "pageNum", required = false) Integer pageNum,
+            @ApiParam(value = "每页大小", required = true, defaultValue = "100")
+            @RequestParam(value = "pageSize", required = false) Integer pageSize,
             @ApiParam(value = "电子书id", required = true) @PathVariable(value = "bookId") String bookId) {
-        return ResultUtil.success(bookService.getEbookInfo(page, rows, bookId));
+        return ResultUtil.success(bookService.getEbookInfo(pageNum, pageSize, bookId));
     }
 
 

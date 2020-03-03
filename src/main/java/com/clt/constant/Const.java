@@ -1,14 +1,16 @@
 package com.clt.constant;
 
-import com.sun.org.apache.bcel.internal.generic.RETURN;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  * @author ：clt
  * @Date ：Created in 19:10 2020/02/25
  */
+
 public class Const {
 
-    private Const(){}
+    private Const() {
+    }
 
     public static final int DEFAULT_CREDIT = 80;
 
@@ -20,13 +22,13 @@ public class Const {
 
     public static final long GB = 1024 * 1024 * 1024 * 1024L;
 
-    public static final String BORROWING_STATUS_APPLYING = "申请";
+    public static final String BORROWING_STATUS_APPLYING = "申请中";
 
-    public static final String BORROWING_STATUS_REFUSED = "驳回";
+    public static final String BORROWING_STATUS_REFUSED = "已驳回";
 
-    public static final String BORROWING_STATUS_LENT = "已借";
+    public static final String BORROWING_STATUS_LENT = "已借出";
 
-    public static final String BORROWING_STATUS_OVERDUE = "逾期";
+    public static final String BORROWING_STATUS_OVERDUE = "已逾期";
 
     public static final String BORROWING_STATUS_OVERDUE_RETURN = "逾期归还";
 
@@ -73,5 +75,9 @@ public class Const {
     public static final String BOOK_DEFAULT_CATEGORY = "FIRST_TYPE";
 
     public static final String NUMBERS = "numbers";
+
+    public static final String PORT = "8090";
+
+    public static final String SERVER_URL = "http://localhost:" + PORT;
 
 }

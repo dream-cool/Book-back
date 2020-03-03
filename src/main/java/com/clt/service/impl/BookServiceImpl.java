@@ -1,5 +1,6 @@
 package com.clt.service.impl;
 
+import com.clt.constant.Const;
 import com.clt.dao.BookDao;
 import com.clt.dao.TypeDao;
 import com.clt.entity.Book;
@@ -121,20 +122,20 @@ public class BookServiceImpl implements BookService {
     private String path;
 
     @Override
-    public Map<Object, Object> getEbookInfo(Integer page, Integer rows, String bookId) {
+    public Map<Object, Object> getEbookInfo(Integer pageNum, Integer pageSize, String bookId) {
         Book book = queryById(bookId);
         String fileName = book.getLocation();
         String location = path + "/" + fileName;
         File file = new File(location);
         String fileSize = FileUtil.getPrintSize(file.length());
-        page = page == null || page < 0 ? 1 : page;
-        rows = rows == null || rows < 0 ? 100 : rows;
-        List<String> ebookContent = FileUtil.getFileContent(page, rows, location);
+        pageNum = pageNum == null || pageNum < 0 ? 1 : pageNum;
+        pageSize = pageSize == null || pageSize < 0 ? 100 : pageSize;
+        List<String> ebookContent = FileUtil.getFileContent(pageNum, pageSize, location);
         Map<Object, Object> result = new HashMap<>(16);
-        result.put("pageIndex", page);
-        result.put("rows", rows);
-        result.put("total", ebookContent.size() * rows);
-        result.put("content", ebookContent.get(page));
+        result.put("pageNum", pageNum);
+        result.put("pageSize", pageSize);
+        result.put("total", ebookContent.size() * pageSize);
+        result.put("content", ebookContent.get(pageNum));
         result.put("book", book);
         result.put("fileSize", fileSize);
         return result;
@@ -181,6 +182,7 @@ public class BookServiceImpl implements BookService {
         if (book == null) {
             return ResultUtil.failed("没有找到书籍信息");
         }
+        book.setImg(Const.SERVER_URL+ "/download/" +book.getImg());
         cascadeTypes = this.typeService.queryAllByCascade();
         List<Integer> ids = new ArrayList<>(10);
         ids = hanleCategory(Integer.valueOf(book.getCategoryId()), cascadeTypes,ids);
