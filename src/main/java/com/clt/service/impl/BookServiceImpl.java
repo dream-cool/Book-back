@@ -6,6 +6,7 @@ import com.clt.dao.TypeDao;
 import com.clt.entity.Book;
 import com.clt.entity.Category;
 import com.clt.entity.Type;
+import com.clt.enums.BookEnum;
 import com.clt.service.BookService;
 import com.clt.service.TypeService;
 import com.clt.utils.FileUtil;
@@ -85,14 +86,45 @@ public class BookServiceImpl implements BookService {
      * @param book 前端书籍实体
      * @return 返回处理后的书籍实体
      */
-    private Book beforeInsertBook(Book book) {
+    private void beforeInsertBook(Book book) {
         if (book != null) {
-            book.setBookId(UUIDUtil.getUUID());
-            book.setZanNumber(0);
+            if (book == null || StringUtils.isEmpty(book.getBookId())){
+                book.setBookId(UUIDUtil.getUUID());
+            }
+            if (book.getPrice() == null || book.getPrice() < 0){
+                book.setPrice(new Double("0"));
+            }
+            if (book.getBookStatus() == null) {
+                book.setBookStatus(BookEnum.BOOK_STATUS_IN_LIBRARY.getCode());
+            }
+            if (book.getInputTime() == null) {
+                book.setInputTime(new Date());
+            }
+            if (book.getZanNumber() == null){
+                book.setZanNumber(0);
+            }
             book.setUpdateTime(new Date());
         }
-        return book;
     }
+
+    /**
+     * 将查询到的书籍进行完事处理后再返回前端
+     *
+     * @param book 前端书籍实体
+     * @return 返回处理后的书籍实体
+     */
+    private void handleBookAfterQuery(Book book){
+        if (book == null) {
+            return;
+        } else {
+            if (BookEnum.BOOK_TYPE_EBOOK.getCode().equals(book.getEbook())){
+                book.setBookStatus("无");
+                book.setPrice(new Double("0"));
+                book.setLocation("无");
+            }
+        }
+    }
+
 
     /**
      * 修改数据
@@ -102,6 +134,7 @@ public class BookServiceImpl implements BookService {
      */
     @Override
     public Book update(Book book) {
+        beforeInsertBook(book);
         this.bookDao.update(book);
         return this.queryById(book.getBookId());
     }
