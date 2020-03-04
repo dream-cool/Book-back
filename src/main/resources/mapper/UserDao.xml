@@ -4,23 +4,31 @@
 
     <resultMap type="com.clt.entity.User" id="UserMap">
         <result property="userId" column="user_id" jdbcType="VARCHAR"/>
+        <result property="classId" column="class_id" jdbcType="VARCHAR"/>
+        <result property="stuNo" column="stu_No" jdbcType="VARCHAR"/>
         <result property="userName" column="user_name" jdbcType="VARCHAR"/>
         <result property="password" column="password" jdbcType="VARCHAR"/>
         <result property="sex" column="sex" jdbcType="VARCHAR"/>
         <result property="idcard" column="IDcard" jdbcType="VARCHAR"/>
         <result property="tel" column="tel" jdbcType="VARCHAR"/>
         <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="address" column="address" jdbcType="VARCHAR"/>
         <result property="credit" column="credit" jdbcType="INTEGER"/>
         <result property="status" column="status" jdbcType="VARCHAR"/>
         <result property="role" column="role" jdbcType="VARCHAR"/>
         <result property="registerTime" column="register_time" jdbcType="TIMESTAMP"/>
         <result property="lastLoginTime" column="last_login_time" jdbcType="TIMESTAMP"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="remark1" column="remark1" jdbcType="VARCHAR"/>
+        <result property="remark2" column="remark2" jdbcType="VARCHAR"/>
+        <result property="remark3" column="remark3" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="UserMap">
         select
-          user_id, user_name, password, sex, IDcard, tel, email, credit, status, role, register_time, last_login_time
+          user_id, class_id, stu_No, user_name, password, sex, IDcard, tel, email, address, credit, status, role, register_time, last_login_time, create_time, update_time, remark1, remark2, remark3
         from library.user
         where user_id = #{userId}
     </select>
@@ -28,19 +36,25 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="UserMap">
         select
-          user_id, user_name, password, sex, IDcard, tel, email, credit, status, role, register_time, last_login_time
+          user_id, class_id, stu_No, user_name, password, sex, IDcard, tel, email, address, credit, status, role, register_time, last_login_time, create_time, update_time, remark1, remark2, remark3
         from library.user
         limit #{offset}, #{limit}
     </select>
 
     <!--通过实体作为筛选条件查询-->
-    <select id="queryAllByCondition" resultMap="UserMap">
+    <select id="queryAll" resultMap="UserMap">
         select
-          user_id, user_name, password, sex, IDcard, tel, email, credit, status, role, register_time, last_login_time
+          user_id, class_id, stu_No, user_name, password, sex, IDcard, tel, email, address, credit, status, role, register_time, last_login_time, create_time, update_time, remark1, remark2, remark3
         from library.user
         <where>
             <if test="userId != null and userId != ''">
                 and user_id = #{userId}
+            </if>
+            <if test="classId != null and classId != ''">
+                and class_id = #{classId}
+            </if>
+            <if test="stuNo != null and stuNo != ''">
+                and stu_No = #{stuNo}
             </if>
             <if test="userName != null and userName != ''">
                 and user_name = #{userName}
@@ -60,6 +74,9 @@
             <if test="email != null and email != ''">
                 and email = #{email}
             </if>
+            <if test="address != null and address != ''">
+                and address = #{address}
+            </if>
             <if test="credit != null">
                 and credit = #{credit}
             </if>
@@ -75,19 +92,40 @@
             <if test="lastLoginTime != null">
                 and last_login_time = #{lastLoginTime}
             </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remark1 != null and remark1 != ''">
+                and remark1 = #{remark1}
+            </if>
+            <if test="remark2 != null and remark2 != ''">
+                and remark2 = #{remark2}
+            </if>
+            <if test="remark3 != null and remark3 != ''">
+                and remark3 = #{remark3}
+            </if>
         </where>
     </select>
 
     <!--新增所有列-->
     <insert id="insert">
-        insert into library.user(user_id,user_name, password, sex, IDcard, tel, email, credit, status, role, register_time, last_login_time)
-        values (#{userId},#{userName}, #{password}, #{sex}, #{idcard}, #{tel}, #{email}, #{credit}, #{status}, #{role}, #{registerTime}, #{lastLoginTime})
+        insert into library.user(user_id, class_id, stu_No, user_name, password, sex, IDcard, tel, email, address, credit, status, role, register_time, last_login_time, create_time, update_time, remark1, remark2, remark3)
+        values (#{userId},#{classId}, #{stuNo}, #{userName}, #{password}, #{sex}, #{idcard}, #{tel}, #{email}, #{address}, #{credit}, #{status}, #{role}, #{registerTime}, #{lastLoginTime}, #{createTime}, #{updateTime}, #{remark1}, #{remark2}, #{remark3})
     </insert>
 
     <!--通过主键修改数据-->
     <update id="update">
         update library.user
         <set>
+            <if test="classId != null and classId != ''">
+                class_id = #{classId},
+            </if>
+            <if test="stuNo != null and stuNo != ''">
+                stu_No = #{stuNo},
+            </if>
             <if test="userName != null and userName != ''">
                 user_name = #{userName},
             </if>
@@ -106,6 +144,9 @@
             <if test="email != null and email != ''">
                 email = #{email},
             </if>
+            <if test="address != null and address != ''">
+                address = #{address},
+            </if>
             <if test="credit != null">
                 credit = #{credit},
             </if>
@@ -120,6 +161,21 @@
             </if>
             <if test="lastLoginTime != null">
                 last_login_time = #{lastLoginTime},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="remark1 != null and remark1 != ''">
+                remark1 = #{remark1},
+            </if>
+            <if test="remark2 != null and remark2 != ''">
+                remark2 = #{remark2},
+            </if>
+            <if test="remark3 != null and remark3 != ''">
+                remark3 = #{remark3},
             </if>
         </set>
         where user_id = #{userId}

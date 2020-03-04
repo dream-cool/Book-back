@@ -4,7 +4,6 @@ import com.clt.constant.Const;
 import com.clt.dao.BookDao;
 import com.clt.dao.TypeDao;
 import com.clt.entity.Book;
-import com.clt.entity.Category;
 import com.clt.entity.Type;
 import com.clt.enums.BookEnum;
 import com.clt.service.BookService;
@@ -88,10 +87,10 @@ public class BookServiceImpl implements BookService {
      */
     private void beforeInsertBook(Book book) {
         if (book != null) {
-            if (book == null || StringUtils.isEmpty(book.getBookId())){
+            if (book == null || StringUtils.isEmpty(book.getBookId())) {
                 book.setBookId(UUIDUtil.getUUID());
             }
-            if (book.getPrice() == null || book.getPrice() < 0){
+            if (book.getPrice() == null || book.getPrice() < 0) {
                 book.setPrice(new Double("0"));
             }
             if (book.getBookStatus() == null) {
@@ -100,7 +99,7 @@ public class BookServiceImpl implements BookService {
             if (book.getInputTime() == null) {
                 book.setInputTime(new Date());
             }
-            if (book.getZanNumber() == null){
+            if (book.getZanNumber() == null) {
                 book.setZanNumber(0);
             }
             book.setUpdateTime(new Date());
@@ -113,11 +112,11 @@ public class BookServiceImpl implements BookService {
      * @param book 前端书籍实体
      * @return 返回处理后的书籍实体
      */
-    private void handleBookAfterQuery(Book book){
+    private void handleBookAfterQuery(Book book) {
         if (book == null) {
             return;
         } else {
-            if (BookEnum.BOOK_TYPE_EBOOK.getCode().equals(book.getEbook())){
+            if (BookEnum.BOOK_TYPE_EBOOK.getCode().equals(String.valueOf(book.getEbook()))) {
                 book.setBookStatus("无");
                 book.setPrice(new Double("0"));
                 book.setLocation("无");
@@ -207,7 +206,6 @@ public class BookServiceImpl implements BookService {
     /**
      * @param id 书籍id
      * @return 返回书籍的详细信息和书籍类别的层级id数组 [1,3,4]
-     *
      */
     @Override
     public ResultUtil<Map<String, Object>> getBookDetail(String id) {
@@ -215,10 +213,10 @@ public class BookServiceImpl implements BookService {
         if (book == null) {
             return ResultUtil.failed("没有找到书籍信息");
         }
-        book.setImg(Const.SERVER_URL+ "/download/" +book.getImg());
+        book.setImg(Const.SERVER_URL + "/download/" + book.getImg());
         cascadeTypes = this.typeService.queryAllByCascade();
         List<Integer> ids = new ArrayList<>(10);
-        ids = hanleCategory(Integer.valueOf(book.getCategoryId()), cascadeTypes,ids);
+        ids = hanleCategory(Integer.valueOf(book.getCategoryId()), cascadeTypes, ids);
         Collections.reverse(ids);
         Map<String, Object> data = new HashMap<>(16);
         data.put("typeList", ids);
@@ -229,27 +227,27 @@ public class BookServiceImpl implements BookService {
 
     /**
      * 寻找目标id对应的层级父id数组集合
-     *
+     * <p>
      * 例如 小说(id = 1) > 中国小说（id = 3） > 武侠（id = 4）
      * 则 寻找id为4的层级父id  即返回 [4,3,1]
      *
-     * @param id 具体的类别id
+     * @param id    具体的类别id
      * @param types 在哪些类型里面找
-     * @param ids 层级id的数组集合
+     * @param ids   层级id的数组集合
      */
-    private List<Integer> hanleCategory(Integer id, List<Type> types, List<Integer> ids){
-        if (id == null){
+    private List<Integer> hanleCategory(Integer id, List<Type> types, List<Integer> ids) {
+        if (id == null) {
             return ids;
         }
         for (Type type : types) {
-            if (type.getId().equals(id)){
+            if (type.getId().equals(id)) {
                 /**
                  * 如果找到目标id 则存进ids
                  * 同时回溯递归其父id去寻找
                  * 如果父id为空则回溯完毕
                  */
                 ids.add(id);
-                this.hanleCategory(type.getPid(),cascadeTypes , ids);
+                this.hanleCategory(type.getPid(), cascadeTypes, ids);
             }
             if (type.getChild() != null && !type.getChild().isEmpty()) {
                 hanleCategory(id, type.getChild(), ids);
@@ -335,6 +333,7 @@ public class BookServiceImpl implements BookService {
         final Map<Integer, String> typeCollection = getTypeTitleById();
         books.stream().forEach(book -> {
             book.setCategoryId(typeCollection.get(Integer.valueOf(book.getCategoryId())));
+            handleBookAfterQuery(book);
         });
     }
 

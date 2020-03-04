@@ -86,6 +86,15 @@ public class UserController {
     @PostMapping("")
     @ApiOperation("新增单条数据")
     public ResultUtil<User> insert(@RequestBody User user) {
+        if (user == null){
+            return ResultUtil.failed("用户信息为空");
+        }
+        if (user.getStuNo() != null){
+            User queryUser = this.userService.queryById(user.getStuNo());
+            if (queryUser != null){
+                return ResultUtil.failed("用户编号已存在");
+            }
+        }
         User insertUser = this.userService.insert(user);
         if (insertUser != null) {
             return ResultUtil.success(insertUser, "新增成功");

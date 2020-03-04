@@ -37,7 +37,7 @@ public interface BorrowingService {
      * @param borrowing 实例对象
      * @return 实例对象
      */
-    Borrowing insert(Borrowing borrowing);
+    ResultUtil<Borrowing> insert(Borrowing borrowing);
 
     /**
      * 修改数据
@@ -62,7 +62,9 @@ public interface BorrowingService {
 
     List<Borrowing> queryAllByCondition(Borrowing borrowing);
 
-    ResultUtil<Borrowing> handleApplying(String operation, String userName, String borrowingId);
+    ResultUtil<Borrowing> handleApplying(String operation, String userName, String borrowingId,String note);
 
     ResultUtil<Map<String,Object>> getBorrowingStatus();
+
+    ResultUtil<Borrowing> handleReturn(String borrowingId, String userName);
 }

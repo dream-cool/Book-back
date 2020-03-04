@@ -19,6 +19,11 @@ public class DateUtils {
 
     public static final String YEAR = "YEAR";
 
+    public static final long oneDay = 86400000;
+
+    public static long daysToTimestamp(long days){
+        return days * 24 * 3600 * 1000;
+    }
 
     public static LocalDate dateToLocalDate(Date date){
         Instant instant = date.toInstant();
@@ -30,6 +35,10 @@ public class DateUtils {
         ZoneId zoneId = ZoneId.systemDefault();
         ChronoZonedDateTime<LocalDate> zonedDateTime = localDate.atStartOfDay(zoneId);
         return Date.from(zonedDateTime.toInstant());
+    }
+
+    public static void main(String[] args) {
+
     }
 
 }

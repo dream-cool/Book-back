@@ -1,13 +1,12 @@
 package com.clt.constant;
 
-import org.springframework.beans.factory.annotation.Value;
-
 /**
  * @author ：clt
  * @Date ：Created in 19:10 2020/02/25
  */
 
 public class Const {
+
 
     private Const() {
     }
@@ -58,9 +57,19 @@ public class Const {
 
     public static final String USER_ROLE_READER = "读者";
 
+    public static final String USER_ROLE_STUDENT = "学生";
+
+    public static final String USER_ROLE_TEACHER = "老师";
+
     public static final String USER_ROLE_ADMIN = "管理员";
 
     public static final String USER_ROLE_SUPER_ADMIN = "超级管理员";
+
+    public static final String USER_STATUS_LOCKED = "锁定";
+
+    public static final String USER_STATUS_NORMAL = "正常";
+
+    public static final String INITIAL_PASSWORD = "888888";
 
     public static final String OPERATION_FAILED = "操作失败";
 

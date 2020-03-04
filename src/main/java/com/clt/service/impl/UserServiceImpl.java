@@ -1,11 +1,17 @@
 package com.clt.service.impl;
 
+import com.clt.constant.Const;
 import com.clt.entity.User;
 import com.clt.dao.UserDao;
+import com.clt.enums.UserEnum;
 import com.clt.service.UserService;
+import com.clt.utils.UUIDUtil;
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,7 +40,7 @@ public class UserServiceImpl implements UserService {
      * 查询多条数据
      *
      * @param offset 查询起始位置
-     * @param limit 查询条数
+     * @param limit  查询条数
      * @return 对象列表
      */
     @Override
@@ -50,9 +56,35 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User insert(User user) {
+        beforeInsertUser(user);
         this.userDao.insert(user);
         return user;
     }
+
+    private void beforeInsertUser(User user) {
+        if (user.getStuNo() == null || StringUtils.isEmpty(user.getStuNo())) {
+            user.setStuNo(UUIDUtil.getUUID());
+        }
+        if (user.getStatus() == null || StringUtils.isEmpty(user.getStatus())) {
+            user.setStatus(UserEnum.USER_STATUS_NORMAL.getCode());
+        }
+        if (user.getRole() == null || StringUtils.isEmpty(user.getRole())) {
+            user.setRole(UserEnum.USER_ROLE_STUDENT.getCode());
+        }
+        if (user.getSex() == null || StringUtils.isEmpty(user.getSex())) {
+            user.setSex(UserEnum.USER_SEX_MALE.getCode());
+        }
+        if (user.getCredit() == null || user.getCredit() < 0 || user.getCredit() > 100) {
+            user.setCredit(60);
+        }
+        user.setUserId(user.getStuNo());
+        user.setPassword(Const.INITIAL_PASSWORD);
+        Date now = new Date();
+        user.setRegisterTime(now);
+        user.setCreateTime(now);
+        user.setUpdateTime(now);
+    }
+
 
     /**
      * 修改数据

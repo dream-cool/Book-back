@@ -49,10 +49,16 @@ public class Borrowing implements Serializable {
     private String userName;
 
     /**
+     * 用户实体
+     */
+    @ApiModelProperty("用户实体")
+    private User user;
+
+    /**
      * 借阅时长
      */
     @ApiModelProperty("借阅时长")
-    private String duration;
+    private Integer duration;
 
     /**
      * 申请时间
@@ -85,11 +91,26 @@ public class Borrowing implements Serializable {
      */
     @ApiModelProperty("状态")
     private String borrowingStatus;
+
     /**
-     * 操作人
+     * 借阅操作人
      */
     @ApiModelProperty("操作人")
-    private String operator;
+    private String borrowingOperator;
+
+
+    /**
+     * 归还操作人
+     */
+    @ApiModelProperty("归还操作人")
+    private String returnOperator;
+
+
+    /**
+     * 逾期天数
+     */
+    @ApiModelProperty("逾期天数")
+    private Integer overdueDays;
 
     /**
      * 备注

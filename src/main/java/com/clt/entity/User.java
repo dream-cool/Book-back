@@ -27,11 +27,22 @@ public class User implements Serializable {
      */
     @ApiModelProperty("用户ID")
     private String userId;
+
+    /**
+     * 用户编号
+     */
+    @ApiModelProperty("用户编号")
+    private String stuNo;
     /**
      * 用户姓名
      */
     @ApiModelProperty("用户姓名")
     private String userName;
+    /**
+     * 班级id
+     */
+    @ApiModelProperty("班级id")
+    private String classId;
     /**
      * 用户密码
      */
@@ -57,6 +68,13 @@ public class User implements Serializable {
      */
     @ApiModelProperty("邮箱")
     private String email;
+
+    /**
+     * 地址
+     */
+    @ApiModelProperty("地址")
+    private String address;
+
     /**
      * 信用分
      */
@@ -84,5 +102,37 @@ public class User implements Serializable {
     @ApiModelProperty("最后登录时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date lastLoginTime;
+
+    /**
+     * 创建时间
+     */
+    @ApiModelProperty("创建时间")
+    private Date createTime;
+
+
+    /**
+     * 修改时间
+     */
+    @ApiModelProperty("修改时间")
+    private Date updateTime;
+
+
+    /**
+     * 备用字段1
+     */
+    @ApiModelProperty("备用字段1")
+    private String remark1;
+
+    /**
+     * 备用字段2
+     */
+    @ApiModelProperty("备用字段2")
+    private String remark2;
+
+    /**
+     * 备用字段1
+     */
+    @ApiModelProperty("备用字段3")
+    private String remark3;
 
 }

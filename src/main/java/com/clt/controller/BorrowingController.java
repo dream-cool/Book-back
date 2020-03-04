@@ -1,6 +1,7 @@
 package com.clt.controller;
 
 import com.clt.entity.Borrowing;
+import com.clt.enums.ResultEnum;
 import com.clt.service.BorrowingService;
 import com.clt.utils.ResultUtil;
 import com.github.pagehelper.PageHelper;
@@ -114,9 +115,19 @@ public class BorrowingController {
     public ResultUtil<Borrowing> handleApplying(
             @ApiParam("操作") @RequestParam(value = "operation") String operation,
             @ApiParam("操作人员") @RequestParam(value = "userName") String userName,
+            @ApiParam("备注") @RequestParam(value = "note", required = false) String note,
             @ApiParam("借阅编号") @PathVariable String borrowingId
     ){
-        return this.borrowingService.handleApplying(operation,userName,borrowingId);
+        return this.borrowingService.handleApplying(operation,userName,borrowingId,note);
+    }
+
+    @GetMapping("/handleReturn/{borrowingId}")
+    @ApiOperation("归还以借的书籍")
+    public ResultUtil<Borrowing> handleReturn(
+            @ApiParam("操作人员") @RequestParam(value = "userName") String userName,
+            @ApiParam("借阅编号") @PathVariable String borrowingId
+    ){
+        return this.borrowingService.handleReturn(borrowingId,userName);
     }
 
 
@@ -130,9 +141,9 @@ public class BorrowingController {
      */
     @PostMapping("")
     public ResultUtil<Borrowing> insert(@RequestBody Borrowing borrowing) {
-        Borrowing insertBorrowing = this.borrowingService.insert(borrowing);
-        if (insertBorrowing != null) {
-            return ResultUtil.success(insertBorrowing, "新增成功");
+        ResultUtil<Borrowing> insertBorrowingResult = this.borrowingService.insert(borrowing);
+        if (insertBorrowingResult.getCode() == Long.parseLong(ResultEnum.SUCCESS.getCode().toString())) {
+            return insertBorrowingResult;
         } else {
             return ResultUtil.failed("新增失败");
         }
