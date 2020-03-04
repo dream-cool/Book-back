@@ -160,13 +160,14 @@ public class BookServiceImpl implements BookService {
         String location = path + "/" + fileName;
         File file = new File(location);
         String fileSize = FileUtil.getPrintSize(file.length());
-        pageNum = pageNum == null || pageNum < 0 ? 1 : pageNum;
+        pageNum = pageNum == null || pageNum < 1 ? 1 : pageNum;
         pageSize = pageSize == null || pageSize < 0 ? 100 : pageSize;
         List<String> ebookContent = FileUtil.getFileContent(pageNum, pageSize, location);
         Map<Object, Object> result = new HashMap<>(16);
+        pageNum = pageNum > (ebookContent.size() - 1) ? ebookContent.size() - 1 : pageNum;
         result.put("pageNum", pageNum);
         result.put("pageSize", pageSize);
-        result.put("total", ebookContent.size() * pageSize);
+        result.put("total", (ebookContent.size() - 1) * pageSize);
         result.put("content", ebookContent.get(pageNum));
         result.put("book", book);
         result.put("fileSize", fileSize);

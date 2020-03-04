@@ -80,6 +80,13 @@ public class User implements Serializable {
      */
     @ApiModelProperty("信用分")
     private Integer credit;
+
+    /**
+     * 几星信用
+     */
+    @ApiModelProperty("几星信用")
+    private  Integer creditStars;
+
     /**
      * 用户状态
      */
@@ -106,6 +113,7 @@ public class User implements Serializable {
     /**
      * 创建时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @ApiModelProperty("创建时间")
     private Date createTime;
 
@@ -113,6 +121,7 @@ public class User implements Serializable {
     /**
      * 修改时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @ApiModelProperty("修改时间")
     private Date updateTime;
 

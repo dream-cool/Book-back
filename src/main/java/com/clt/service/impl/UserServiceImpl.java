@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * (User)表服务实现类
@@ -111,6 +112,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> queryAllByCondition(User user) {
-        return this.userDao.queryAllByCondition(user);
+        List<User> users = this.userDao.queryAllByCondition(user).stream().map(userResult -> {
+            if (userResult.getCredit() != null){
+                userResult.setCreditStars(userResult.getCredit()/20);
+            }
+            return userResult;
+        }).collect(Collectors.toList());
+        return users;
     }
 }

@@ -179,7 +179,8 @@ public class BookController {
      * @return 删除结果
      */
     @GetMapping("/delete/batch")
-    public ResultUtil<Boolean> deleteBatch(@RequestParam(value = "ids") List<String> ids) {
+    @ApiOperation("批量删除书籍数据")
+    public ResultUtil<Boolean> deleteBatch(@ApiParam(value = "id数组") @RequestParam(value = "ids") List<String> ids) {
         logger.info(ids.toString());
         ids.stream().forEach(id ->{
             delete(id);
