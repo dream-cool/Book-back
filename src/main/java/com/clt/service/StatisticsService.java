@@ -2,6 +2,7 @@ package com.clt.service;
 
 import com.clt.entity.IncreaseBook;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +16,7 @@ public interface StatisticsService {
 
     List<Map<Object, Object>> bookBorrowingRatio();
 
-    List<IncreaseBook> bookStorageByTime(String timeSlot);
+    List<IncreaseBook> bookStorageByTime(String timeSlot, Date start, Date end);
 
     List<Map<Object, Object>> bookStorageByCategory();
 

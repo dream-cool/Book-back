@@ -3,20 +3,14 @@ package com.clt.controller;
 import com.clt.entity.Book;
 import com.clt.service.BookService;
 import com.clt.utils.ResultUtil;
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.apache.ibatis.annotations.Delete;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +30,6 @@ public class BookController {
      */
     @Resource
     private BookService bookService;
-
 
 
     /**
@@ -66,9 +59,9 @@ public class BookController {
      */
     @GetMapping("/detail/{id}")
     @ApiOperation("通过主键查询单条数据")
-    public ResultUtil<Map<String,Object>> getBookDetail(
+    public ResultUtil<Map<String, Object>> getBookDetail(
             @ApiParam("id")
-            @PathVariable String id){
+            @PathVariable String id) {
         return this.bookService.getBookDetail(id);
     }
 
@@ -134,7 +127,7 @@ public class BookController {
      * @return 更新的数据
      */
     @PutMapping("")
-    public ResultUtil<Map<String,Object>> update(@RequestBody Book book) {
+    public ResultUtil<Map<String, Object>> update(@RequestBody Book book) {
         if (this.bookService.queryById(book.getBookId()) == null) {
             return ResultUtil.failed("修改失败，没有找到对应信息");
         }
@@ -177,7 +170,7 @@ public class BookController {
     @ApiOperation("批量删除书籍数据")
     public ResultUtil<Boolean> deleteBatch(@ApiParam(value = "id数组") @RequestParam(value = "ids") List<String> ids) {
         logger.info(ids.toString());
-        ids.stream().forEach(id ->{
+        ids.stream().forEach(id -> {
             delete(id);
         });
         return ResultUtil.success(true, "删除成功");
@@ -194,7 +187,6 @@ public class BookController {
             @ApiParam(value = "电子书id", required = true) @PathVariable(value = "bookId") String bookId) {
         return ResultUtil.success(bookService.getEbookInfo(pageNum, pageSize, bookId));
     }
-
 
 
 }

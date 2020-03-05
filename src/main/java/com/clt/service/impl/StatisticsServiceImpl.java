@@ -7,13 +7,14 @@ import com.clt.enums.BookEnum;
 import com.clt.service.StatisticsService;
 import com.clt.utils.DateUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * (Statistics)表服务实现类
@@ -27,18 +28,19 @@ public class StatisticsServiceImpl implements StatisticsService {
     private StatisticsDao statisticsDao;
 
 
+
     @Override
     public List<Map<Object, Object>> bookBorrowingRatio() {
         Map<String, Object> map = new HashMap<>(16);
         List<Map<Object, Object>> books = statisticsDao.bookBorrowingRatio(map);
         for (Map<Object, Object> book : books) {
-            if (book.get("status").equals("0")){
+            if (book.get("status").equals("0")) {
                 book.put("status", BookEnum.BOOK_STATUS_IN_LIBRARY.getMessage());
             }
-            if (book.get("status").equals("1")){
+            if (book.get("status").equals("1")) {
                 book.put("status", BookEnum.BOOK_STATUS_LEND.getMessage());
             }
-            if (book.get("status").equals("2")){
+            if (book.get("status").equals("2")) {
                 book.put("status", BookEnum.BOOK_STATUS_DAMAGE.getMessage());
             }
         }
@@ -46,7 +48,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
-    public List<IncreaseBook> bookStorageByTime(String timeSlot) {
+    public List<IncreaseBook> bookStorageByTime(String timeSlot, Date start, Date end) {
         Map<String, Object> map = new HashMap<>(16);
         if (StringUtils.isEmpty(timeSlot) || StringUtils.equalsIgnoreCase(timeSlot, DateUtils.DAY)) {
             map.put(Const.ITME_LEVEL, 10);
@@ -55,6 +57,8 @@ public class StatisticsServiceImpl implements StatisticsService {
         } else if (StringUtils.equalsIgnoreCase(timeSlot, DateUtils.YEAR)) {
             map.put(Const.ITME_LEVEL, 4);
         }
+        map.put("start", start);
+        map.put("end", end);
         List<IncreaseBook> increaseBooks = new ArrayList<>();
         List<Map<Object, Object>> books = statisticsDao.bookStorageByTime(map);
         for (Map<Object, Object> book : books) {
@@ -63,11 +67,11 @@ public class StatisticsServiceImpl implements StatisticsService {
             increaseBook.setBooks(book.get("新增书籍数量").toString());
             increaseBooks.add(increaseBook);
         }
-        map.put("ebook","0");
+        map.put("ebook", "0");
         List<Map<Object, Object>> paperBooks = statisticsDao.bookStorageByTime(map);
         for (Map<Object, Object> paperBook : paperBooks) {
             for (IncreaseBook book : increaseBooks) {
-                if (paperBook.get("时间").equals(book.getDate())){
+                if (paperBook.get("时间").equals(book.getDate())) {
                     book.setPaperBooks(paperBook.get("新增书籍数量").toString());
                 }
             }
@@ -76,7 +80,7 @@ public class StatisticsServiceImpl implements StatisticsService {
         List<Map<Object, Object>> beforeEbooks = statisticsDao.bookStorageByTime(map);
         for (Map<Object, Object> ebook : beforeEbooks) {
             for (IncreaseBook book : increaseBooks) {
-                if (ebook.get("时间").equals(book.getDate())){
+                if (ebook.get("时间").equals(book.getDate())) {
                     book.setEbooks(ebook.get("新增书籍数量").toString());
                 }
             }
@@ -86,7 +90,7 @@ public class StatisticsServiceImpl implements StatisticsService {
 
     @Override
     public List<Map<Object, Object>> bookStorageByCategory() {
-        Map<String,Object> map = new HashMap<>(16);
+        Map<String, Object> map = new HashMap<>(16);
         List<Map<Object, Object>> books = statisticsDao.bookStorageByCategory(map);
         return books;
     }

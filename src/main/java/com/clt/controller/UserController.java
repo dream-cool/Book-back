@@ -3,18 +3,22 @@ package com.clt.controller;
 import com.clt.constant.Const;
 import com.clt.entity.User;
 import com.clt.service.UserService;
+import com.clt.utils.JwtTokenUtil;
 import com.clt.utils.ResultUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * (User)表控制层
@@ -182,6 +186,18 @@ public class UserController {
         } else {
             return ResultUtil.success(false, "重置失败");
         }
+    }
+
+    @Autowired
+    private  JwtTokenUtil jwtTokenUtil;
+
+    @GetMapping("/login")
+    @ApiModelProperty("登录接口")
+    public ResultUtil<Map<String,Object>> login(
+            @ApiParam("userName") @RequestParam("userName") String userName,
+            @ApiParam("password") @RequestParam("password") String password
+    ){
+        return null;
     }
 
 

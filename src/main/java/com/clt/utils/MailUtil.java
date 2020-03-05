@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+
 /**
  * @author ：clt
  * @Date ：Created in 19:27 2020/02/25
@@ -31,9 +34,9 @@ public class MailUtil {
      *
      * @param Email
      */
-    public  void sendSimpleMail(Email Email) {
+    public void sendSimpleMail(Email Email) {
         try {
-            SimpleMailMessage mailMessage= new SimpleMailMessage();
+            SimpleMailMessage mailMessage = new SimpleMailMessage();
             mailMessage.setFrom(MAIL_SENDER);
             mailMessage.setTo(Email.getRecipient());
             mailMessage.setSubject(Email.getSubject());
@@ -43,4 +46,6 @@ public class MailUtil {
             logger.error("邮件发送失败", e.getMessage());
         }
     }
+
+   
 }

@@ -5,9 +5,13 @@
     <select id="bookStorageByTime" parameterType="java.util.Map" resultType="java.util.Map">
      select LEFT(input_time,#{timeSlot}) '时间',count(*) '新增书籍数量' from book
             <where>
-            <if test="ebook != null and ebook != ''">
-                and ebook = #{ebook}
-            </if>
+                <if test="ebook != null and ebook != ''">
+                    and ebook = #{ebook}
+                </if>
+                <if test="start != null  and end != null ">
+                    and input_time Between #{start} And #{end}
+                </if>
+
             </where>
         GROUP BY LEFT(input_time,#{timeSlot})
         ORDER BY LEFT(input_time,#{timeSlot})
