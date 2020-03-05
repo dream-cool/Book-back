@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * (Book)表数据库访问层
@@ -72,4 +73,6 @@ public interface BookDao {
      */
     int deleteById(String bookId);
 
+
+    List<Map> bookBorrowingRatio(Map map);
 }

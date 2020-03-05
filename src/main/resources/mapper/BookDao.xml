@@ -157,5 +157,9 @@
         delete from library.book where book_id = #{bookId}
     </delete>
 
+    <select id="bookBorrowingRatio" parameterType="java.util.Map" resultType="java.util.Map">
+        select status, count(*) numbers from book GROUP BY status
+    </select>
+
 
 </mapper>

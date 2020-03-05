@@ -81,8 +81,6 @@ public class Const {
 
     public static final String ITME_LEVEL = "timeSlot";
 
-    public static final String BOOK_DEFAULT_CATEGORY = "FIRST_TYPE";
-
     public static final String NUMBERS = "numbers";
 
     public static final String PORT = "8090";

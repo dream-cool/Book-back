@@ -37,12 +37,7 @@ public class BookController {
     @Resource
     private BookService bookService;
 
-    @InitBinder
-    public void initBinder(WebDataBinder binder) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        dateFormat.setLenient(false);
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
-    }
+
 
     /**
      * 通过主键查询单条数据
@@ -100,12 +95,12 @@ public class BookController {
         }
     }
 
-    @GetMapping("")
+    @PostMapping("all")
     @ApiOperation("分页查询数据")
     public ResultUtil<PageInfo<Book>> selectAllByPage(
             @ApiParam("页码") @RequestParam(value = "pageNum", required = false) Integer pageNum,
             @ApiParam("每页大小") @RequestParam(value = "pageSize", required = false) Integer pageSize,
-            Book book
+            @RequestBody Book book
     ) {
         PageInfo<Book> pageInfo = this.bookService.queryAllByCondition(pageNum, pageSize, book);
         if (pageInfo != null) {

@@ -156,7 +156,7 @@ public class UserController {
     @ApiOperation("批量删除书籍数据")
     public ResultUtil<Boolean> deleteBatch(@ApiParam(value = "id数组") @RequestParam(value = "ids") List<String> ids) {
         logger.info(ids.toString());
-        ids.stream().forEach(id ->{
+        ids.stream().forEach(id -> {
             delete(id);
         });
         return ResultUtil.success(true, "删除成功");
@@ -170,18 +170,19 @@ public class UserController {
      */
     @PutMapping("/resetPassword/{userId}")
     @ApiOperation("重置密码")
-    public ResultUtil<Boolean> resetPassword(@PathVariable String userId){
+    public ResultUtil<Boolean> resetPassword(@PathVariable String userId) {
         final User user = this.userService.queryById(userId);
-        if (user == null){
+        if (user == null) {
             return ResultUtil.failed("没有找到对应用户");
         }
         user.setPassword(Const.INITIAL_PASSWORD);
         final User update = this.userService.update(user);
-        if (update != null){
-            return ResultUtil.success(true,"重置成功" );
+        if (update != null) {
+            return ResultUtil.success(true, "重置成功");
         } else {
-            return ResultUtil.success(false,"重置失败" );
+            return ResultUtil.success(false, "重置失败");
         }
     }
+
 
 }

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clt.dao.StatisticsDao">
+    <!-- ElementID:bookStorageByTime,Generated=false -->
+    <select id="bookStorageByTime" parameterType="java.util.Map" resultType="java.util.Map">
+     select LEFT(input_time,#{timeSlot}) '时间',count(*) '新增书籍数量' from book
+            <where>
+            <if test="ebook != null and ebook != ''">
+                and ebook = #{ebook}
+            </if>
+            </where>
+        GROUP BY LEFT(input_time,#{timeSlot})
+        ORDER BY LEFT(input_time,#{timeSlot})
+    </select>
+
+
+    <!-- ElementID:readerNumbersByTime,Generated=false -->
+    <select id="readerNumbersByTime" parameterType="java.util.Map" resultType="java.util.Map">
+        select LEFT(register_time,#{timeSlot}) '时间',count(*) '新增用户数量' from user
+            <where>
+                <if test="role != null and role != ''">
+                    and role = #{role}
+                </if>
+            </where>
+
+            GROUP BY LEFT(register_time,#{timeSlot})
+            ORDER BY LEFT(register_time,#{timeSlot})
+    </select>
+
+    <!-- ElementID:bookStorageByCategory,Generated=false -->
+    <select id="bookStorageByCategory" resultType="java.util.Map">
+        select type.title ,count(*) numbers from book
+            left join type on type.id = book.category_id
+            GROUP BY  type.title
+    </select>
+
+
+    <select id="bookBorrowingRatio" parameterType="java.util.Map" resultType="java.util.Map">
+        select book.book_status status, count(*) numbers from book GROUP BY book.book_status
+    </select>
+
+</mapper>
