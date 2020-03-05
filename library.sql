@@ -11,7 +11,7 @@
  Target Server Version : 80018
  File Encoding         : 65001
 
- Date: 03/03/2020 17:27:56
+ Date: 05/03/2020 14:42:17
 */
 
 SET NAMES utf8mb4;
@@ -43,22 +43,21 @@ CREATE TABLE `book`  (
 -- ----------------------------
 -- Records of book
 -- ----------------------------
-INSERT INTO `book` VALUES ('044cf67fbcce4a9fa1feef2098103cbc', '12', '111', '111', '111', '111', 11.00, '2', '02715e876b464faa8fa31f8482f09800.jpg', 0, '111', 0, NULL, '2020-02-21 16:00:00', '2020-02-29 10:34:56');
-INSERT INTO `book` VALUES ('089238da2d864fb6a35b73aeec1b478a', '2', '5421', '141', '1521', '1252', 1421.00, '0', 'b92f3ec2a45840b28c9bf1f440aa4c43.jpg', 0, '11', 0, NULL, '2020-03-12 16:00:00', '2020-03-01 13:05:28');
-INSERT INTO `book` VALUES ('10d88d1b5409433db00d871370ce7fd6', '1', '141', '1421', '14421', '12412', 11.00, '2', 'c06abb1a68334651b10b87dae8bc7b77.jpg', 0, '', NULL, NULL, '2020-02-28 16:00:00', '2020-02-25 17:33:23');
-INSERT INTO `book` VALUES ('10fb3f', '4', '海贼之我是大', '不知道', '不知道', '不知', 1.00, NULL, 'http://localhost:8090/download/f57fad556e1c45bb813c62749228af06.jpg', 1, '636a4346df514f8998a7ff160fd52299.txt', 0, NULL, '2020-03-01 17:33:19', '2020-02-29 06:34:59');
+INSERT INTO `book` VALUES ('10d88d1b5409433db00d871370ce7fd6', '1', '141', '1421', '14421', '12412', 11.00, '1', 'c06abb1a68334651b10b87dae8bc7b77.jpg', 0, '', NULL, NULL, '2020-02-28 16:00:00', '2020-02-25 17:33:23');
+INSERT INTO `book` VALUES ('10fb3f', '4', '海贼之我是大', '不知道', '不知道', '不知', 1.00, '0', 'http://localhost:8090/download/f57fad556e1c45bb813c62749228af06.jpg', 1, '636a4346df514f8998a7ff160fd52299.txt', 0, NULL, '2020-03-01 17:33:19', '2020-02-29 06:34:59');
 INSERT INTO `book` VALUES ('26fd2b762c9646f49e1cf6f40566b7d8', '21', 'hello', 'hello', 'hello', 'hello', 11.00, '0', '09860827d9b04ee5a9ec2e4fc54f29d0.jpg', 0, '', 0, NULL, '2020-02-28 16:00:00', '2020-02-29 03:59:57');
-INSERT INTO `book` VALUES ('3c40be903534470aa102788712cfe99e', '2', '14141', '1414', '4141', '4141', 11.00, '0', NULL, 0, '', NULL, NULL, '2020-03-05 16:00:00', '2020-02-19 17:33:33');
-INSERT INTO `book` VALUES ('613b4c3c7a39414d803bdd190bfc3ff2', '3', '4141', '141', '4114', '4141', 1.00, NULL, NULL, 1, 'e4257f7f88454a7ea70055ee46b2e503.txt', NULL, NULL, '2020-02-14 17:33:26', '2020-02-26 17:33:30');
-INSERT INTO `book` VALUES ('a135df0ea5014c90bba0e4c6a7c82cab', '9', '损坏损坏', '1144141', '损坏损坏', '损坏损坏', 14141414.00, '2', '36af36f3c62742c493b1150b87d98ae3.jpg', 0, '111414', 0, NULL, '2020-03-19 16:00:00', '2020-03-01 01:58:03');
-INSERT INTO `book` VALUES ('b57a9128631743239a41817936f5d7bb', '1', '1441', '41', '144141', '4141', 111.00, '0', '5f8c1070efcb4bb6acd8f136c34f2d40.jpg', 0, '1141', 0, NULL, '2020-03-20 16:00:00', '2020-03-01 03:33:52');
-INSERT INTO `book` VALUES ('bf5d445abd77406fa433c72c683b10f2', '4', 'windows', 'windows', 'windows', 'windows', 1.00, NULL, '68991466e69c4721b7e882b563762bb1.jpg', 1, 'a19253bc5ceb4fb5accfa233c6b6ec1a.txt', 0, NULL, '2020-02-09 17:33:37', '2020-02-28 11:18:20');
+INSERT INTO `book` VALUES ('3c40be903534470aa102788712cfe99e', '2', '14141', '1414', '4141', '4141', 11.00, '1', NULL, 0, '', NULL, NULL, '2020-03-05 16:00:00', '2020-02-19 17:33:33');
+INSERT INTO `book` VALUES ('613b4c3c7a39414d803bdd190bfc3ff2', '3', '4141', '141', '4114', '4141', 1.00, '0', NULL, 1, 'e4257f7f88454a7ea70055ee46b2e503.txt', NULL, NULL, '2020-02-14 17:33:26', '2020-02-26 17:33:30');
+INSERT INTO `book` VALUES ('6372631134b64a25941c2f80958b980b', '4', '真龙真龙', '真龙真龙真龙真龙', '真龙真龙', '真龙真龙', 0.00, '0', '3be5ddfb05a641f798d47b6d8d2e96a7.jpg', 1, '251b8031be384d2487e22ac389e090c3.txt', 0, NULL, '2020-03-05 13:30:56', '2020-03-05 13:30:56');
+INSERT INTO `book` VALUES ('a135df0ea5014c90bba0e4c6a7c82cab', '9', '损坏损坏', '1144141', '损坏损坏', '损坏损坏', 14141414.00, '1', '36af36f3c62742c493b1150b87d98ae3.jpg', 0, '111414', 0, NULL, '2020-03-19 16:00:00', '2020-03-01 01:58:03');
+INSERT INTO `book` VALUES ('b57a9128631743239a41817936f5d7bb', '1', '1441', '41', '144141', '4141', 111.00, '1', '5f8c1070efcb4bb6acd8f136c34f2d40.jpg', 0, '1141', 0, NULL, '2020-03-20 16:00:00', '2020-03-01 03:33:52');
+INSERT INTO `book` VALUES ('bf5d445abd77406fa433c72c683b10f2', '4', 'windows', 'windows', 'windows', 'windows', 1.00, '1', '68991466e69c4721b7e882b563762bb1.jpg', 1, 'a19253bc5ceb4fb5accfa233c6b6ec1a.txt', 0, NULL, '2020-02-09 17:33:37', '2020-02-28 11:18:20');
 INSERT INTO `book` VALUES ('c8dea18c7b924a9ba3af8ca5270ec64e', '1', '1', '1', '1', '1', 1.00, '1', '1', 1, '1', 0, 1, '2020-02-05 13:03:12', '2020-02-29 10:06:51');
 INSERT INTO `book` VALUES ('d58a37c26ed2456c9f566768afc1d4ae', '9', '1111', '4141', '4141', '1441', 1441.00, '0', '3f4d71f2f7a8412ea872ac845b83e392.jpg', 0, '1441', 0, NULL, '2020-03-19 16:00:00', '2020-03-01 03:20:20');
-INSERT INTO `book` VALUES ('d80b2ce8a65d438e942b60e0352dda84', '1', '1', '1', '1', '1', 1.00, '1', '1', 1, '1', 0, 1, '2020-02-05 13:03:12', '2020-02-29 09:56:48');
-INSERT INTO `book` VALUES ('dd445e68a24f40459266aedb395e5817', '1', '1', '1', '1', '1', 1.00, '1', '1', 1, '1', 0, 1, '2020-02-05 13:03:12', '2020-02-29 10:01:38');
-INSERT INTO `book` VALUES ('f65f5a4768694472b70715fd73bca2f5', '12', '111', '111', '111', '111', 11.00, '2', NULL, 0, '111', 0, NULL, '2020-02-21 16:00:00', '2020-02-29 10:34:07');
-INSERT INTO `book` VALUES ('fd05624d73214dedaabe3dc0f00cd1f8', '1', '124', '11111', '24211', '124', 1.00, NULL, '23595addb99e4928a0a6be3e32b117e6.jpg', 1, 'ca7f3e1e360e46de97b0a7602b4893b8.txt', 0, NULL, NULL, '2020-03-03 16:07:18');
+INSERT INTO `book` VALUES ('d80b2ce8a65d438e942b60e0352dda84', '1', '1', '1', '1', '1', 1.00, '2', '1', 1, '1', 0, 1, '2020-02-05 13:03:12', '2020-02-29 09:56:48');
+INSERT INTO `book` VALUES ('dd445e68a24f40459266aedb395e5817', '1', '1', '1', '1', '1', 1.00, '0', '1', 1, '1', 0, 1, '2020-02-05 13:03:12', '2020-02-29 10:01:38');
+INSERT INTO `book` VALUES ('f65f5a4768694472b70715fd73bca2f5', '12', '111', '111', '111', '111', 11.00, '0', NULL, 0, '111', 0, NULL, '2020-02-21 16:00:00', '2020-02-29 10:34:07');
+INSERT INTO `book` VALUES ('fd05624d73214dedaabe3dc0f00cd1f8', '1', '124', '11111', '24211', '124', 1.00, '0', '23595addb99e4928a0a6be3e32b117e6.jpg', 1, 'ca7f3e1e360e46de97b0a7602b4893b8.txt', 0, NULL, '2020-03-13 10:24:12', '2020-03-03 16:07:18');
 
 -- ----------------------------
 -- Table structure for borrowing
@@ -76,7 +75,8 @@ CREATE TABLE `borrowing`  (
   `borrowing_time` timestamp(0) NULL DEFAULT NULL COMMENT '借阅时间',
   `return_time` timestamp(0) NULL DEFAULT NULL COMMENT '归还时间',
   `borrowing_status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '状态  申请、驳回、已借、逾期、归还',
-  `operator` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '操作人',
+  `borrowing_operator` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '借阅操作人',
+  `return_operator` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '归还操作人',
   `note` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备注',
   `create_time` timestamp(0) NULL DEFAULT NULL,
   `update_time` timestamp(0) NULL DEFAULT NULL,
@@ -89,9 +89,18 @@ CREATE TABLE `borrowing`  (
 -- ----------------------------
 -- Records of borrowing
 -- ----------------------------
-INSERT INTO `borrowing` VALUES ('1414114', '1414', '141414', 'www', 'ww', 11, '2020-03-14 14:59:32', '2020-03-03 15:00:10', '2020-03-13 14:59:47', NULL, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `borrowing` VALUES ('2', '2', '1', '1', '1', 11, '2020-02-05 13:05:19', '2020-02-29 14:20:21', '2020-02-21 13:05:21', '2020-02-28 13:05:23', '3', 'cl', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `borrowing` VALUES ('24', '24', '24', '24', '24', 11, '2020-02-05 20:59:37', NULL, '2020-02-23 20:59:39', '2020-02-26 20:59:43', '2', '2', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `borrowing` VALUES ('139c9519ca884ffba2f23225a5bdc193', '10d88d1b5409433db00d871370ce7fd6', '2', '141', '3', 30, '2020-03-04 14:28:30', '2020-03-04 14:29:32', '2020-03-05 14:28:28', NULL, '3', '3', NULL, NULL, '2020-03-04 14:28:30', '2020-03-04 14:29:32', NULL, NULL, NULL);
+INSERT INTO `borrowing` VALUES ('1414114', '1414', '141414', 'www', 'ww', 11, '2020-03-14 14:59:32', '2020-03-04 14:24:52', '2020-03-13 14:59:47', '2020-03-04 14:25:20', '6', '3', '3', NULL, NULL, '2020-03-04 14:25:20', NULL, NULL, NULL);
+INSERT INTO `borrowing` VALUES ('2', '2', '1', '1', '1', 11, '2020-02-05 13:05:19', '2020-02-29 14:20:21', '2020-02-21 13:05:21', '2020-03-04 14:09:09', '5', 'cl', '3', NULL, NULL, '2020-03-04 14:09:09', NULL, NULL, NULL);
+INSERT INTO `borrowing` VALUES ('24', '24', '24', '24', '24', 11, '2020-02-05 20:59:37', NULL, '2020-02-23 20:59:39', '2020-02-26 20:59:43', '2', '2', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `borrowing` VALUES ('38829ec66b81450584c138808455574c', '044cf67fbcce4a9fa1feef2098103cbc', '2', '111', '3', 30, '2020-03-04 13:08:01', '2020-03-04 13:30:45', '2020-03-05 13:07:22', '2020-03-04 14:15:11', '6', '3', '3', NULL, '2020-03-04 13:08:01', '2020-03-04 14:15:11', NULL, NULL, NULL);
+INSERT INTO `borrowing` VALUES ('502eadc37faf4e549785eb2e58f9c409', 'b57a9128631743239a41817936f5d7bb', '2', '1441', '3', 30, '2020-03-04 14:00:49', '2020-03-04 14:23:54', '2020-03-05 14:00:44', NULL, '3', '3', NULL, NULL, '2020-03-04 14:00:49', '2020-03-04 14:23:54', NULL, NULL, NULL);
+INSERT INTO `borrowing` VALUES ('5c203ea2752542198bd78f7e2ca28b55', '3c40be903534470aa102788712cfe99e', '2', '14141', '3', 30, '2020-03-04 13:46:25', '2020-03-04 13:55:40', '2020-03-05 13:46:19', '2020-03-04 14:16:51', '6', '3', '3', '信誉不够', '2020-03-04 13:46:25', '2020-03-04 14:16:51', NULL, NULL, NULL);
+INSERT INTO `borrowing` VALUES ('7411fd8d643d422ab78b29073b824e05', 'bf5d445abd77406fa433c72c683b10f2', '2', 'windows', '3', 30, '2020-03-04 15:05:20', NULL, '2020-03-05 15:05:14', NULL, '1', NULL, NULL, NULL, '2020-03-04 15:05:20', '2020-03-04 15:05:20', NULL, NULL, NULL);
+INSERT INTO `borrowing` VALUES ('8a164a148ca84414ab846a37cd288a4a', '089238da2d864fb6a35b73aeec1b478a', '2', '5421', '3', 30, '2020-03-04 14:22:29', '2020-03-04 14:22:51', '2020-03-05 14:22:27', '2020-03-04 14:31:25', '6', '3', '3', NULL, '2020-03-04 14:22:29', '2020-03-04 14:31:25', NULL, NULL, NULL);
+INSERT INTO `borrowing` VALUES ('a2d409e4aebd46fda301ff4e67e37fd5', 'a135df0ea5014c90bba0e4c6a7c82cab', '2', '损坏损坏', '3', 30, '2020-03-04 13:57:06', '2020-03-04 13:58:06', '2020-03-05 13:57:03', NULL, '2', '3', NULL, '信誉不够', '2020-03-04 13:57:06', '2020-03-04 13:58:06', NULL, NULL, NULL);
+INSERT INTO `borrowing` VALUES ('a591b5369a4e45e0a2160d0c9eefbc3a', 'c8dea18c7b924a9ba3af8ca5270ec64e', '2', '1', '3', 7, '2020-03-04 14:44:05', '2020-03-04 14:44:16', '2019-03-06 00:00:00', '2020-03-04 14:56:31', '5', '3', '3', NULL, '2020-03-04 14:44:05', '2020-03-04 14:56:31', NULL, NULL, NULL);
+INSERT INTO `borrowing` VALUES ('d96fa9e9d05e40da99af8f80a6718cb5', 'b57a9128631743239a41817936f5d7bb', '2', '1441', '3', 30, '2020-03-04 13:58:34', '2020-03-04 13:59:40', '2020-03-05 13:58:32', NULL, '2', '3', NULL, '信誉不够', '2020-03-04 13:58:34', '2020-03-04 13:59:43', NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for category
@@ -211,13 +220,23 @@ CREATE TABLE `record`  (
   `browsing_time` timestamp(0) NOT NULL COMMENT '浏览时间',
   `book_img` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '书籍封面',
   `book_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '书籍名称',
+  `book_page` int(10) NULL DEFAULT NULL COMMENT '电子书行数',
   PRIMARY KEY (`record_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of record
 -- ----------------------------
-INSERT INTO `record` VALUES ('2', '2', '1', '2020-02-27 13:12:24', '1', '1');
+INSERT INTO `record` VALUES ('2', '2', '1', '2020-02-27 13:12:24', '1', '1', NULL);
+
+-- ----------------------------
+-- Table structure for statistics
+-- ----------------------------
+DROP TABLE IF EXISTS `statistics`;
+CREATE TABLE `statistics`  (
+  `id` char(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for type
@@ -239,7 +258,7 @@ CREATE TABLE `type`  (
 -- ----------------------------
 -- Records of type
 -- ----------------------------
-INSERT INTO `type` VALUES (1, NULL, '', 1, 0, '小说', NULL, NULL, '2020-02-28 21:19:16');
+INSERT INTO `type` VALUES (1, NULL, '', 1, 0, '小说啊', NULL, NULL, '2020-02-28 21:19:16');
 INSERT INTO `type` VALUES (2, NULL, '', 1, 0, '文学', NULL, NULL, '2020-02-28 21:23:40');
 INSERT INTO `type` VALUES (3, 1, NULL, 2, NULL, '中国小说', NULL, NULL, '2020-02-29 22:24:26');
 INSERT INTO `type` VALUES (4, 3, NULL, 3, NULL, '武侠', NULL, NULL, '2020-02-29 03:17:31');
@@ -264,23 +283,57 @@ INSERT INTO `type` VALUES (21, 9, NULL, 3, NULL, '恐怖小说', NULL, NULL, '20
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`  (
   `user_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户ID',
+  `class_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '班级编号',
+  `stu_No` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户编号',
   `user_name` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户姓名',
   `password` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户密码',
   `sex` char(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户性别',
   `IDcard` char(18) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '身份证号码',
   `tel` char(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '电话',
   `email` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '邮箱',
+  `address` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户地址',
   `credit` int(11) NULL DEFAULT NULL COMMENT '信用分',
   `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户状态',
   `role` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '角色',
   `register_time` timestamp(0) NULL DEFAULT NULL COMMENT '注册时间',
   `last_login_time` timestamp(0) NULL DEFAULT NULL COMMENT '最后登录时间',
+  `create_time` timestamp(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` timestamp(0) NULL DEFAULT NULL COMMENT '修改时间',
+  `remark1` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备用字段1',
+  `remark2` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备用字段2',
+  `remark3` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备用字段3',
   PRIMARY KEY (`user_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('2', '3', '2', '1', '1', '1', '1', 1, '1', '1', '2020-02-26 12:01:45', '2020-02-26 12:01:48');
+INSERT INTO `user` VALUES ('1', '213456', '1', '陈留涛', '888888', '1', NULL, NULL, NULL, NULL, 80, '1', '0', '2020-03-04 16:52:40', NULL, '2020-03-04 16:52:40', '2020-03-04 16:52:40', NULL, NULL, NULL);
+INSERT INTO `user` VALUES ('2', NULL, NULL, '3', '2', '1', '1', '1', '1', NULL, 1, '1', '1', '2020-02-26 12:01:45', '2020-02-26 12:01:48', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `user` VALUES ('2f06f740042b48738ff1317fd0b61727', '4114', '2f06f740042b48738ff1317fd0b61727', '1341', '888888', '1', NULL, NULL, NULL, NULL, 80, '1', '0', '2020-03-05 11:12:28', NULL, '2020-03-05 11:12:28', '2020-03-05 11:12:28', NULL, NULL, NULL);
+INSERT INTO `user` VALUES ('38c13d371f4446519ce76532ee4fa704', '4114', '38c13d371f4446519ce76532ee4fa704', '1341', '888888', '1', NULL, NULL, NULL, NULL, 80, '1', '0', '2020-03-05 11:12:30', NULL, '2020-03-05 11:12:30', '2020-03-05 11:12:30', NULL, NULL, NULL);
+INSERT INTO `user` VALUES ('416839a8ced645eeaeb79baa44154faa', '4114', '416839a8ced645eeaeb79baa44154faa', '1341', '888888', '1', NULL, NULL, NULL, NULL, 80, '1', '0', '2020-03-05 11:12:31', NULL, '2020-03-05 11:12:31', '2020-03-05 11:12:31', NULL, NULL, NULL);
+INSERT INTO `user` VALUES ('47163f09666b4bb98d41ce971bb6194c', '4114', '47163f09666b4bb98d41ce971bb6194c', '1341', '888888', '1', NULL, NULL, NULL, NULL, 80, '1', '0', '2020-03-05 11:12:31', NULL, '2020-03-05 11:12:31', '2020-03-05 11:12:31', NULL, NULL, NULL);
+INSERT INTO `user` VALUES ('6003e2affafb497e8fd5c60487f7a071', '4114', '6003e2affafb497e8fd5c60487f7a071', '1341', '888888', '1', NULL, NULL, NULL, NULL, 80, '1', '0', '2020-03-05 11:12:28', NULL, '2020-03-05 11:12:28', '2020-03-05 11:12:28', NULL, NULL, NULL);
+INSERT INTO `user` VALUES ('e8e5676481ed44eead0ce342a25ee439', '4114', 'e8e5676481ed44eead0ce342a25ee439', '1341', '888888', '1', NULL, NULL, NULL, NULL, 80, '1', '0', '2020-03-05 11:12:29', NULL, '2020-03-05 11:12:29', '2020-03-05 11:12:29', NULL, NULL, NULL);
+INSERT INTO `user` VALUES ('f816602798ca425881b2c4fdf8c4dcd5', '4114', 'f816602798ca425881b2c4fdf8c4dcd5', '1341', '888888', '1', NULL, NULL, NULL, NULL, 80, '1', '0', '2020-03-05 11:12:30', NULL, '2020-03-05 11:12:30', '2020-03-05 11:12:30', NULL, NULL, NULL);
+
+-- ----------------------------
+-- Table structure for user_class
+-- ----------------------------
+DROP TABLE IF EXISTS `user_class`;
+CREATE TABLE `user_class`  (
+  `class_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `grade` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `depart` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `major` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `number` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `create_time` timestamp(0) NULL DEFAULT NULL,
+  `update_time` timestamp(0) NULL DEFAULT NULL,
+  `remark1` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `remark2` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `remark3` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`class_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
