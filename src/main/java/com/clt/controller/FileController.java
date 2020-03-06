@@ -1,7 +1,7 @@
 package com.clt.controller;
 
+import com.clt.utils.DateUtils;
 import com.clt.utils.ResultUtil;
-import com.clt.utils.UUIDUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -43,7 +44,8 @@ public class FileController {
         if (file.isEmpty()) {
             return ResultUtil.failed("文件为空");
         }
-        String fileName = UUIDUtil.getUUID() + "." + getFileSuffixName(file.getOriginalFilename());
+
+        String fileName = DateUtils.getDateString(new Date())+ file.getOriginalFilename();
         int size = (int) file.getSize();
         logger.info("文件名:" + fileName + "-->" + size);
         File dest = new File(path + "/" + fileName);

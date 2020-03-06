@@ -1,5 +1,6 @@
 package com.clt.utils;
 
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -36,9 +37,14 @@ public class DateUtils {
         ChronoZonedDateTime<LocalDate> zonedDateTime = localDate.atStartOfDay(zoneId);
         return Date.from(zonedDateTime.toInstant());
     }
+    public static String getDateString(Date date){
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        return format.format(date);
+    }
+
 
     public static void main(String[] args) {
-
+        System.out.println(getDateString(new Date()));
     }
 
 }
