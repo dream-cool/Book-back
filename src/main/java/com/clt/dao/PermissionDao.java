@@ -65,4 +65,5 @@ public interface PermissionDao {
     int deleteById(String userId);
 
 
+    List<Permission> queryAll();
 }

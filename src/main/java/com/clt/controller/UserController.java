@@ -11,6 +11,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -157,7 +158,7 @@ public class UserController {
      * @return 删除结果
      */
     @GetMapping("/delete/batch")
-    @ApiOperation("批量删除书籍数据")
+    @ApiOperation("批量删除用户")
     public ResultUtil<Boolean> deleteBatch(@ApiParam(value = "id数组") @RequestParam(value = "ids") List<String> ids) {
         logger.info(ids.toString());
         ids.stream().forEach(id -> {
@@ -180,6 +181,9 @@ public class UserController {
             return ResultUtil.failed("没有找到对应用户");
         }
         user.setPassword(Const.INITIAL_PASSWORD);
+        Object md5PassWord = new SimpleHash("MD5",user.getPassword(),
+                user.getUserName(), 1024);
+        user.setPassword(md5PassWord.toString());
         final User update = this.userService.update(user);
         if (update != null) {
             return ResultUtil.success(true, "重置成功");
@@ -187,9 +191,6 @@ public class UserController {
             return ResultUtil.success(false, "重置失败");
         }
     }
-
-    @Autowired
-    private  JwtTokenUtil jwtTokenUtil;
 
     @GetMapping("/login")
     @ApiModelProperty("登录接口")
@@ -199,6 +200,8 @@ public class UserController {
     ){
         return null;
     }
+
+
 
 
 }

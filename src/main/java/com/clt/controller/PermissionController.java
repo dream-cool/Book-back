@@ -63,13 +63,12 @@ public class PermissionController {
     @ApiOperation("分页查询数据")
     public ResultUtil<PageInfo<Permission>> selectAllByLimit(
             @ApiParam("页码") @RequestParam(required = false) Integer pageNum,
-            @ApiParam("每页大小") @RequestParam(required = false) Integer pageSize,
-            Permission permission
+            @ApiParam("每页大小") @RequestParam(required = false) Integer pageSize
     ) {
         pageNum = (pageNum == null || pageNum < 0) ? 1 : pageNum;
         pageSize = (pageSize == null || pageSize < 0) ? 10 : pageSize;
         PageHelper.startPage(pageNum, pageSize);
-        List<Permission> permissions = this.permissionService.queryAllByCondition(permission);
+        List<Permission> permissions = this.permissionService.queryAll();
         PageInfo<Permission> pageInfo = new PageInfo<>(permissions);
         if (pageInfo != null) {
             return ResultUtil.success(pageInfo, "查询成功");

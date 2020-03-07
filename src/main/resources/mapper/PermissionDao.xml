@@ -4,6 +4,7 @@
 
     <resultMap type="com.clt.entity.Permission" id="PermissionMap">
         <result property="userId" column="user_id" jdbcType="VARCHAR"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
         <result property="bookR" column="book_r" jdbcType="INTEGER"/>
         <result property="bookW" column="book_w" jdbcType="INTEGER"/>
         <result property="userR" column="user_r" jdbcType="INTEGER"/>
@@ -12,12 +13,17 @@
         <result property="borrowingW" column="borrowing_w" jdbcType="INTEGER"/>
         <result property="categoryW" column="category_w" jdbcType="INTEGER"/>
         <result property="statisticsR" column="statistics_r" jdbcType="INTEGER"/>
+        <result property="privilege" column="privilege" jdbcType="INTEGER"/>
+        <result property="admin" column="admin" jdbcType="INTEGER"/>
+        <result property="remark1" column="remark1" jdbcType="VARCHAR"/>
+        <result property="remark2" column="remark2" jdbcType="VARCHAR"/>
+        <result property="remark3" column="remark3" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="PermissionMap">
         select
-          user_id, book_r, book_w, user_r, user_w, borrowing_r, borrowing_w, category_w, statistics_r
+          user_id, book_r, book_w, user_r, user_w, borrowing_r, borrowing_w, category_w, statistics_r, privilege, admin, remark1, remark2, remark3
         from library.permission
         where user_id = #{userId}
     </select>
@@ -25,15 +31,27 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="PermissionMap">
         select
-          user_id, book_r, book_w, user_r, user_w, borrowing_r, borrowing_w, category_w, statistics_r
+          user_id, book_r, book_w, user_r, user_w, borrowing_r, borrowing_w, category_w, statistics_r, privilege, admin, remark1, remark2, remark3
         from library.permission
         limit #{offset}, #{limit}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAll" resultMap="PermissionMap">
+
+      select
+      user.user_id, user_name,book_r, book_w, user_r, user_w, borrowing_r, borrowing_w, category_w, statistics_r
+      from user,permission
+
+        WHERE user.user_id = permission.user_id
+         and user.role = 2
+
     </select>
 
     <!--通过实体作为筛选条件查询-->
     <select id="queryAllByCondition" resultMap="PermissionMap">
         select
-          user_id, book_r, book_w, user_r, user_w, borrowing_r, borrowing_w, category_w, statistics_r
+          user_id, book_r, book_w, user_r, user_w, borrowing_r, borrowing_w, category_w, statistics_r, privilege, admin, remark1, remark2, remark3
         from library.permission
         <where>
             <if test="userId != null and userId != ''">
@@ -63,13 +81,28 @@
             <if test="statisticsR != null">
                 and statistics_r = #{statisticsR}
             </if>
+            <if test="privilege != null">
+                and privilege = #{privilege}
+            </if>
+            <if test="admin != null">
+                and admin = #{admin}
+            </if>
+            <if test="remark1 != null and remark1 != ''">
+                and remark1 = #{remark1}
+            </if>
+            <if test="remark2 != null and remark2 != ''">
+                and remark2 = #{remark2}
+            </if>
+            <if test="remark3 != null and remark3 != ''">
+                and remark3 = #{remark3}
+            </if>
         </where>
     </select>
 
     <!--新增所有列-->
     <insert id="insert">
-        insert into library.permission(user_id,book_r, book_w, user_r, user_w, borrowing_r, borrowing_w, category_w, statistics_r)
-        values (#{userId},#{bookR}, #{bookW}, #{userR}, #{userW}, #{borrowingR}, #{borrowingW}, #{categoryW}, #{statisticsR})
+        insert into library.permission(user_id,book_r, book_w, user_r, user_w, borrowing_r, borrowing_w, category_w, statistics_r, privilege, admin, remark1, remark2, remark3)
+        values (#{userId}, #{bookR}, #{bookW}, #{userR}, #{userW}, #{borrowingR}, #{borrowingW}, #{categoryW}, #{statisticsR}, #{privilege}, #{admin}, #{remark1}, #{remark2}, #{remark3})
     </insert>
 
     <!--通过主键修改数据-->
@@ -99,6 +132,21 @@
             </if>
             <if test="statisticsR != null">
                 statistics_r = #{statisticsR},
+            </if>
+            <if test="privilege != null">
+                privilege = #{privilege},
+            </if>
+            <if test="admin != null">
+                admin = #{admin},
+            </if>
+            <if test="remark1 != null and remark1 != ''">
+                remark1 = #{remark1},
+            </if>
+            <if test="remark2 != null and remark2 != ''">
+                remark2 = #{remark2},
+            </if>
+            <if test="remark3 != null and remark3 != ''">
+                remark3 = #{remark3},
             </if>
         </set>
         where user_id = #{userId}

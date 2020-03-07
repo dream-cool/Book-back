@@ -93,7 +93,7 @@ public class BookController {
     public ResultUtil<PageInfo<Book>> selectAllByPage(
             @ApiParam("页码") @RequestParam(value = "pageNum", required = false) Integer pageNum,
             @ApiParam("每页大小") @RequestParam(value = "pageSize", required = false) Integer pageSize,
-            @RequestBody Book book
+            @RequestBody(required = false) Book book
     ) {
         PageInfo<Book> pageInfo = this.bookService.queryAllByCondition(pageNum, pageSize, book);
         if (pageInfo != null) {

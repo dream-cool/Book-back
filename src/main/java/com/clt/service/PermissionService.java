@@ -53,4 +53,6 @@ public interface PermissionService {
     boolean deleteById(String userId);
 
     List<Permission> queryAllByCondition(Permission permission);
+
+    List<Permission> queryAll();
 }

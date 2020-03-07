@@ -81,4 +81,9 @@ public class PermissionServiceImpl implements PermissionService {
     public List<Permission> queryAllByCondition(Permission permission) {
         return this.permissionDao.queryAllByCondition(permission);
     }
+
+    @Override
+    public List<Permission> queryAll() {
+        return this.permissionDao.queryAll();
+    }
 }

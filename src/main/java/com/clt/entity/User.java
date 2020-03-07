@@ -143,5 +143,10 @@ public class User implements Serializable {
      */
     @ApiModelProperty("备用字段3")
     private String remark3;
+    /**
+     * 权限记录
+     */
+    @ApiModelProperty("权限记录")
+    private Permission permission;
 
 }

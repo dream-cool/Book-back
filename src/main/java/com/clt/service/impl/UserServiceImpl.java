@@ -1,6 +1,8 @@
 package com.clt.service.impl;
 
 import com.clt.constant.Const;
+import com.clt.dao.PermissionDao;
+import com.clt.entity.Permission;
 import com.clt.entity.User;
 import com.clt.dao.UserDao;
 import com.clt.enums.UserEnum;
@@ -8,6 +10,7 @@ import com.clt.service.UserService;
 import com.clt.utils.UUIDUtil;
 import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -25,6 +28,9 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
     @Resource
     private UserDao userDao;
+
+    @Resource
+    private PermissionDao permissionDao;
 
     /**
      * 通过ID查询单条数据
@@ -58,6 +64,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public User insert(User user) {
         beforeInsertUser(user);
+        final Permission defaultPermission = new Permission();
+        defaultPermission.setUserId(user.getUserId());
+        if (UserEnum.USER_ROLE_ADMIN.getCode().equals(user.getRole())){
+            defaultPermission.setAdmin(true);
+        }
+        permissionDao.insert(defaultPermission);
         this.userDao.insert(user);
         return user;
     }
@@ -80,6 +92,9 @@ public class UserServiceImpl implements UserService {
         }
         user.setUserId(user.getStuNo());
         user.setPassword(Const.INITIAL_PASSWORD);
+        Object md5PassWord = new SimpleHash("MD5",user.getPassword(),
+                user.getUserName(), 1024);
+        user.setPassword(md5PassWord.toString());
         Date now = new Date();
         user.setRegisterTime(now);
         user.setCreateTime(now);
@@ -119,5 +134,10 @@ public class UserServiceImpl implements UserService {
             return userResult;
         }).collect(Collectors.toList());
         return users;
+    }
+
+    @Override
+    public User login(User user){
+        return null;
     }
 }
