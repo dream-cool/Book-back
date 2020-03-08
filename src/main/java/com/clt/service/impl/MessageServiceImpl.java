@@ -81,4 +81,9 @@ public class MessageServiceImpl implements MessageService {
     public List<Message> queryAllByCondition(Message message) {
         return this.messageDao.queryAllByCondition(message);
     }
+
+    @Override
+    public int readMessageByUser(String userId) {
+        return this.messageDao.readMessageByUser(userId);
+    }
 }

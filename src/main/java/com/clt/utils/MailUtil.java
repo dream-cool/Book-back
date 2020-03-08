@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
@@ -15,6 +16,7 @@ import java.security.NoSuchAlgorithmException;
  * @author ：clt
  * @Date ：Created in 19:27 2020/02/25
  */
+@Component
 public class MailUtil {
 
     /**

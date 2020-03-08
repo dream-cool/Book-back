@@ -64,4 +64,5 @@ public interface MessageDao {
      */
     int deleteById(String messageId);
 
+    int readMessageByUser(String userId);
 }

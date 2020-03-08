@@ -1,5 +1,6 @@
 package com.clt.fitter;
 
+import com.clt.config.IgnoreUrlsConfig;
 import com.clt.dao.UserDao;
 import com.clt.entity.User;
 import com.clt.utils.JwtTokenUtil;
@@ -42,21 +43,15 @@ public class ShiroFilter extends AccessControlFilter {
             return true;
         }
         String token = getRequestToken((HttpServletRequest) request);
-        String login = ((HttpServletRequest) request).getServletPath();
+        String url = ((HttpServletRequest) request).getServletPath();
+        IgnoreUrlsConfig ignoreUrlsConfig = (IgnoreUrlsConfig) SpringUtils.getBean("ignoreUrlsConfig");
 
-        //如果为登录,就放行
-        if ("/login".equals(login)) {
-            return true;
+        for (String ignoreUrl : ignoreUrlsConfig.getUrls()) {
+            if (ignoreUrl.equalsIgnoreCase(url)) {
+                return true;
+            }
         }
-        if ("/file".equals(login)) {
-            return true;
-        }
-        if ("/download".equals(login)) {
-            return true;
-        }
-        if ("/unauthorized".equals(login)) {
-            return true;
-        }
+
         if (StringUtils.isBlank(token)) {
             logger.info("没有token");
             ((HttpServletResponse) response).sendRedirect("/unauthorized");

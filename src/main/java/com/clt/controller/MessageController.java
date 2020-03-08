@@ -8,6 +8,7 @@ import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -134,6 +135,23 @@ public class MessageController {
         } else {
             return ResultUtil.failed("删除失败");
         }
+    }
+
+
+    /**
+     * 修改某个用户的消息状态
+     *
+     * @param userId 用户id
+     * @return 修改条数
+     */
+    @PutMapping("/readMessage/{userId}")
+    @ApiOperation("删除单条数据")
+    public ResultUtil<Integer> readMessageByUser(@PathVariable String userId) {
+        if (userId == null || StringUtils.isEmpty(userId)){
+            ResultUtil.failed("修改的用户对象为空");
+        }
+        int result = this.messageService.readMessageByUser(userId);
+        return ResultUtil.success(result, "消息已读");
     }
 
 }

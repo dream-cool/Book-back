@@ -2,20 +2,25 @@ package com.clt.service.impl;
 
 import com.clt.constant.Const;
 import com.clt.dao.PermissionDao;
+import com.clt.dao.UserDao;
+import com.clt.entity.Email;
 import com.clt.entity.Permission;
 import com.clt.entity.User;
-import com.clt.dao.UserDao;
 import com.clt.enums.UserEnum;
 import com.clt.service.UserService;
+import com.clt.utils.DateUtils;
+import com.clt.utils.MailUtil;
+import com.clt.utils.ResultUtil;
 import com.clt.utils.UUIDUtil;
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.crypto.hash.SimpleHash;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -31,6 +36,12 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     private PermissionDao permissionDao;
+
+    @Autowired
+    private StringRedisTemplate template;
+
+    @Autowired
+    private MailUtil mailUtil;
 
     /**
      * 通过ID查询单条数据
@@ -66,7 +77,7 @@ public class UserServiceImpl implements UserService {
         beforeInsertUser(user);
         final Permission defaultPermission = new Permission();
         defaultPermission.setUserId(user.getUserId());
-        if (UserEnum.USER_ROLE_ADMIN.getCode().equals(user.getRole())){
+        if (UserEnum.USER_ROLE_ADMIN.getCode().equals(user.getRole())) {
             defaultPermission.setAdmin(true);
         }
         permissionDao.insert(defaultPermission);
@@ -92,7 +103,7 @@ public class UserServiceImpl implements UserService {
         }
         user.setUserId(user.getStuNo());
         user.setPassword(Const.INITIAL_PASSWORD);
-        Object md5PassWord = new SimpleHash("MD5",user.getPassword(),
+        Object md5PassWord = new SimpleHash("MD5", user.getPassword(),
                 user.getUserName(), 1024);
         user.setPassword(md5PassWord.toString());
         Date now = new Date();
@@ -128,8 +139,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> queryAllByCondition(User user) {
         List<User> users = this.userDao.queryAllByCondition(user).stream().map(userResult -> {
-            if (userResult.getCredit() != null){
-                userResult.setCreditStars(userResult.getCredit()/20);
+            if (userResult.getCredit() != null) {
+                userResult.setCreditStars(userResult.getCredit() / 20);
             }
             return userResult;
         }).collect(Collectors.toList());
@@ -137,7 +148,55 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User login(User user){
-        return null;
+    public ResultUtil<Map<String, Object>> sendVerification(User user) {
+        Random random = new Random();
+        Map<String, Object> rmap = new HashMap<>(16);
+        Map<String, Object> map = new HashMap<>(16);
+        String content = "";
+        int retime = DateUtils.remainingTime();
+        for (int i = 0; i < 6; i++) {
+            int temp = random.nextInt(10);
+            content += temp;
+        }
+        String key = user.getUserName() + "check";
+        String check = template.opsForValue().get(key);
+        if (check != null) {
+            if (Integer.parseInt(check) >= 3) {
+                template.expire(key, retime, TimeUnit.SECONDS);
+                return ResultUtil.failed("您今天已连续发送三次验证码，账号今天已锁定");
+            } else {
+                template.opsForValue().increment(key);
+            }
+        } else {
+            template.opsForValue().set(key, "1");
+        }
+        rmap.put("password", content);
+        rmap.put("count", "0");
+        template.opsForHash().putAll(user.getUserName(), rmap);
+        mailUtil.sendSimpleMail(new Email(user.getUserName(), "验证码邮件", "验证码为: " + content + " 五分钟内有效"));
+        template.expire(user.getUserName(), 300, TimeUnit.SECONDS);
+        return ResultUtil.success(map, "");
+    }
+
+    @Override
+    public ResultUtil<Map<String, Object>> verificationCheck(User user) {
+        Map<String, Object> map = new HashMap<>(16);
+        String temp;
+        String password = (String) template.opsForHash().get(user.getUserName(), "password");
+        if (password != null) {
+            temp = (String) template.opsForHash().get(user.getUserName(), "count");
+            if (Integer.parseInt(temp) >= 2) {
+                template.delete(user.getUserName());
+                return ResultUtil.failed("您已连续输错三次，验证码已失效");
+            } else if (user.getPassword().equals(password)) {
+                template.opsForValue().set(user.getUserName() + "check", "0");
+                return ResultUtil.success(null, "验证成功");
+            } else {
+                template.opsForHash().increment(user.getUserName(), "count", 1);
+                return ResultUtil.failed("验证失败");
+            }
+        } else {
+            return ResultUtil.failed("请输入验证码");
+        }
     }
 }

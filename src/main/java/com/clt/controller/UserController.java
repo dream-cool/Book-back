@@ -15,6 +15,7 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -38,6 +39,8 @@ public class UserController {
      */
     @Resource
     private UserService userService;
+
+
 
     /**
      * 通过主键查询单条数据
@@ -192,14 +195,22 @@ public class UserController {
         }
     }
 
-    @GetMapping("/login")
+
+    @GetMapping("/verificationCheck")
     @ApiModelProperty("登录接口")
-    public ResultUtil<Map<String,Object>> login(
-            @ApiParam("userName") @RequestParam("userName") String userName,
-            @ApiParam("password") @RequestParam("password") String password
-    ){
-        return null;
+    public ResultUtil<Map<String,Object>> verificationCheck(User user){
+        return userService.verificationCheck(user);
     }
+
+
+    @RequestMapping("/sendVerificationLogin")
+    @ResponseBody
+    public ResultUtil<Map<String, Object>> sendVerification(User user) {
+        return userService.sendVerification(user);
+    }
+
+
+
 
 
 

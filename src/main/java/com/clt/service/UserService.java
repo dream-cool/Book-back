@@ -1,7 +1,10 @@
 package com.clt.service;
 
 import com.clt.entity.User;
+import com.clt.utils.ResultUtil;
+
 import java.util.List;
+import java.util.Map;
 
 /**
  * (User)表服务接口
@@ -54,5 +57,7 @@ public interface UserService {
 
     List<User> queryAllByCondition(User user);
 
-    User login(User user);
+    ResultUtil<Map<String, Object>> sendVerification(User user);
+
+    ResultUtil<Map<String, Object>> verificationCheck(User user);
 }

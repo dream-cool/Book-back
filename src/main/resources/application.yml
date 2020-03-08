@@ -45,3 +45,13 @@ pagehelper:
   params: count=countSql
 
 
+
+secure:
+  ignored:
+    urls: #安全路径白名单
+    - /login
+    - /file
+    - /download
+    - /unauthorized
+    - /verificationCheck
+    - /sendVerificationLogin
