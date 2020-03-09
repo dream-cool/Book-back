@@ -3,7 +3,6 @@ package com.clt.controller;
 import com.clt.constant.Const;
 import com.clt.entity.User;
 import com.clt.service.UserService;
-import com.clt.utils.JwtTokenUtil;
 import com.clt.utils.ResultUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -14,8 +13,6 @@ import io.swagger.annotations.ApiParam;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -39,7 +36,6 @@ public class UserController {
      */
     @Resource
     private UserService userService;
-
 
 
     /**
@@ -184,7 +180,7 @@ public class UserController {
             return ResultUtil.failed("没有找到对应用户");
         }
         user.setPassword(Const.INITIAL_PASSWORD);
-        Object md5PassWord = new SimpleHash("MD5",user.getPassword(),
+        Object md5PassWord = new SimpleHash("MD5", user.getPassword(),
                 user.getUserName(), 1024);
         user.setPassword(md5PassWord.toString());
         final User update = this.userService.update(user);
@@ -198,7 +194,7 @@ public class UserController {
 
     @GetMapping("/verificationCheck")
     @ApiModelProperty("登录接口")
-    public ResultUtil<Map<String,Object>> verificationCheck(User user){
+    public ResultUtil<Map<String, Object>> verificationCheck(User user) {
         return userService.verificationCheck(user);
     }
 
@@ -206,13 +202,29 @@ public class UserController {
     @RequestMapping("/sendVerificationLogin")
     @ResponseBody
     public ResultUtil<Map<String, Object>> sendVerification(User user) {
+        if (user.getEmail() == null){
+            return ResultUtil.failed("用户邮箱为空");
+        }
         return userService.sendVerification(user);
     }
 
+    @RequestMapping("/updatePWByOldPW")
+    @ResponseBody
+    public ResultUtil<Map<String, Object>> updatePWByOldPW(
+            @ApiParam("oldPassword") @RequestParam("oldPassword") String oldPassword,
+            @ApiParam("newPassword") @RequestParam("newPassword") String newPassword,
+            @ApiParam("userId") @RequestParam("userId") String userId
+    ) {
+        return userService.updatePWByOldPW(oldPassword, newPassword, userId);
+    }
 
-
-
-
-
+    @RequestMapping("/updatePWByVerificationCode")
+    @ResponseBody
+    public ResultUtil<Map<String, Object>> updatePWByVerificationCode(
+            @ApiParam("newPassword") @RequestParam("newPassword") String newPassword,
+            @ApiParam("userId") @RequestParam("userId") String userId
+    ) {
+        return null;
+    }
 
 }

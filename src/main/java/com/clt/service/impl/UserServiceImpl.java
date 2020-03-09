@@ -103,8 +103,8 @@ public class UserServiceImpl implements UserService {
         }
         user.setUserId(user.getStuNo());
         user.setPassword(Const.INITIAL_PASSWORD);
-        Object md5PassWord = new SimpleHash("MD5", user.getPassword(),
-                user.getUserName(), 1024);
+        Object md5PassWord = new SimpleHash(Const.ENCRYPTION_ALGORITHM, user.getPassword(),
+                user.getUserName(), Const.ENCRYPTION_TIMES);
         user.setPassword(md5PassWord.toString());
         Date now = new Date();
         user.setRegisterTime(now);
@@ -158,7 +158,7 @@ public class UserServiceImpl implements UserService {
             int temp = random.nextInt(10);
             content += temp;
         }
-        String key = user.getUserName() + "check";
+        String key = user.getEmail() + "check";
         String check = template.opsForValue().get(key);
         if (check != null) {
             if (Integer.parseInt(check) >= 3) {
@@ -172,9 +172,9 @@ public class UserServiceImpl implements UserService {
         }
         rmap.put("password", content);
         rmap.put("count", "0");
-        template.opsForHash().putAll(user.getUserName(), rmap);
-        mailUtil.sendSimpleMail(new Email(user.getUserName(), "验证码邮件", "验证码为: " + content + " 五分钟内有效"));
-        template.expire(user.getUserName(), 300, TimeUnit.SECONDS);
+        template.opsForHash().putAll(user.getEmail(), rmap);
+        mailUtil.sendSimpleMail(new Email(user.getEmail(), "验证码邮件", "验证码为: " + content + " 五分钟内有效"));
+        template.expire(user.getEmail(), 300, TimeUnit.SECONDS);
         return ResultUtil.success(map, "");
     }
 
@@ -198,5 +198,24 @@ public class UserServiceImpl implements UserService {
         } else {
             return ResultUtil.failed("请输入验证码");
         }
+    }
+
+
+    @Override
+    public ResultUtil<Map<String, Object>> updatePWByOldPW(String oldPassword, String newPassword, String userId) {
+        User userResult = this.userDao.queryById(userId);
+        if (userResult == null) {
+            return ResultUtil.failed("没有找到用户信息，修改失败");
+        }
+        Object md5OldPassword = new SimpleHash(Const.ENCRYPTION_ALGORITHM, oldPassword,
+                userResult.getUserName(), Const.ENCRYPTION_TIMES);
+        if (!userResult.getPassword().equals(md5OldPassword.toString())) {
+            return ResultUtil.failed("旧密码校验未通过，修改失败");
+        }
+        Object md5NewPassword = new SimpleHash(Const.ENCRYPTION_ALGORITHM, newPassword,
+                userResult.getUserName(), Const.ENCRYPTION_TIMES);
+        userResult.setPassword(md5NewPassword.toString());
+        this.userDao.update(userResult);
+        return ResultUtil.success(null, "修改成功");
     }
 }

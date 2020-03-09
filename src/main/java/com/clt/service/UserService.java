@@ -60,4 +60,6 @@ public interface UserService {
     ResultUtil<Map<String, Object>> sendVerification(User user);
 
     ResultUtil<Map<String, Object>> verificationCheck(User user);
+
+    ResultUtil<Map<String, Object>> updatePWByOldPW(String oldPassword, String newPassword, String userId);
 }

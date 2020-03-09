@@ -87,4 +87,8 @@ public class Const {
 
     public static final String SERVER_URL = "http://localhost:" + PORT;
 
+    public static final String ENCRYPTION_ALGORITHM = "MD5";
+
+    public static final int ENCRYPTION_TIMES = 1024;
+
 }
