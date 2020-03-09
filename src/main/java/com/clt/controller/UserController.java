@@ -224,7 +224,7 @@ public class UserController {
             @ApiParam("newPassword") @RequestParam("newPassword") String newPassword,
             @ApiParam("userId") @RequestParam("userId") String userId
     ) {
-        return null;
+        return this.userService.updatePWByVerificationCode(userId, newPassword);
     }
 
 }

@@ -62,4 +62,6 @@ public interface UserService {
     ResultUtil<Map<String, Object>> verificationCheck(User user);
 
     ResultUtil<Map<String, Object>> updatePWByOldPW(String oldPassword, String newPassword, String userId);
+
+    ResultUtil<Map<String, Object>> updatePWByVerificationCode(String userId, String newPassword);
 }

@@ -175,24 +175,24 @@ public class UserServiceImpl implements UserService {
         template.opsForHash().putAll(user.getEmail(), rmap);
         mailUtil.sendSimpleMail(new Email(user.getEmail(), "验证码邮件", "验证码为: " + content + " 五分钟内有效"));
         template.expire(user.getEmail(), 300, TimeUnit.SECONDS);
-        return ResultUtil.success(map, "");
+        return ResultUtil.success(map, "信息发送成功");
     }
 
     @Override
     public ResultUtil<Map<String, Object>> verificationCheck(User user) {
         Map<String, Object> map = new HashMap<>(16);
         String temp;
-        String password = (String) template.opsForHash().get(user.getUserName(), "password");
+        String password = (String) template.opsForHash().get(user.getEmail(), "password");
         if (password != null) {
-            temp = (String) template.opsForHash().get(user.getUserName(), "count");
+            temp = (String) template.opsForHash().get(user.getEmail(), "count");
             if (Integer.parseInt(temp) >= 2) {
-                template.delete(user.getUserName());
+                template.delete(user.getEmail());
                 return ResultUtil.failed("您已连续输错三次，验证码已失效");
             } else if (user.getPassword().equals(password)) {
-                template.opsForValue().set(user.getUserName() + "check", "0");
+                template.opsForValue().set(user.getEmail() + "check", "0");
                 return ResultUtil.success(null, "验证成功");
             } else {
-                template.opsForHash().increment(user.getUserName(), "count", 1);
+                template.opsForHash().increment(user.getEmail(), "count", 1);
                 return ResultUtil.failed("验证失败");
             }
         } else {
@@ -217,5 +217,21 @@ public class UserServiceImpl implements UserService {
         userResult.setPassword(md5NewPassword.toString());
         this.userDao.update(userResult);
         return ResultUtil.success(null, "修改成功");
+    }
+
+    @Override
+    public ResultUtil<Map<String, Object>> updatePWByVerificationCode(String userId, String newPassword) {
+        if (userId == null){
+            return ResultUtil.failed("用户id为空");
+        }
+        final User userResult = this.userDao.queryById(userId);
+        if (userResult == null){
+            return ResultUtil.failed("没有找到用户信息");
+        }
+        Object md5NewPassword = new SimpleHash(Const.ENCRYPTION_ALGORITHM, newPassword,
+                userResult.getUserName(), Const.ENCRYPTION_TIMES);
+        userResult.setPassword(md5NewPassword.toString());
+        this.userDao.update(userResult);
+        return ResultUtil.success(null,"密码修改成功");
     }
 }
