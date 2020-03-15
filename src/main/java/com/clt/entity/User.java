@@ -127,10 +127,10 @@ public class User implements Serializable {
 
 
     /**
-     * 备用字段1
+     * 头像
      */
-    @ApiModelProperty("备用字段1")
-    private String remark1;
+    @ApiModelProperty("头像")
+    private String avatar;
 
     /**
      * 备用字段2

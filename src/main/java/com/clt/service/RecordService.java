@@ -53,4 +53,6 @@ public interface RecordService {
     boolean deleteById(String recordId);
 
     List<Record> queryAllByCondition(Record record);
+
+    List<Record> queryByUserIdAndBookId(String userId, String bookId);
 }

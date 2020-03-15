@@ -43,11 +43,7 @@ public class Comment implements Serializable {
     @ApiModelProperty("评论时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date commentTime;
-    /**
-     * 赞标志
-     */
-    @ApiModelProperty("赞标志")
-    private Integer zanFlag;
+
     /**
      * 评论内容
      */
@@ -58,4 +54,59 @@ public class Comment implements Serializable {
      */
     @ApiModelProperty("评分")
     private Integer score;
+    /**
+     * 是否是回复评论
+     */
+    @ApiModelProperty("是否是回复评论")
+    private Integer replyFlag;
+
+    /**
+     * 回复id
+     */
+    @ApiModelProperty("回复id")
+    private String replyId;
+
+    /**
+     * sortWay
+     */
+    @ApiModelProperty("回复id")
+    private String sortWay;
+
+    /**
+     * 点赞数量
+     */
+    @ApiModelProperty("点赞数量")
+    private Integer zanNumber;
+
+    /**
+     * 备用字段2
+     */
+    @ApiModelProperty("备用字段2")
+    private String remark2;
+
+    /**
+     * 备用字段3
+     */
+    @ApiModelProperty("备用字段3")
+    private String remark3;
+
+    /**
+     * 用户实体信息
+     */
+    @ApiModelProperty("用户实体信息")
+    private User user;
+
+    /**
+     * 用户是否对该评论点赞
+     */
+    @ApiModelProperty("用户是否对该评论点赞")
+    private Boolean isLike;
+
+    public void increaseZanNumber(){
+        this.zanNumber++;
+    }
+
+    public void decreaseZanNumber(){
+        this.zanNumber--;
+    }
 }

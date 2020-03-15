@@ -15,7 +15,7 @@
         <result property="ebook" column="ebook" jdbcType="INTEGER"/>
         <result property="location" column="location" jdbcType="VARCHAR"/>
         <result property="zanNumber" column="zan_number" jdbcType="INTEGER"/>
-        <result property="score" column="score" jdbcType="INTEGER"/>
+        <result property="score" column="score" jdbcType="FLOAT"/>
         <result property="inputTime" column="input_time" jdbcType="TIMESTAMP"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
     </resultMap>

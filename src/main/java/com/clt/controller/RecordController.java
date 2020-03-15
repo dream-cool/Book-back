@@ -57,12 +57,12 @@ public class RecordController {
      * @param pageSize 条数
      * @return 多条数据
      */
-    @GetMapping("")
+    @PostMapping("/all")
     @ApiOperation("分页查询数据")
     public ResultUtil<PageInfo<Record>> selectAllByLimit(
             @ApiParam("页码") @RequestParam(required = false) Integer pageNum,
             @ApiParam("每页大小") @RequestParam(required = false) Integer pageSize,
-            Record record
+            @RequestBody Record record
     ) {
         pageNum = (pageNum == null || pageNum < 0) ? 1 : pageNum;
         pageSize = (pageSize == null || pageSize < 0) ? 10 : pageSize;
@@ -86,6 +86,9 @@ public class RecordController {
     @PostMapping("")
     @ApiOperation("新增单条数据")
     public ResultUtil<Record> insert(@RequestBody Record record) {
+        if (record == null){
+            return ResultUtil.failed("记录为空");
+        }
         Record insertRecord = this.recordService.insert(record);
         if (insertRecord != null) {
             return ResultUtil.success(insertRecord, "新增成功");

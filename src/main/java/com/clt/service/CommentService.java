@@ -57,5 +57,5 @@ public interface CommentService {
      */
     List<Comment> queryAll();
 
-    List<Comment> queryAllByCondition(Comment comment);
+    List<Comment> queryAllByCondition(Comment comment, String userId);
 }

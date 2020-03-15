@@ -55,6 +55,8 @@ public class Const {
 
     public static final String USER_SEX_FEMALE = "女";
 
+    public static final String USER_DEFAULT_AVATAR = "userDefaultAvatar.png";
+
     public static final String USER_ROLE_READER = "读者";
 
     public static final String USER_ROLE_STUDENT = "学生";

@@ -20,7 +20,7 @@
         <result property="lastLoginTime" column="last_login_time" jdbcType="TIMESTAMP"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
-        <result property="remark1" column="remark1" jdbcType="VARCHAR"/>
+        <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
         <result property="remark2" column="remark2" jdbcType="VARCHAR"/>
         <result property="remark3" column="remark3" jdbcType="VARCHAR"/>
     </resultMap>
@@ -28,7 +28,7 @@
     <!--查询单个-->
     <select id="queryById" resultMap="UserMap">
         select
-          user_id, class_id, stu_No, user_name, password, sex, IDcard, tel, email, address, credit, status, role, register_time, last_login_time, create_time, update_time, remark1, remark2, remark3
+          user_id, class_id, stu_No, user_name, password, sex, IDcard, tel, email, address, credit, status, role, register_time, last_login_time, create_time, update_time, avatar, remark2, remark3
         from library.user
         where user_id = #{userId}
     </select>
@@ -36,7 +36,7 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="UserMap">
         select
-          user_id, class_id, stu_No, user_name, password, sex, IDcard, tel, email, address, credit, status, role, register_time, last_login_time, create_time, update_time, remark1, remark2, remark3
+          user_id, class_id, stu_No, user_name, password, sex, IDcard, tel, email, address, credit, status, role, register_time, last_login_time, create_time, update_time, avatar, remark2, remark3
         from library.user
         limit #{offset}, #{limit}
     </select>
@@ -44,7 +44,7 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAllByCondition" resultMap="UserMap">
         select
-          user_id, class_id, stu_No, user_name, password, sex, IDcard, tel, email, address, credit, status, role, register_time, last_login_time, create_time, update_time, remark1, remark2, remark3
+          user_id, class_id, stu_No, user_name, password, sex, IDcard, tel, email, address, credit, status, role, register_time, last_login_time, create_time, update_time, avatar, remark2, remark3
         from library.user
         <where>
             <if test="userId != null and userId != ''">
@@ -98,8 +98,8 @@
             <if test="updateTime != null">
                 and update_time = #{updateTime}
             </if>
-            <if test="remark1 != null and remark1 != ''">
-                and remark1 = #{remark1}
+            <if test="avatar != null and avatar != ''">
+                and avatar = #{avatar}
             </if>
             <if test="remark2 != null and remark2 != ''">
                 and remark2 = #{remark2}
@@ -112,8 +112,8 @@
 
     <!--新增所有列-->
     <insert id="insert">
-        insert into library.user(user_id, class_id, stu_No, user_name, password, sex, IDcard, tel, email, address, credit, status, role, register_time, last_login_time, create_time, update_time, remark1, remark2, remark3)
-        values (#{userId},#{classId}, #{stuNo}, #{userName}, #{password}, #{sex}, #{idcard}, #{tel}, #{email}, #{address}, #{credit}, #{status}, #{role}, #{registerTime}, #{lastLoginTime}, #{createTime}, #{updateTime}, #{remark1}, #{remark2}, #{remark3})
+        insert into library.user(user_id, class_id, stu_No, user_name, password, sex, IDcard, tel, email, address, credit, status, role, register_time, last_login_time, create_time, update_time, avatar, remark2, remark3)
+        values (#{userId},#{classId}, #{stuNo}, #{userName}, #{password}, #{sex}, #{idcard}, #{tel}, #{email}, #{address}, #{credit}, #{status}, #{role}, #{registerTime}, #{lastLoginTime}, #{createTime}, #{updateTime}, #{avatar}, #{remark2}, #{remark3})
     </insert>
 
     <!--通过主键修改数据-->
@@ -168,8 +168,8 @@
             <if test="updateTime != null">
                 update_time = #{updateTime},
             </if>
-            <if test="remark1 != null and remark1 != ''">
-                remark1 = #{remark1},
+            <if test="avatar != null and avatar != ''">
+                avatar = #{avatar},
             </if>
             <if test="remark2 != null and remark2 != ''">
                 remark2 = #{remark2},

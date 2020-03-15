@@ -47,7 +47,7 @@ public class ShiroFilter extends AccessControlFilter {
         IgnoreUrlsConfig ignoreUrlsConfig = (IgnoreUrlsConfig) SpringUtils.getBean("ignoreUrlsConfig");
 
         for (String ignoreUrl : ignoreUrlsConfig.getUrls()) {
-            if (ignoreUrl.equalsIgnoreCase(url)) {
+            if (url.startsWith(ignoreUrl)){
                 return true;
             }
         }

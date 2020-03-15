@@ -86,7 +86,7 @@ public class Book implements Serializable {
      * 得分
      */
     @ApiModelProperty("得分")
-    private Integer score;
+    private Float score;
     /**
      * 录入时间
      */
@@ -100,4 +100,11 @@ public class Book implements Serializable {
     @ApiModelProperty("修改时间")
     private Date updateTime;
 
+    public void increaseZanNumber(){
+        this.zanNumber++;
+    }
+
+    public void decreaseZanNumber(){
+        this.zanNumber--;
+    }
 }

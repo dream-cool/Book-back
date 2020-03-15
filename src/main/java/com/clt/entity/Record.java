@@ -54,4 +54,49 @@ public class Record implements Serializable {
     @ApiModelProperty("书籍名称")
     private String bookName;
 
+    /**
+     * 书籍描述
+     */
+    @ApiModelProperty("书籍描述")
+    private String descr;
+
+    /**
+     * 电子书页码书签
+     */
+    @ApiModelProperty("电子书页码书签")
+    private String bookPage;
+
+    /**
+     * 用户实体信息
+     */
+    @ApiModelProperty("用户实体信息")
+    private User user;
+
+    /**
+     * 书籍实体信息
+     */
+    @ApiModelProperty("书籍实体信息")
+    private Book book;
+
+    /**
+     * 备用字段1
+     */
+    @ApiModelProperty("备用字段1")
+    private String remark1;
+
+    /**
+     * 备用字段2
+     */
+    @ApiModelProperty("备用字段2")
+    private String remark2;
+
+    /**
+     * 备用字段3
+     */
+    @ApiModelProperty("备用字段3")
+    private String remark3;
+
+
+
+
 }

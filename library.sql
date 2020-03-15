@@ -11,7 +11,7 @@
  Target Server Version : 80019
  File Encoding         : 65001
 
- Date: 08/03/2020 19:48:13
+ Date: 15/03/2020 22:11:08
 */
 
 SET NAMES utf8mb4;
@@ -34,7 +34,7 @@ CREATE TABLE `book`  (
   `ebook` int(0) NULL DEFAULT NULL COMMENT '是否是电子书',
   `location` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '书籍位置',
   `zan_number` int(0) NULL DEFAULT NULL COMMENT '点赞数量',
-  `score` int(0) NULL DEFAULT NULL COMMENT '得分',
+  `score` decimal(2, 1) NULL DEFAULT NULL COMMENT '得分',
   `input_time` timestamp(0) NULL DEFAULT NULL COMMENT '录入时间',
   `update_time` timestamp(0) NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`book_id`) USING BTREE
@@ -43,21 +43,22 @@ CREATE TABLE `book`  (
 -- ----------------------------
 -- Records of book
 -- ----------------------------
-INSERT INTO `book` VALUES ('10d88d1b5409433db00d871370ce7fd6', '1', '141', '1421', '14421', '12412', 11.00, '1', 'c06abb1a68334651b10b87dae8bc7b77.jpg', 0, '', NULL, NULL, '2020-02-28 16:00:00', '2020-02-25 17:33:23');
-INSERT INTO `book` VALUES ('10fb3f', '4', '海贼之我是大', '不知道', '不知道', '不知', 1.00, '0', 'http://localhost:8090/download/f57fad556e1c45bb813c62749228af06.jpg', 1, '636a4346df514f8998a7ff160fd52299.txt', 0, NULL, '2020-03-01 17:33:19', '2020-02-29 06:34:59');
-INSERT INTO `book` VALUES ('26fd2b762c9646f49e1cf6f40566b7d8', '21', 'hello', 'hello', 'hello', 'hello', 11.00, '0', 'http://localhost:8090/download/09860827d9b04ee5a9ec2e4fc54f29d0.jpg', 0, '', 0, NULL, '2020-02-28 16:00:00', '2020-03-08 05:20:50');
-INSERT INTO `book` VALUES ('3c40be903534470aa102788712cfe99e', '2', '14141', '1414', '4141', '4141', 11.00, '1', NULL, 0, '', NULL, NULL, '2020-03-05 16:00:00', '2020-02-19 17:33:33');
-INSERT INTO `book` VALUES ('613b4c3c7a39414d803bdd190bfc3ff2', '3', '4141', '141', '4114', '4141', 1.00, '0', NULL, 1, 'e4257f7f88454a7ea70055ee46b2e503.txt', NULL, NULL, '2020-02-14 17:33:26', '2020-02-26 17:33:30');
-INSERT INTO `book` VALUES ('6372631134b64a25941c2f80958b980b', '4', '真龙真龙', '真龙真龙真龙真龙', '真龙真龙', '真龙真龙', 0.00, '0', '3be5ddfb05a641f798d47b6d8d2e96a7.jpg', 1, '251b8031be384d2487e22ac389e090c3.txt', 0, NULL, '2020-03-05 13:30:56', '2020-03-05 13:30:56');
-INSERT INTO `book` VALUES ('a135df0ea5014c90bba0e4c6a7c82cab', '9', '损坏损坏', '1144141', '损坏损坏', '损坏损坏', 14141414.00, '1', '36af36f3c62742c493b1150b87d98ae3.jpg', 0, '111414', 0, NULL, '2020-03-19 16:00:00', '2020-03-01 01:58:03');
-INSERT INTO `book` VALUES ('b57a9128631743239a41817936f5d7bb', '1', '1441', '41', '144141', '4141', 111.00, '1', '5f8c1070efcb4bb6acd8f136c34f2d40.jpg', 0, '1141', 0, NULL, '2020-03-20 16:00:00', '2020-03-01 03:33:52');
-INSERT INTO `book` VALUES ('bf5d445abd77406fa433c72c683b10f2', '4', 'windows', 'windows', 'windows', 'windows', 1.00, '0', '68991466e69c4721b7e882b563762bb1.jpg', 1, 'a19253bc5ceb4fb5accfa233c6b6ec1a.txt', 0, NULL, '2020-02-09 17:33:37', '2020-02-28 11:18:20');
-INSERT INTO `book` VALUES ('c8dea18c7b924a9ba3af8ca5270ec64e', '1', '1', '1', '1', '1', 1.00, '1', '1', 1, '1', 0, 1, '2020-02-05 13:03:12', '2020-02-29 10:06:51');
-INSERT INTO `book` VALUES ('d58a37c26ed2456c9f566768afc1d4ae', '9', '1111', '4141', '4141', '1441', 1441.00, '0', '3f4d71f2f7a8412ea872ac845b83e392.jpg', 0, '1441', 0, NULL, '2020-03-19 16:00:00', '2020-03-01 03:20:20');
-INSERT INTO `book` VALUES ('d80b2ce8a65d438e942b60e0352dda84', '1', '1', '1', '1', '1', 1.00, '2', '1', 1, '1', 0, 1, '2020-02-05 13:03:12', '2020-02-29 09:56:48');
-INSERT INTO `book` VALUES ('dd445e68a24f40459266aedb395e5817', '1', '1', '1', '1', '1', 1.00, '0', '1', 1, '1', 0, 1, '2020-02-05 13:03:12', '2020-02-29 10:01:38');
-INSERT INTO `book` VALUES ('f65f5a4768694472b70715fd73bca2f5', '12', '111', '111', '111', '111', 11.00, '0', NULL, 0, '111', 0, NULL, '2020-02-21 16:00:00', '2020-02-29 10:34:07');
-INSERT INTO `book` VALUES ('fd05624d73214dedaabe3dc0f00cd1f8', '1', '124', '11111', '24211', '124', 1.00, '0', '23595addb99e4928a0a6be3e32b117e6.jpg', 1, 'ca7f3e1e360e46de97b0a7602b4893b8.txt', 0, NULL, '2020-03-13 10:24:12', '2020-03-03 16:07:18');
+INSERT INTO `book` VALUES ('10d88d1b5409433db00d871370ce7fd6', '1', '141', '1421', '14421', '12412', 11.00, '1', '20200310190101380111.jpg', 0, '', 0, NULL, '2020-02-28 16:00:00', '2020-03-10 11:01:03');
+INSERT INTO `book` VALUES ('10fb3f', '4', '海贼之我是大', '不知道', '不知道', '不知', 1.00, '0', '20200310184728170QQ截图20200226194757.jpg', 1, '636a4346df514f8998a7ff160fd52299.txt', 0, NULL, '2020-03-01 17:33:19', '2020-03-10 10:47:29');
+INSERT INTO `book` VALUES ('26fd2b762c9646f49e1cf6f40566b7d8', '21', 'hello', 'hello', 'hello', 'hello', 11.00, '0', '20200310201535486桌面.jpg', 0, '', 0, NULL, '2020-02-28 16:00:00', '2020-03-10 12:15:37');
+INSERT INTO `book` VALUES ('3c40be903534470aa102788712cfe99e', '2', '14141', '1414', '4141', '4141', 11.00, '1', '20200309202406690QQ截图20200226194757.jpg', 0, '', 0, NULL, '2020-03-05 16:00:00', '2020-03-09 12:24:08');
+INSERT INTO `book` VALUES ('543adcda63bd4938a57cc86e072ec380', '1', '真龙真龙', '真龙真龙', '真龙真龙', '真龙真龙', 0.00, '0', '20200310193819136QQ截图20200226194757.jpg', 1, '20200309203156844魔道祖师.txt', 0, NULL, '2020-03-09 12:31:59', '2020-03-10 11:38:23');
+INSERT INTO `book` VALUES ('613b4c3c7a39414d803bdd190bfc3ff2', '3', '4141', '141', '4114', '4141', 1.00, '0', '20200310201731506QQ截图20200310190128.jpg', 1, 'e4257f7f88454a7ea70055ee46b2e503.txt', 0, NULL, '2020-02-14 17:33:26', '2020-03-10 12:17:38');
+INSERT INTO `book` VALUES ('6372631134b64a25941c2f80958b980b', '4', '真龙真龙', '真龙真龙真龙真龙', '真龙真龙', '真龙真龙', 0.00, '0', '20200310201915779403.png', 1, '251b8031be384d2487e22ac389e090c3.txt', 0, NULL, '2020-03-05 13:30:56', '2020-03-10 12:19:17');
+INSERT INTO `book` VALUES ('a135df0ea5014c90bba0e4c6a7c82cab', '4', '狼图腾', '精装版隆重上市，影响深远的史诗级作品，入选新中国70年70部长篇小说，多所学校列入学生必读书单，不仅是一部好读的长篇小说，其信念、勇气与团队精神更是激励着一代又一代人。', '姜绒1', '北京十月文艺出版社', 44.90, '0', '20200314203719290QQ截图20200310190128.jpg', 0, '111414', 0, NULL, '2020-03-19 16:00:00', '2020-03-14 12:37:21');
+INSERT INTO `book` VALUES ('b57a9128631743239a41817936f5d7bb', '1', '1441', '41', '144141', '4141', 111.00, '1', '20200310201513046QQ截图20200226194757.jpg', 0, '1141', 0, NULL, '2020-03-20 16:00:00', '2020-03-10 12:15:14');
+INSERT INTO `book` VALUES ('bf5d445abd77406fa433c72c683b10f2', '4', 'windows', 'windows', 'windows', 'windows', 1.00, '0', '20200310201102722QQ截图20200310190128.jpg', 1, 'a19253bc5ceb4fb5accfa233c6b6ec1a.txt', 1, 3.8, '2020-02-09 17:33:37', '2020-03-10 12:11:10');
+INSERT INTO `book` VALUES ('c8dea18c7b924a9ba3af8ca5270ec64e', '1', '111', '1', '1111', '1111', 1.00, '1', '20200310194958133桌面.jpg', 1, '1', 0, 1.0, '2020-02-05 13:03:12', '2020-03-10 11:50:08');
+INSERT INTO `book` VALUES ('d58a37c26ed2456c9f566768afc1d4ae', '9', '1111', '4141', '4141', '1441', 1441.00, '0', '20200310195324162QQ截图20200310190952.jpg', 0, '1441', 0, NULL, '2020-03-19 16:00:00', '2020-03-10 11:53:35');
+INSERT INTO `book` VALUES ('d80b2ce8a65d438e942b60e0352dda84', '1', '122', '1', '1222', '1222', 1.00, '2', '20200310201826603QQ截图20200226194757.jpg', 1, '1', 0, 1.0, '2020-02-05 13:03:12', '2020-03-10 12:18:28');
+INSERT INTO `book` VALUES ('dd445e68a24f40459266aedb395e5817', '1', '122', '1', '122', '122', 1.00, '0', '20200310201353073QQ截图20200226194757.jpg', 1, '1', 0, 1.0, '2020-02-05 13:03:12', '2020-03-10 12:14:02');
+INSERT INTO `book` VALUES ('f65f5a4768694472b70715fd73bca2f5', '12', '111', '111', '111', '111', 11.00, '0', '20200310194929794桌面.jpg', 0, '111', 0, NULL, '2020-02-21 16:00:00', '2020-03-10 11:49:30');
+INSERT INTO `book` VALUES ('fd05624d73214dedaabe3dc0f00cd1f8', '1', '124', '11111', '24211', '124', 1.00, '0', '20200310194739112桌面.jpg', 1, 'ca7f3e1e360e46de97b0a7602b4893b8.txt', 0, NULL, '2020-03-13 10:24:12', '2020-03-10 11:48:17');
 
 -- ----------------------------
 -- Table structure for borrowing
@@ -91,6 +92,7 @@ CREATE TABLE `borrowing`  (
 -- ----------------------------
 INSERT INTO `borrowing` VALUES ('139c9519ca884ffba2f23225a5bdc193', '10d88d1b5409433db00d871370ce7fd6', '2', '141', '3', 30, '2020-03-04 14:28:30', '2020-03-04 14:29:32', '2020-03-05 14:28:28', NULL, '3', '3', NULL, NULL, '2020-03-04 14:28:30', '2020-03-04 14:29:32', NULL, NULL, NULL);
 INSERT INTO `borrowing` VALUES ('1414114', '1414', '141414', 'www', 'ww', 11, '2020-03-14 14:59:32', '2020-03-04 14:24:52', '2020-03-13 14:59:47', '2020-03-04 14:25:20', '6', '3', '3', NULL, NULL, '2020-03-04 14:25:20', NULL, NULL, NULL);
+INSERT INTO `borrowing` VALUES ('1ceedf3a35e74e6ea68f423c1f80d0b8', '26fd2b762c9646f49e1cf6f40566b7d8', '1', 'hello', 'admin', 30, '2020-03-09 12:26:49', '2020-03-10 11:24:11', '2020-03-10 12:26:47', NULL, '2', 'admin', NULL, '11222', '2020-03-09 12:26:49', '2020-03-10 11:24:11', NULL, NULL, NULL);
 INSERT INTO `borrowing` VALUES ('2', '2', '1', '1', '1', 11, '2020-02-05 13:05:19', '2020-03-07 02:54:35', '2020-02-21 13:05:21', '2020-03-08 03:02:03', '5', 'cl', '3', NULL, NULL, '2020-03-08 03:02:03', NULL, NULL, NULL);
 INSERT INTO `borrowing` VALUES ('24', '24', '24', '24', '24', 11, '2020-02-05 20:59:37', NULL, '2020-02-23 20:59:39', '2020-02-26 20:59:43', '2', '2', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `borrowing` VALUES ('38829ec66b81450584c138808455574c', '044cf67fbcce4a9fa1feef2098103cbc', '2', '111', '3', 30, '2020-03-04 13:08:01', '2020-03-04 13:30:45', '2020-03-05 13:07:22', '2020-03-04 14:15:11', '6', '3', '3', NULL, '2020-03-04 13:08:01', '2020-03-04 14:15:11', NULL, NULL, NULL);
@@ -135,20 +137,6 @@ INSERT INTO `category` VALUES ('02004000', '文学', '戏曲文学', NULL);
 INSERT INTO `category` VALUES ('02005000', '文学', '散文', NULL);
 
 -- ----------------------------
--- Table structure for collection
--- ----------------------------
-DROP TABLE IF EXISTS `collection`;
-CREATE TABLE `collection`  (
-  `collection_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `user_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `book_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `collection_time` timestamp(0) NULL DEFAULT NULL,
-  `book_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `book_img` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`collection_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
 -- Table structure for comment
 -- ----------------------------
 DROP TABLE IF EXISTS `comment`;
@@ -157,17 +145,60 @@ CREATE TABLE `comment`  (
   `book_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '书籍id',
   `user_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户id',
   `comment_time` timestamp(0) NOT NULL COMMENT '评论时间',
-  `Zan_flag` int(0) NULL DEFAULT NULL COMMENT '赞标志',
   `content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '评论内容',
   `score` int(0) NULL DEFAULT NULL COMMENT '评分',
+  `reply_flag` int(0) NULL DEFAULT NULL,
+  `reply_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `zan_number` int(0) NULL DEFAULT NULL,
+  `remark2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `remark3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   PRIMARY KEY (`comment_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of comment
 -- ----------------------------
-INSERT INTO `comment` VALUES ('1', '1', '1', '2020-02-06 13:08:45', 1, '1', 1);
-INSERT INTO `comment` VALUES ('2', '2', '2', '2020-02-29 21:05:32', 0, '2', 2);
+INSERT INTO `comment` VALUES ('0ac4b55c9d724b5e8e28bde604209f3a', 'bf5d445abd77406fa433c72c683b10f2', '1', '2020-03-15 13:53:16', '呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃', 1, NULL, NULL, 1, NULL, NULL);
+INSERT INTO `comment` VALUES ('1292d0cdc77c4fb4b4cb27a44072b430', 'bf5d445abd77406fa433c72c683b10f2', '1', '2020-03-15 13:50:05', '法萨芬撒分散个搭嘎当时搞公司归属感', 1, NULL, NULL, 1, NULL, NULL);
+INSERT INTO `comment` VALUES ('14b9776315994cab9523d15cbfc3ab98', 'bf5d445abd77406fa433c72c683b10f2', '1', '2020-03-15 13:50:22', '法萨芬撒分散个搭嘎当时搞公案发时发放司归属感', 1, NULL, NULL, 1, NULL, NULL);
+INSERT INTO `comment` VALUES ('2685cf81587849d5a064dfea0df18e1c', 'bf5d445abd77406fa433c72c683b10f2', '1', '2020-03-15 13:52:24', '啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊', 1, NULL, NULL, 0, NULL, NULL);
+INSERT INTO `comment` VALUES ('3d7dd2d1af084c0593171992c21796cb', 'bf5d445abd77406fa433c72c683b10f2', '1', '2020-03-15 13:52:04', '1111111111111 ', 1, NULL, NULL, 0, NULL, NULL);
+INSERT INTO `comment` VALUES ('576f0934768f4439947bb27dc87c67e5', 'bf5d445abd77406fa433c72c683b10f2', '1', '2020-03-15 13:51:35', '发撒阿萨法', 1, NULL, NULL, 0, NULL, NULL);
+INSERT INTO `comment` VALUES ('693d949b39714fc6ac8f27191c719fba', 'bf5d445abd77406fa433c72c683b10f2', '1', '2020-03-15 13:51:38', '划分煽风点火', 1, NULL, NULL, 0, NULL, NULL);
+INSERT INTO `comment` VALUES ('6a53eb3899ca4c6d9840560f6efd41da', 'bf5d445abd77406fa433c72c683b10f2', '1', '2020-03-15 13:52:43', '呜呜呜呜呜呜呜呜呜呜呜无无无无无无无无', 1, NULL, NULL, 0, NULL, NULL);
+INSERT INTO `comment` VALUES ('939ea9e971eb4d7b82dc58a6e03a7465', 'bf5d445abd77406fa433c72c683b10f2', '1', '2020-03-15 13:49:03', '返回搜狐覆盖数分公司hoi9awf很大时额按规定洒', 1, NULL, NULL, 0, NULL, NULL);
+INSERT INTO `comment` VALUES ('962fec3cc41445fd9616234633e4c2c5', 'bf5d445abd77406fa433c72c683b10f2', '1', '2020-03-15 13:51:45', '呜呜呜呜呜呜呜呜呜呜呜无无无无无无无无无无', 1, NULL, NULL, 0, NULL, NULL);
+INSERT INTO `comment` VALUES ('9e657aaca850476a9a69935c4b21d9be', 'bf5d445abd77406fa433c72c683b10f2', '1', '2020-03-15 13:51:42', '划分煽风点火凄凄切切群群群群群群群群', 1, NULL, NULL, 0, NULL, NULL);
+INSERT INTO `comment` VALUES ('c13f25dc68804338baf9ef4fb114477e', 'bf5d445abd77406fa433c72c683b10f2', '1', '2020-03-15 13:51:48', '呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃', 4, NULL, NULL, 0, NULL, NULL);
+INSERT INTO `comment` VALUES ('cbbf77e249504cc498d834de017b224c', 'bf5d445abd77406fa433c72c683b10f2', '1', '2020-03-15 13:51:31', '我发玩法', 1, NULL, NULL, 0, NULL, NULL);
+INSERT INTO `comment` VALUES ('cc347104056d4dc6994abbbbfba1e2b4', 'bf5d445abd77406fa433c72c683b10f2', '1', '2020-03-15 09:56:39', '很好很好', 3, NULL, NULL, 1, NULL, NULL);
+INSERT INTO `comment` VALUES ('d4a31f957d554b22b451f31d8224e03a', 'bf5d445abd77406fa433c72c683b10f2', '1', '2020-03-15 11:36:28', '13131', 5, NULL, NULL, 1, NULL, NULL);
+
+-- ----------------------------
+-- Table structure for comment_like
+-- ----------------------------
+DROP TABLE IF EXISTS `comment_like`;
+CREATE TABLE `comment_like`  (
+  `comment_like_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'id',
+  `comment_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '评论id',
+  `user_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户id',
+  `is_like` int(0) NULL DEFAULT NULL,
+  `remark1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `remark2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `remark3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `remark4` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `remark5` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`comment_like_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of comment_like
+-- ----------------------------
+INSERT INTO `comment_like` VALUES ('25e2706aa723452087777677d445b4e7', 'd4a31f957d554b22b451f31d8224e03a', '1', 1, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `comment_like` VALUES ('3c2258bc03b74b188376085f91dd53cc', '14b9776315994cab9523d15cbfc3ab98', '1', 1, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `comment_like` VALUES ('482526d8bb6f417ea48c1fdbb35413b2', '0ac4b55c9d724b5e8e28bde604209f3a', '1', 1, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `comment_like` VALUES ('63870a0130184c619619f0a2f430b207', 'cc347104056d4dc6994abbbbfba1e2b4', '1', 1, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `comment_like` VALUES ('6905477d07d543e29f406486fb56f307', '1292d0cdc77c4fb4b4cb27a44072b430', '1', 1, NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for message
@@ -198,6 +229,7 @@ INSERT INTO `message` VALUES ('afdwqr2dhg4wt', '1', '2020-02-28 17:10:10', 'wf',
 INSERT INTO `message` VALUES ('d11ddsad12xcz', '1', '2020-03-05 17:10:21', 's', 1);
 INSERT INTO `message` VALUES ('d141dfs3', '1', '2020-03-05 17:10:18', 'fs', 1);
 INSERT INTO `message` VALUES ('e1aa227261c146c1aa58b5643d0de6e0', '1', '2020-03-08 05:13:07', 'admin,您好，你申请借阅的hello书籍已通过批准', 1);
+INSERT INTO `message` VALUES ('f1154893bd6944cc8d5d5f7e20af02bd', '1', '2020-03-10 11:24:11', 'admin,您好，你申请借阅的书籍《hello》被驳回，驳回理由：11222', 1);
 INSERT INTO `message` VALUES ('fafsafgdhg', '1', '2020-03-06 17:10:08', 'a', 1);
 
 -- ----------------------------
@@ -226,8 +258,17 @@ CREATE TABLE `permission`  (
 -- Records of permission
 -- ----------------------------
 INSERT INTO `permission` VALUES ('1', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, NULL, NULL, NULL);
+INSERT INTO `permission` VALUES ('3d982ffe5bae492b941d4f4649a873b5', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL);
 INSERT INTO `permission` VALUES ('4d6d14e1b9e149aa89567a70ad723778', 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, NULL, NULL, NULL);
+INSERT INTO `permission` VALUES ('5184c589a08245268de9b871d26dfd3c', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL);
+INSERT INTO `permission` VALUES ('5948ecef174e40d3af8be7c5c24cc361', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL);
+INSERT INTO `permission` VALUES ('7067fc3b84804c699f196e383700c393', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL);
+INSERT INTO `permission` VALUES ('79c691410e6e49f793a31842ded42953', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL);
+INSERT INTO `permission` VALUES ('9cb70c525d044739985aa1eeeb2e3e52', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL);
+INSERT INTO `permission` VALUES ('9df68aafa8c14a369b5043b5c80f3e42', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL);
 INSERT INTO `permission` VALUES ('afa6567870834a70bca5690db70b5cc8', 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, NULL, NULL, NULL);
+INSERT INTO `permission` VALUES ('b20109964ed0456688218a6e3ad3d4de', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL);
+INSERT INTO `permission` VALUES ('fd5f05cb95bd438781d6c5e3b542a2b3', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for record
@@ -241,13 +282,28 @@ CREATE TABLE `record`  (
   `book_img` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '书籍封面',
   `book_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '书籍名称',
   `book_page` int(0) NULL DEFAULT NULL COMMENT '电子书行数',
+  `descr` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `remark2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `remark3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   PRIMARY KEY (`record_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of record
 -- ----------------------------
-INSERT INTO `record` VALUES ('2', '2', '1', '2020-02-27 13:12:24', '1', '1', NULL);
+INSERT INTO `record` VALUES ('0413258086b6439fa5ef5dcefbb4910e', '1', 'bf5d445abd77406fa433c72c683b10f2', '2020-03-15 14:10:04', '20200310201102722QQ截图20200310190128.jpg', 'windows', NULL, 'windows', NULL, NULL);
+INSERT INTO `record` VALUES ('0981ee35aa4446b7a2a220b441b3d9d0', '1', '26fd2b762c9646f49e1cf6f40566b7d8', '2020-03-15 07:13:40', '20200310201535486桌面.jpg', 'hello', NULL, 'hello', NULL, NULL);
+INSERT INTO `record` VALUES ('2b90429ef36346ef8d098de4d9df341b', '1', 'a135df0ea5014c90bba0e4c6a7c82cab', '2020-03-15 06:20:11', '20200314203719290QQ截图20200310190128.jpg', '狼图腾', NULL, '精装版隆重上市，影响深远的史诗级作品，入选新中国70年70部长篇小说，多所学校列入学生必读书单，不仅是一部好读的长篇小说，其信念、勇气与团队精神更是激励着一代又一代人。', NULL, NULL);
+INSERT INTO `record` VALUES ('30f6130ff2f84f8498caaceadee6508e', '1', '10d88d1b5409433db00d871370ce7fd6', '2020-03-15 05:50:03', '20200310190101380111.jpg', '141', NULL, NULL, NULL, NULL);
+INSERT INTO `record` VALUES ('3191901771bd447db8de9dd7ba8b5110', '1', '613b4c3c7a39414d803bdd190bfc3ff2', '2020-03-15 05:54:13', '20200310201731506QQ截图20200310190128.jpg', '4141', NULL, NULL, NULL, NULL);
+INSERT INTO `record` VALUES ('3381695d4cc4437bb91a5122ba91a904', '1', '6372631134b64a25941c2f80958b980b', '2020-03-15 07:06:37', '20200310201915779403.png', '真龙真龙', NULL, '真龙真龙真龙真龙', NULL, NULL);
+INSERT INTO `record` VALUES ('4e359045bb5a4af6be4268945c62ddaa', '1', 'a135df0ea5014c90bba0e4c6a7c82cab', '2020-03-15 06:15:49', '20200314203719290QQ截图20200310190128.jpg', '狼图腾', NULL, '精装版隆重上市，影响深远的史诗级作品，入选新中国70年70部长篇小说，多所学校列入学生必读书单，不仅是一部好读的长篇小说，其信念、勇气与团队精神更是激励着一代又一代人。', NULL, NULL);
+INSERT INTO `record` VALUES ('727f8c0641b148d2a1a78efc67ba0d4b', '1', 'a135df0ea5014c90bba0e4c6a7c82cab', '2020-03-15 06:22:35', '20200314203719290QQ截图20200310190128.jpg', '狼图腾', NULL, '精装版隆重上市，影响深远的史诗级作品，入选新中国70年70部长篇小说，多所学校列入学生必读书单，不仅是一部好读的长篇小说，其信念、勇气与团队精神更是激励着一代又一代人。', NULL, NULL);
+INSERT INTO `record` VALUES ('aa3a133ada4240268f865165e2ff4a39', '1', '10d88d1b5409433db00d871370ce7fd6', '2020-03-15 07:13:18', '20200310190101380111.jpg', '141', NULL, NULL, NULL, NULL);
+INSERT INTO `record` VALUES ('af63b1dc75da4195a0050ca8a953f927', '1', 'a135df0ea5014c90bba0e4c6a7c82cab', '2020-03-15 06:20:52', '20200314203719290QQ截图20200310190128.jpg', '狼图腾', NULL, '精装版隆重上市，影响深远的史诗级作品，入选新中国70年70部长篇小说，多所学校列入学生必读书单，不仅是一部好读的长篇小说，其信念、勇气与团队精神更是激励着一代又一代人。', NULL, NULL);
+INSERT INTO `record` VALUES ('be84e092934543d08393d439a07fb6fe', '1', '10d88d1b5409433db00d871370ce7fd6', '2020-03-15 05:49:56', '20200310190101380111.jpg', '141', NULL, NULL, NULL, NULL);
+INSERT INTO `record` VALUES ('c37e29a07344481bbb02695cfccd3bd3', '1', 'a135df0ea5014c90bba0e4c6a7c82cab', '2020-03-15 06:40:25', '20200314203719290QQ截图20200310190128.jpg', '狼图腾', NULL, '精装版隆重上市，影响深远的史诗级作品，入选新中国70年70部长篇小说，多所学校列入学生必读书单，不仅是一部好读的长篇小说，其信念、勇气与团队精神更是激励着一代又一代人。', NULL, NULL);
+INSERT INTO `record` VALUES ('c68967f528e24aa6adcf1e78df0a69c0', '1', 'a135df0ea5014c90bba0e4c6a7c82cab', '2020-03-15 06:20:46', '20200314203719290QQ截图20200310190128.jpg', '狼图腾', NULL, '精装版隆重上市，影响深远的史诗级作品，入选新中国70年70部长篇小说，多所学校列入学生必读书单，不仅是一部好读的长篇小说，其信念、勇气与团队精神更是激励着一代又一代人。', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for statistics
@@ -319,7 +375,7 @@ CREATE TABLE `user`  (
   `last_login_time` timestamp(0) NULL DEFAULT NULL COMMENT '最后登录时间',
   `create_time` timestamp(0) NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` timestamp(0) NULL DEFAULT NULL COMMENT '修改时间',
-  `remark1` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备用字段1',
+  `avatar` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户头像',
   `remark2` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备用字段2',
   `remark3` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备用字段3',
   PRIMARY KEY (`user_id`) USING BTREE
@@ -328,9 +384,18 @@ CREATE TABLE `user`  (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', '1', '1', 'admin', 'dadb342a6fc35add48dbf87773bcfc18', '1', NULL, NULL, '1142170725@qq.com', NULL, 60, '0', '3', '2020-03-07 11:23:04', '2020-03-08 06:22:29', '2020-03-07 11:23:04', '2020-03-07 11:23:04', NULL, NULL, NULL);
-INSERT INTO `user` VALUES ('4d6d14e1b9e149aa89567a70ad723778', 'clt', '4d6d14e1b9e149aa89567a70ad723778', 'clt', 'b7d0ff96f3810b7b48cf0b5aad033605', '1', NULL, NULL, NULL, NULL, 80, '1', '2', '2020-03-07 12:08:02', '2020-03-08 02:15:08', '2020-03-07 12:08:02', '2020-03-07 12:08:02', NULL, NULL, NULL);
-INSERT INTO `user` VALUES ('afa6567870834a70bca5690db70b5cc8', '123456', 'afa6567870834a70bca5690db70b5cc8', '123456', 'f0ddf8a31c8aaa599125c4204e17a6c2', '1', NULL, NULL, NULL, NULL, 80, '1', '2', '2020-03-07 12:08:14', '2020-03-08 02:15:46', '2020-03-07 12:08:14', '2020-03-07 12:08:14', NULL, NULL, NULL);
+INSERT INTO `user` VALUES ('1', '1', '1', 'admin', '038bdaf98f2037b31f1e75b5b4c9b26e', '1', '123456789123456789', '12345678912', '1142170725@qq.com', '    ', 60, '0', '3', '2020-03-07 11:23:04', '2020-03-15 04:36:34', '2020-03-07 11:23:04', '2020-03-07 11:23:04', 'userDefaultAvatar.png', NULL, NULL);
+INSERT INTO `user` VALUES ('3d982ffe5bae492b941d4f4649a873b5', 'asfsa', '3d982ffe5bae492b941d4f4649a873b5', 'fsafsa', '98548b70813d802a967c5fb3d3780cea', '1', NULL, NULL, NULL, NULL, 80, '1', '0', '2020-03-15 14:08:35', NULL, '2020-03-15 14:08:35', '2020-03-15 14:08:35', 'userDefaultAvatar.png', NULL, NULL);
+INSERT INTO `user` VALUES ('4d6d14e1b9e149aa89567a70ad723778', 'clt', '4d6d14e1b9e149aa89567a70ad723778', 'clt', 'b7d0ff96f3810b7b48cf0b5aad033605', '1', NULL, NULL, NULL, NULL, 80, '1', '2', '2020-03-07 12:08:02', '2020-03-08 02:15:08', '2020-03-07 12:08:02', '2020-03-07 12:08:02', 'userDefaultAvatar.png', NULL, NULL);
+INSERT INTO `user` VALUES ('5184c589a08245268de9b871d26dfd3c', 'asfsa', '5184c589a08245268de9b871d26dfd3c', 'aaaaa', 'b7da50fb58fad358f6c721b9c95b396d', '1', NULL, NULL, NULL, NULL, 80, '1', '0', '2020-03-15 14:08:39', NULL, '2020-03-15 14:08:39', '2020-03-15 14:08:39', 'userDefaultAvatar.png', NULL, NULL);
+INSERT INTO `user` VALUES ('5948ecef174e40d3af8be7c5c24cc361', NULL, '5948ecef174e40d3af8be7c5c24cc361', NULL, '5f7b02e30a73741fb1b9587f8efde83b', '1', NULL, NULL, NULL, NULL, 60, '1', '0', '2020-03-08 11:57:30', NULL, '2020-03-08 11:57:30', '2020-03-08 11:57:30', 'userDefaultAvatar.png', NULL, NULL);
+INSERT INTO `user` VALUES ('7067fc3b84804c699f196e383700c393', 'asfsa', '7067fc3b84804c699f196e383700c393', 'ccccc', '73061789d8d71f99bc993fe98d4392db', '1', NULL, NULL, NULL, NULL, 80, '1', '0', '2020-03-15 14:08:43', NULL, '2020-03-15 14:08:43', '2020-03-15 14:08:43', 'userDefaultAvatar.png', NULL, NULL);
+INSERT INTO `user` VALUES ('79c691410e6e49f793a31842ded42953', 'ddddd', '79c691410e6e49f793a31842ded42953', 'ddddd', '343fb8a5be15e62e8f02eec406659c04', '1', NULL, NULL, NULL, NULL, 80, '1', '0', '2020-03-15 14:08:56', NULL, '2020-03-15 14:08:56', '2020-03-15 14:08:56', 'userDefaultAvatar.png', NULL, NULL);
+INSERT INTO `user` VALUES ('9cb70c525d044739985aa1eeeb2e3e52', NULL, '9cb70c525d044739985aa1eeeb2e3e52', NULL, '5f7b02e30a73741fb1b9587f8efde83b', '1', NULL, NULL, NULL, NULL, 60, '1', '0', '2020-03-08 11:56:06', NULL, '2020-03-08 11:56:06', '2020-03-08 11:56:06', 'userDefaultAvatar.png', NULL, NULL);
+INSERT INTO `user` VALUES ('9df68aafa8c14a369b5043b5c80f3e42', 'asfsa', '9df68aafa8c14a369b5043b5c80f3e42', 'bbbbb', 'b5be7c3351192fb51d80d84f397db91d', '1', NULL, NULL, NULL, NULL, 80, '1', '0', '2020-03-15 14:08:41', NULL, '2020-03-15 14:08:41', '2020-03-15 14:08:41', 'userDefaultAvatar.png', NULL, NULL);
+INSERT INTO `user` VALUES ('afa6567870834a70bca5690db70b5cc8', '123456', 'afa6567870834a70bca5690db70b5cc8', '123456', 'f0ddf8a31c8aaa599125c4204e17a6c2', '1', NULL, NULL, NULL, NULL, 80, '1', '2', '2020-03-07 12:08:14', '2020-03-08 02:15:46', '2020-03-07 12:08:14', '2020-03-07 12:08:14', 'userDefaultAvatar.png', NULL, NULL);
+INSERT INTO `user` VALUES ('b20109964ed0456688218a6e3ad3d4de', 'asfsa', 'b20109964ed0456688218a6e3ad3d4de', 'eeeee', '4fec09c0d052b3a9e3060333ccd50129', '1', NULL, NULL, NULL, NULL, 80, '1', '0', '2020-03-15 14:08:47', NULL, '2020-03-15 14:08:47', '2020-03-15 14:08:47', 'userDefaultAvatar.png', NULL, NULL);
+INSERT INTO `user` VALUES ('fd5f05cb95bd438781d6c5e3b542a2b3', 'asfsa', 'fd5f05cb95bd438781d6c5e3b542a2b3', 'ddddd', '343fb8a5be15e62e8f02eec406659c04', '1', NULL, NULL, NULL, NULL, 80, '1', '0', '2020-03-15 14:08:45', NULL, '2020-03-15 14:08:45', '2020-03-15 14:08:45', 'userDefaultAvatar.png', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for user_class
@@ -349,5 +414,30 @@ CREATE TABLE `user_class`  (
   `remark3` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   PRIMARY KEY (`class_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for user_collection
+-- ----------------------------
+DROP TABLE IF EXISTS `user_collection`;
+CREATE TABLE `user_collection`  (
+  `collection_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '收藏id',
+  `user_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户id',
+  `book_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '书籍id',
+  `collection_time` timestamp(0) NULL DEFAULT NULL COMMENT '收藏时间',
+  `book_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '书籍名称',
+  `descr` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '书籍描述',
+  `book_img` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '书籍图片',
+  `is_like` int(0) NULL DEFAULT NULL COMMENT '赞标志',
+  `is_collect` int(0) NULL DEFAULT NULL COMMENT '收藏标志',
+  `remark1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备用字段1',
+  `remark2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备用字段2',
+  `remark3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备用字段3',
+  PRIMARY KEY (`collection_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of user_collection
+-- ----------------------------
+INSERT INTO `user_collection` VALUES ('911cebaa29d045839e454a062100e341', '1', 'bf5d445abd77406fa433c72c683b10f2', NULL, 'windows', 'windows', '20200310201102722QQ截图20200310190128.jpg', 1, 1, NULL, NULL, NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;

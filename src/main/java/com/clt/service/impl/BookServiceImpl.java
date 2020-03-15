@@ -339,7 +339,7 @@ public class BookServiceImpl implements BookService {
     }
 
     private Map<Integer, String> getTypeTitleById() {
-        Map<Integer, String> map = new HashMap<>();
+        Map<Integer, String> map = new HashMap<>(16);
         final List<Type> types = typeDao.queryAll();
         types.stream().forEach(type -> {
             map.put(type.getId(), type.getTitle());

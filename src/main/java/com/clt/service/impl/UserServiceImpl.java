@@ -101,6 +101,7 @@ public class UserServiceImpl implements UserService {
         if (user.getCredit() == null || user.getCredit() < 0 || user.getCredit() > 100) {
             user.setCredit(60);
         }
+        user.setAvatar(Const.USER_DEFAULT_AVATAR);
         user.setUserId(user.getStuNo());
         user.setPassword(Const.INITIAL_PASSWORD);
         Object md5PassWord = new SimpleHash(Const.ENCRYPTION_ALGORITHM, user.getPassword(),

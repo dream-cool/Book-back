@@ -8,6 +8,7 @@ import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -76,17 +77,18 @@ public class CommentController {
     }
 
 
-    @GetMapping("")
+    @PostMapping("/all")
     @ApiOperation("分页查询数据")
     public ResultUtil<PageInfo<Comment>> selectAllByPage(
             @ApiParam("页码") @RequestParam(required = false) Integer pageNum,
             @ApiParam("每页大小") @RequestParam(required = false) Integer pageSize,
-            Comment comment
+            @ApiParam("用户id") @RequestParam(required = false) String userId,
+            @RequestBody Comment comment
     ) {
         pageNum = (pageNum == null || pageNum < 0) ? 1 : pageNum;
         pageSize = (pageSize == null || pageSize < 0) ? 10 : pageSize;
         PageHelper.startPage(pageNum, pageSize);
-        List<Comment> typeList = this.commentService.queryAllByCondition(comment);
+        List<Comment> typeList = this.commentService.queryAllByCondition(comment, userId);
         PageInfo<Comment> pageInfo = new PageInfo<>(typeList);
         if (pageInfo != null) {
             return ResultUtil.success(pageInfo, "查询成功");
@@ -105,11 +107,14 @@ public class CommentController {
     @PostMapping("")
     @ApiOperation("通过实体数据新增单条数据")
     public ResultUtil<Comment> insert(@RequestBody Comment comment) {
+        if (comment == null || StringUtils.isBlank(comment.getContent())){
+            return ResultUtil.failed("评论内容为空");
+        }
         Comment insertComment = this.commentService.insert(comment);
         if (insertComment != null) {
-            return ResultUtil.success(insertComment, "新增成功");
+            return ResultUtil.success(insertComment, "评论成功");
         } else {
-            return ResultUtil.failed("新增失败");
+            return ResultUtil.failed("评论失败");
         }
     }
 

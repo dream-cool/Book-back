@@ -1,12 +1,21 @@
 package com.clt.service.impl;
 
-import com.clt.entity.Comment;
 import com.clt.dao.CommentDao;
+import com.clt.dao.CommentLikeDao;
+import com.clt.dao.UserDao;
+import com.clt.entity.Comment;
+import com.clt.entity.CommentLike;
+import com.clt.entity.User;
+import com.clt.service.CommentLikeService;
 import com.clt.service.CommentService;
+import com.clt.utils.UUIDUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * (Comment)表服务实现类
@@ -18,6 +27,15 @@ import java.util.List;
 public class CommentServiceImpl implements CommentService {
     @Resource
     private CommentDao commentDao;
+
+    @Resource
+    private UserDao userDao;
+
+    @Resource
+    private CommentLikeDao commentLikeDao;
+
+    @Resource
+    private CommentLikeService commentLikeService;
 
     /**
      * 通过ID查询单条数据
@@ -34,7 +52,7 @@ public class CommentServiceImpl implements CommentService {
      * 查询多条数据
      *
      * @param offset 查询起始位置
-     * @param limit 查询条数
+     * @param limit  查询条数
      * @return 对象列表
      */
     @Override
@@ -50,6 +68,12 @@ public class CommentServiceImpl implements CommentService {
      */
     @Override
     public Comment insert(Comment comment) {
+        comment.setCommentId(UUIDUtil.getUUID());
+        if (!StringUtils.isBlank(comment.getReplyId())) {
+            comment.setReplyFlag(1);
+        }
+        comment.setCommentTime(new Date());
+        comment.setZanNumber(0);
         this.commentDao.insert(comment);
         return comment;
     }
@@ -83,7 +107,19 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> queryAllByCondition(Comment comment) {
-        return this.commentDao.queryAllByCondition(comment);
+    public List<Comment> queryAllByCondition(Comment comment,String userId) {
+        List<Comment> comments = this.commentDao.queryAllByCondition(comment);
+        comments = comments.stream().map(commentResult -> {
+            final User commentUser = userDao.queryById(commentResult.getUserId());
+            if (userId != null) {
+                CommentLike commentLike = commentLikeService.queryByUserIdAndCommentId(userId, commentResult.getCommentId());
+                if (commentLike != null){
+                    commentResult.setIsLike(commentLike.getIsLike());
+                }
+            }
+            commentResult.setUser(commentUser);
+            return commentResult;
+        }).collect(Collectors.toList());
+        return comments;
     }
 }
