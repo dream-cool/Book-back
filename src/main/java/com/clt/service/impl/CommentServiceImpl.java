@@ -98,6 +98,7 @@ public class CommentServiceImpl implements CommentService {
      */
     @Override
     public boolean deleteById(String commentId) {
+        commentLikeDao.deleteByCommentId(commentId);
         return this.commentDao.deleteById(commentId) > 0;
     }
 

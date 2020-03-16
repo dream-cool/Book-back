@@ -1,5 +1,6 @@
 package com.clt.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -37,6 +38,7 @@ public class UserCollection implements Serializable {
     /**
     * 收藏时间
     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @ApiModelProperty(value = "收藏时间")
     private Date collectionTime;
     /**
@@ -65,10 +67,10 @@ public class UserCollection implements Serializable {
     @ApiModelProperty(value = "收藏标志")
     private Boolean isCollect;
     /**
-    * 备用字段1
+    * 分组名
     */
-    @ApiModelProperty(value = "备用字段1")
-    private String remark1;
+    @ApiModelProperty(value = "分组名")
+    private String groupName;
     /**
     * 备用字段2
     */

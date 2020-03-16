@@ -74,6 +74,9 @@ public class UserCollectionServiceImpl implements UserCollectionService {
         if (userCollectionResult == null) {
             return ResultUtil.failed("操作失败，没有找到对应信息");
         }
+        /**
+         *  添加收藏
+         */
         if (!userCollectionResult.getIsCollect() && userCollection.getIsCollect()){
             userCollection.setCollectionTime(new Date());
         }

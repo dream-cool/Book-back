@@ -1,8 +1,12 @@
 package com.clt.controller;
 
+import com.clt.entity.Comment;
 import com.clt.entity.UserCollection;
 import com.clt.service.UserCollectionService;
 import com.clt.utils.ResultUtil;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.web.bind.annotation.*;
@@ -63,5 +67,24 @@ public class UserCollectionController {
     @ApiOperation("更新单条数据")
     public ResultUtil<UserCollection> update(@RequestBody UserCollection userCollection) {
         return this.userCollectionService.update(userCollection);
+    }
+
+    @PostMapping("/all")
+    @ApiOperation("分页查询数据")
+    public ResultUtil<PageInfo<Comment>> selectAllByPage(
+            @ApiParam("页码") @RequestParam(required = false) Integer pageNum,
+            @ApiParam("每页大小") @RequestParam(required = false) Integer pageSize,
+            @RequestBody UserCollection userCollection
+    ) {
+        pageNum = (pageNum == null || pageNum < 0) ? 1 : pageNum;
+        pageSize = (pageSize == null || pageSize < 0) ? 10 : pageSize;
+        Page page = PageHelper.startPage(pageNum,pageSize);
+        this.userCollectionService.queryAllByCondition(userCollection);
+        PageInfo<Comment> pageInfo = new PageInfo<>(page);
+        if (pageInfo != null) {
+            return ResultUtil.success(pageInfo, "查询成功");
+        } else {
+            return ResultUtil.failed("查询失败");
+        }
     }
 }

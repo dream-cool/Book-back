@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clt.dao.CollectionGroupDao">
+
+    <resultMap type="com.clt.entity.CollectionGroup" id="CollectionGroupMap">
+        <result property="collectionGroupId" column="collection_group_id" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="remark2" column="remark2" jdbcType="VARCHAR"/>
+        <result property="remark3" column="remark3" jdbcType="VARCHAR"/>
+        <result property="remark4" column="remark4" jdbcType="VARCHAR"/>
+        <result property="remark5" column="remark5" jdbcType="VARCHAR"/>
+        <result property="remark6" column="remark6" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="CollectionGroupMap">
+        select
+          collection_group_id, user_id, name, create_time, remark2, remark3, remark4, remark5, remark6
+        from library.collection_group
+        where collection_group_id = #{collectionGroupId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="CollectionGroupMap">
+        select
+          collection_group_id, user_id, name, create_time, remark2, remark3, remark4, remark5, remark6
+        from library.collection_group
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="CollectionGroupMap">
+        select
+          collection_group_id, user_id, name, create_time, remark2, remark3, remark4, remark5, remark6
+        from library.collection_group
+        <where>
+            <if test="collectionGroupId != null and collectionGroupId != ''">
+                and collection_group_id = #{collectionGroupId}
+            </if>
+            <if test="userId != null and userId != ''">
+                and user_id = #{userId}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="createTime != null and createTime != ''">
+                and create_time = #{createTime}
+            </if>
+            <if test="remark2 != null and remark2 != ''">
+                and remark2 = #{remark2}
+            </if>
+            <if test="remark3 != null and remark3 != ''">
+                and remark3 = #{remark3}
+            </if>
+            <if test="remark4 != null and remark4 != ''">
+                and remark4 = #{remark4}
+            </if>
+            <if test="remark5 != null and remark5 != ''">
+                and remark5 = #{remark5}
+            </if>
+            <if test="remark6 != null and remark6 != ''">
+                and remark6 = #{remark6}
+            </if>
+            order by create_time
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert">
+        insert into library.collection_group(collection_group_id, user_id, name, create_time, remark2, remark3, remark4, remark5, remark6)
+        values (#{collectionGroupId},#{userId}, #{name}, #{createTime}, #{remark2}, #{remark3}, #{remark4}, #{remark5}, #{remark6})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update library.collection_group
+        <set>
+            <if test="userId != null and userId != ''">
+                user_id = #{userId},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="createTime != null and createTime != ''">
+                create_time = #{createTime},
+            </if>
+            <if test="remark2 != null and remark2 != ''">
+                remark2 = #{remark2},
+            </if>
+            <if test="remark3 != null and remark3 != ''">
+                remark3 = #{remark3},
+            </if>
+            <if test="remark4 != null and remark4 != ''">
+                remark4 = #{remark4},
+            </if>
+            <if test="remark5 != null and remark5 != ''">
+                remark5 = #{remark5},
+            </if>
+            <if test="remark6 != null and remark6 != ''">
+                remark6 = #{remark6},
+            </if>
+        </set>
+        where collection_group_id = #{collectionGroupId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from library.collection_group where collection_group_id = #{collectionGroupId}
+    </delete>
+
+</mapper>

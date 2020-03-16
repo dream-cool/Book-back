@@ -73,6 +73,8 @@ public class Const {
 
     public static final String INITIAL_PASSWORD = "888888";
 
+    public static final String DEAFULT_COLLECTION = "默认收藏夹";
+
     public static final String OPERATION_FAILED = "操作失败";
 
     public static final String OPERATION_SUCCESS = "操作成功";

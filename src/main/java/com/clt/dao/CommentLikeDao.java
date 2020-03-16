@@ -65,6 +65,13 @@ public interface CommentLikeDao {
      */
     int deleteById(String commentLikeId);
 
+    /**
+     * 删除某条评论的所有点赞数据
+     *
+     * @param commentId 主键
+     * @return 影响行数
+     */
+    int deleteByCommentId(String commentId);
 
 
 }
