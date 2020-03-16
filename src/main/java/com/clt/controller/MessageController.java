@@ -3,6 +3,7 @@ package com.clt.controller;
 import com.clt.entity.Message;
 import com.clt.service.MessageService;
 import com.clt.utils.ResultUtil;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
@@ -69,9 +70,9 @@ public class MessageController {
     ) {
         pageNum = (pageNum == null || pageNum < 0) ? 1 : pageNum;
         pageSize = (pageSize == null || pageSize < 0) ? 10 : pageSize;
-        PageHelper.startPage(pageNum, pageSize);
+        Page page = PageHelper.startPage(pageNum, pageSize);
         List<Message> messages = this.messageService.queryAllByCondition(message);
-        PageInfo<Message> pageInfo = new PageInfo<>(messages);
+        PageInfo<Message> pageInfo = new PageInfo<>(page);
         if (pageInfo != null) {
             return ResultUtil.success(pageInfo, "查询成功");
         } else {

@@ -7,10 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 
 /**
  * @author ：clt
@@ -36,7 +34,10 @@ public class MailUtil {
      *
      * @param Email
      */
+    @Async
     public void sendSimpleMail(Email Email) {
+        logger.info("开始发送邮件");
+        long start = System.currentTimeMillis();
         try {
             SimpleMailMessage mailMessage = new SimpleMailMessage();
             mailMessage.setFrom(MAIL_SENDER);
@@ -47,7 +48,8 @@ public class MailUtil {
         } catch (Exception e) {
             logger.error("邮件发送失败", e.getMessage());
         }
+        logger.info("邮件发送成功，耗时" + (System.currentTimeMillis() - start) + "毫米");
     }
 
-   
+
 }

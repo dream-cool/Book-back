@@ -3,6 +3,7 @@ package com.clt.controller;
 import com.clt.entity.Permission;
 import com.clt.service.PermissionService;
 import com.clt.utils.ResultUtil;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
@@ -67,9 +68,9 @@ public class PermissionController {
     ) {
         pageNum = (pageNum == null || pageNum < 0) ? 1 : pageNum;
         pageSize = (pageSize == null || pageSize < 0) ? 10 : pageSize;
-        PageHelper.startPage(pageNum, pageSize);
+        Page page = PageHelper.startPage(pageNum, pageSize);
         List<Permission> permissions = this.permissionService.queryAll();
-        PageInfo<Permission> pageInfo = new PageInfo<>(permissions);
+        PageInfo<Permission> pageInfo = new PageInfo<>(page);
         if (pageInfo != null) {
             return ResultUtil.success(pageInfo, "查询成功");
         } else {

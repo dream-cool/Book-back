@@ -3,6 +3,7 @@ package com.clt.controller;
 import com.clt.entity.Record;
 import com.clt.service.RecordService;
 import com.clt.utils.ResultUtil;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
@@ -66,9 +67,9 @@ public class RecordController {
     ) {
         pageNum = (pageNum == null || pageNum < 0) ? 1 : pageNum;
         pageSize = (pageSize == null || pageSize < 0) ? 10 : pageSize;
-        PageHelper.startPage(pageNum, pageSize);
+        Page page = PageHelper.startPage(pageNum, pageSize);
         List<Record> records = this.recordService.queryAllByCondition(record);
-        PageInfo<Record> pageInfo = new PageInfo<>(records);
+        PageInfo<Record> pageInfo = new PageInfo<>(page);
         if (records != null) {
             return ResultUtil.success(pageInfo, "查询成功");
         } else {

@@ -3,6 +3,7 @@ package com.clt.controller;
 import com.clt.entity.Comment;
 import com.clt.service.CommentService;
 import com.clt.utils.ResultUtil;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
@@ -87,9 +88,9 @@ public class CommentController {
     ) {
         pageNum = (pageNum == null || pageNum < 0) ? 1 : pageNum;
         pageSize = (pageSize == null || pageSize < 0) ? 10 : pageSize;
-        PageHelper.startPage(pageNum, pageSize);
-        List<Comment> typeList = this.commentService.queryAllByCondition(comment, userId);
-        PageInfo<Comment> pageInfo = new PageInfo<>(typeList);
+        Page page =PageHelper.startPage(pageNum,pageSize);
+        List<Comment> commentList = this.commentService.queryAllByCondition(comment, userId);
+        PageInfo<Comment> pageInfo = new PageInfo<>(page);
         if (pageInfo != null) {
             return ResultUtil.success(pageInfo, "查询成功");
         } else {

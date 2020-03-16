@@ -4,6 +4,7 @@ import com.clt.entity.Borrowing;
 import com.clt.enums.ResultEnum;
 import com.clt.service.BorrowingService;
 import com.clt.utils.ResultUtil;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
@@ -94,9 +95,9 @@ public class BorrowingController {
     ) {
         pageNum = (pageNum == null || pageNum < 0) ? 1 : pageNum;
         pageSize = (pageSize == null || pageSize < 0) ? 10 : pageSize;
-        PageHelper.startPage(pageNum, pageSize);
-        List<Borrowing> typeList = this.borrowingService.queryAllByCondition(borrowing);
-        PageInfo<Borrowing> pageInfo = new PageInfo<>(typeList);
+        Page page = PageHelper.startPage(pageNum, pageSize);
+        List<Borrowing> borrowingList = this.borrowingService.queryAllByCondition(borrowing);
+        PageInfo<Borrowing> pageInfo = new PageInfo<>(page);
         if (pageInfo != null) {
             return ResultUtil.success(pageInfo, "查询成功");
         } else {
