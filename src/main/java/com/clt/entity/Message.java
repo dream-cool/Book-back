@@ -27,17 +27,28 @@ public class Message implements Serializable {
      */
     @ApiModelProperty("信息id")
     private String messageId;
+
     /**
      * 用户id
      */
     @ApiModelProperty("用户id")
     private String userId;
+
+    /**
+     * 发送用户id
+     */
+    @ApiModelProperty("发送用户id")
+    private String  sendUserId;
+
+
+
     /**
      * 发送时间
      */
     @ApiModelProperty("发送时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date sendingTime;
+
     /**
      * 信息内容
      */
@@ -48,5 +59,29 @@ public class Message implements Serializable {
      */
     @ApiModelProperty("信息状态  已读、未读")
     private Integer status;
+
+    /**
+     * 备用字段1
+     */
+    @ApiModelProperty("备用字段1")
+    private String remark1;
+
+    /**
+     * 备用字段2
+     */
+    @ApiModelProperty("备用字段2")
+    private String remark2;
+
+    /**
+     * 备用字段3
+     */
+    @ApiModelProperty("备用字段3")
+    private String remark3;
+
+    /**
+     * 备用字段4
+     */
+    @ApiModelProperty("备用字段4")
+    private String remark4;
 
 }

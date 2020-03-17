@@ -185,6 +185,7 @@ public class BorrowingServiceImpl implements BorrowingService {
         message.setSendingTime(new Date());
         message.setContent(messageContent);
         message.setStatus(0);
+        message.setSendUserId("系统管理员");
         message.setUserId(applyUser.getUserId());
         messageService.insert(message);
         borrowingResult.setBorrowingStatus(BorrowingEnum.valueOf(operation).getCode());
