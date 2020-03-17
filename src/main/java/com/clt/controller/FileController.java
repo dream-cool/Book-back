@@ -23,8 +23,11 @@ public class FileController {
 
     Logger logger = LoggerFactory.getLogger(FileController.class);
 
-    @Value("${spring.servlet.multipart.location}")
-    private String path;
+
+    /**
+     *   @Value("${spring.servlet.multipart.location}")
+     */
+    private String path = System.getProperty("user.dir") + File.separator + "fileData";
 
     /**
      * @param fileName 文件名
