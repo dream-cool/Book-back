@@ -1,28 +1,19 @@
-package com.clt.entity;
+package com.clt.dto;
 
+import com.clt.entity.Comment;
+import com.clt.entity.User;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 /**
- * (Comment)实体类
- *
- * @author makejava
- * @since 2020-02-25 19:04:35
+ * @author ：clt
+ * @Date ：Created in 20:37 2020/03/24
  */
-@Getter
-@Setter
-@ToString
-@ApiModel("评论信息实体")
-public class Comment implements Serializable, Comparable<Comment> {
+public class CommentDto {
     private static final long serialVersionUID = 796800846076565731L;
     /**
      * 评论id
@@ -44,14 +35,13 @@ public class Comment implements Serializable, Comparable<Comment> {
      * 用户名
      */
     @ApiModelProperty("用户名")
-    private String userName;
+    private boolean userName;
 
     /**
      * 用户头像
      */
     @ApiModelProperty("用户头像")
-    private String avatar;
-
+    private boolean avatar;
 
     /**
      * 评论时间
@@ -65,13 +55,6 @@ public class Comment implements Serializable, Comparable<Comment> {
      */
     @ApiModelProperty("评论内容")
     private String content;
-
-    /**
-     * 评论内容
-     */
-    @ApiModelProperty("待提交的评论内容")
-    private String commitContent;
-
     /**
      * 评分
      */
@@ -109,10 +92,16 @@ public class Comment implements Serializable, Comparable<Comment> {
     private String commentPid;
 
     /**
-     * 回复用户名
+     * 备用字段3
      */
     @ApiModelProperty("备用字段3")
-    private String replyUserName;
+    private String remark3;
+
+    /**
+     * 用户实体信息
+     */
+    @ApiModelProperty("用户实体信息")
+    private User user;
 
     /**
      * 用户是否对该评论点赞
@@ -127,12 +116,6 @@ public class Comment implements Serializable, Comparable<Comment> {
     private boolean replaying;
 
     /**
-     * 显示多少条数据
-     */
-    @ApiModelProperty("显示多少条数据")
-    private int showNumbers = 5;
-
-    /**
      * 子评论
      */
     @ApiModelProperty("子评论")
@@ -144,14 +127,5 @@ public class Comment implements Serializable, Comparable<Comment> {
 
     public void decreaseZanNumber(){
         this.zanNumber--;
-    }
-
-    @Override
-    public int compareTo(Comment comment) {
-        long time = this.getCommentTime().getTime() - comment.getCommentTime().getTime();
-        if (time == 0) {
-            return 1;
-        }
-        return (int)time;
     }
 }

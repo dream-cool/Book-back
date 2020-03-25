@@ -1,5 +1,6 @@
 package com.clt.utils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -7,6 +8,7 @@ import java.time.ZoneId;
 import java.time.chrono.ChronoZonedDateTime;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * @author ：clt
@@ -26,6 +28,8 @@ public class DateUtils {
     public static long daysToTimestamp(long days){
         return days * 24 * 3600 * 1000;
     }
+
+    public static SimpleDateFormat format =  new SimpleDateFormat("yyyy-MM-dd");
 
     public static LocalDate dateToLocalDate(Date date){
         Instant instant = date.toInstant();
@@ -57,9 +61,20 @@ public class DateUtils {
         return (int) seconds;
     }
 
+    public static String standardTimeToStringTime(Date date){
+        return format.format(date);
+    }
 
-    public static void main(String[] args) {
-        System.out.println(getDateString(new Date()));
+    public static Date stringTimeToStandardTime(String time) throws ParseException {
+        return format.parse(time);
+    }
+
+
+    public static void main(String[] args) throws ParseException {
+
+        System.out.println(System.currentTimeMillis());
+        System.out.println(stringTimeToStandardTime(standardTimeToStringTime(new Date())).getTime());
+        System.out.println(standardTimeToStringTime(new Date()));
     }
 
 }

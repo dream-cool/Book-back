@@ -61,12 +61,12 @@ public class CollectionGroupController {
     @PostMapping("")
     public ResultUtil<CollectionGroup> insert(@RequestBody CollectionGroup collectionGroup) {
         final List<CollectionGroup> result = collectionGroupService.queryByName(collectionGroup.getName());
-        if (result != null || !result.isEmpty()){
-            return ResultUtil.failed("已存在相同名称分组");
+        if (result == null || result.isEmpty()){
+            collectionGroup.setCollectionGroupId(UUIDUtil.getUUID());
+            collectionGroup.setCreateTime(new Date());
+            return ResultUtil.success(this.collectionGroupService.insert(collectionGroup), "分组新增成功");
         }
-        collectionGroup.setCollectionGroupId(UUIDUtil.getUUID());
-        collectionGroup.setCreateTime(new Date());
-        return ResultUtil.success(this.collectionGroupService.insert(collectionGroup), "分组新增成功");
+        return ResultUtil.failed("已存在相同名称分组");
     }
 
 }

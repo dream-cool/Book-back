@@ -12,14 +12,16 @@
         <result property="replyFlag" column="reply_flag" jdbcType="INTEGER"/>
         <result property="replyId" column="reply_id" jdbcType="VARCHAR"/>
         <result property="zanNumber" column="zan_number" jdbcType="INTEGER"/>
-        <result property="remark2" column="remark2" jdbcType="VARCHAR"/>
-        <result property="remark3" column="remark3" jdbcType="VARCHAR"/>
+        <result property="commentPid" column="comment_pid" jdbcType="VARCHAR"/>
+        <result property="replyUserName" column="reply_user_name" jdbcType="VARCHAR"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="CommentMap">
         select
-          comment_id, book_id, user_id, comment_time, content, score, reply_flag, reply_id, zan_number, remark2, remark3
+          comment_id, book_id, user_id, comment_time, content, score, reply_flag, reply_id, zan_number, comment_pid, reply_user_name
         from library.comment
         where comment_id = #{commentId}
     </select>
@@ -27,7 +29,7 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="CommentMap">
         select
-          comment_id, book_id, user_id, comment_time, content, score, reply_flag, reply_id, zan_number, remark2, remark3
+          comment_id, book_id, user_id, comment_time, content, score, reply_flag, reply_id, zan_number, commentPid, reply_user_name
         from library.comment
         limit #{offset}, #{limit}
     </select>
@@ -35,9 +37,11 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAllByCondition" resultMap="CommentMap">
         select
-          comment_id, book_id, user_id, comment_time, content, score, reply_flag, reply_id, zan_number, remark2, remark3
-        from library.comment
+        comment_id, book_id, comment.user_id, comment_time, content, score, reply_flag, reply_id,
+        zan_number, comment_pid, comment.reply_user_name, user_name, avatar
+        from library.comment, library.user
         <where>
+            and user.user_id = comment.user_id
             <if test="commentId != null and commentId != ''">
                 and comment_id = #{commentId}
             </if>
@@ -65,11 +69,11 @@
             <if test="zanNumber != null and zanNumber != ''">
                 and zan_number = #{zanNumber}
             </if>
-            <if test="remark2 != null and remark2 != ''">
-                and remark2 = #{remark2}
+            <if test="commentPid != null and commentPid != ''">
+                and comment_pid = #{commentPid}
             </if>
-            <if test="remark3 != null and remark3 != ''">
-                and remark3 = #{remark3}
+            <if test="replyUserName != null and replyUserName != ''">
+                and reply_user_name = #{replyUserName}
             </if>
             <if test="sortWay != null and sortWay != ''">
                 order by ${sortWay} desc
@@ -80,8 +84,8 @@
 
     <!--新增所有列-->
     <insert id="insert" >
-        insert into library.comment(comment_id, book_id, user_id, comment_time, content, score, reply_flag, reply_id, zan_number, remark2, remark3)
-        values (#{commentId}, #{bookId}, #{userId}, #{commentTime}, #{content}, #{score}, #{replyFlag}, #{replyId}, #{zanNumber}, #{remark2}, #{remark3})
+        insert into library.comment(comment_id, book_id, user_id, comment_time, content, score, reply_flag, reply_id, zan_number, comment_pid, reply_user_name)
+        values (#{commentId}, #{bookId}, #{userId}, #{commentTime}, #{content}, #{score}, #{replyFlag}, #{replyId}, #{zanNumber}, #{commentPid}, #{replyUserName})
     </insert>
 
     <!--通过主键修改数据-->
@@ -110,11 +114,11 @@
                 reply_id = #{replyId},
             </if>
             zan_number = #{zanNumber},
-            <if test="remark2 != null and remark2 != ''">
-                remark2 = #{remark2},
+            <if test="commentPid != null and commentPid != ''">
+                comment_pid = #{commentPid},
             </if>
-            <if test="remark3 != null and remark3 != ''">
-                remark3 = #{remark3},
+            <if test="replyUserName != null and replyUserName != ''">
+                reply_user_name = #{replyUserName},
             </if>
         </set>
         where comment_id = #{commentId}

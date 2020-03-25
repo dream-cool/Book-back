@@ -3,7 +3,9 @@ package com.clt.service;
 import com.clt.entity.UserCollection;
 import com.clt.utils.ResultUtil;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * (UserCollection)表服务接口
@@ -61,6 +63,15 @@ public interface UserCollectionService {
      * @return 对象列表
      */
     List<UserCollection> queryAllByCondition(UserCollection userCollection);
+
+
+    /**
+     * 将查询结果按照时间分类
+     *
+     * @param userCollection 实例对象
+     * @return 对象列表
+     */
+    Map<String,List<UserCollection>> queryAllGroupCollectTime(UserCollection userCollection);
 
     /**
      * 查询对应用户对应书籍的对象列表

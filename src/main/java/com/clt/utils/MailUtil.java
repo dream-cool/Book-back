@@ -32,24 +32,24 @@ public class MailUtil {
     /**
      * 发送文本邮件
      *
-     * @param Email
+     * @param email
      */
     @Async
-    public void sendSimpleMail(Email Email) {
+    public void sendSimpleMail(Email email) {
         logger.info("开始发送邮件");
         long start = System.currentTimeMillis();
         try {
             SimpleMailMessage mailMessage = new SimpleMailMessage();
             mailMessage.setFrom(MAIL_SENDER);
-            mailMessage.setTo(Email.getRecipient());
-            mailMessage.setSubject(Email.getSubject());
-            mailMessage.setText(Email.getContent());
+            mailMessage.setTo(email.getRecipient());
+            mailMessage.setSubject(email.getSubject());
+            mailMessage.setText(email.getContent());
             javaMailSender.send(mailMessage);
         } catch (Exception e) {
-            logger.error("邮件发送失败", e.getMessage());
+            logger.error("邮件发送失败，将进行重试操作", e.getMessage());
+            sendSimpleMail(email);
+            return;
         }
         logger.info("邮件发送成功，耗时" + (System.currentTimeMillis() - start) + "毫米");
     }
-
-
 }

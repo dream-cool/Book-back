@@ -13,8 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -70,7 +69,9 @@ public class CommentServiceImpl implements CommentService {
     public Comment insert(Comment comment) {
         comment.setCommentId(UUIDUtil.getUUID());
         if (!StringUtils.isBlank(comment.getReplyId())) {
-            comment.setReplyFlag(1);
+            comment.setReplyFlag(true);
+        } else {
+            comment.setReplyFlag(false);
         }
         comment.setCommentTime(new Date());
         comment.setZanNumber(0);
@@ -108,19 +109,73 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> queryAllByCondition(Comment comment,String userId) {
+    public List<Comment> queryAllByCondition(Comment comment, String userId) {
+        comment.setReplyFlag(false);
         List<Comment> comments = this.commentDao.queryAllByCondition(comment);
-        comments = comments.stream().map(commentResult -> {
-            final User commentUser = userDao.queryById(commentResult.getUserId());
+        comments = setCommentIsLike(comments, userId);
+        addChildrenComment(comments, userId);
+        handleChildrenComment(comments);
+        return comments;
+    }
+
+    private List<Comment> setCommentIsLike(List<Comment> comments, String userId) {
+        return comments.stream().map(commentResult -> {
             if (userId != null) {
                 CommentLike commentLike = commentLikeService.queryByUserIdAndCommentId(userId, commentResult.getCommentId());
-                if (commentLike != null){
+                if (commentLike != null) {
                     commentResult.setIsLike(commentLike.getIsLike());
                 }
             }
-            commentResult.setUser(commentUser);
             return commentResult;
         }).collect(Collectors.toList());
-        return comments;
     }
+
+    /**
+     * 再查评论下的子评论
+     */
+    private void addChildrenComment(List<Comment> comments, String userId) {
+        List<Comment> allComments = commentDao.queryAllByCondition(null);
+        for (Comment comment : comments) {
+            allComments.stream().forEach(commentResult -> {
+                if (comment.getCommentId().equals(commentResult.getCommentPid())) {
+                    comment.getChildren().add(commentResult);
+                }
+            });
+        }
+    }
+
+    /**
+     *  处理评论顺序
+     */
+    private void handleChildrenComment(List<Comment> comments){
+        comments.stream().forEach(comment -> {
+            final List<Comment> childrenComments = comment.getChildren();
+            Collections.sort(childrenComments);
+            Map<String, Integer> commentIdData = new LinkedHashMap<>(16);
+            Map<String, Integer> replyIdData = new LinkedHashMap<>(16);
+            int total = childrenComments.size();
+            for (int i = 0; i < total; i++) {
+                commentIdData.put(childrenComments.get(i).getCommentId(), i);
+                if (childrenComments.get(i).getReplyUserName() != null ){
+                    if (replyIdData.get(childrenComments.get(i).getReplyId()) != null){
+                        replyIdData.put(childrenComments.get(i).getReplyId() , i);
+                    }
+                }
+            }
+            for (Map.Entry<String,Integer> data: replyIdData.entrySet()){
+                final Integer index = commentIdData.get(data.getKey());
+                if(index == null){
+                    return;
+                }
+                int insertIndex = index.intValue() + 1;
+                childrenComments.add(insertIndex  , childrenComments.get(data.getValue()));
+                if (data.getValue() > index + 1){
+                    childrenComments.remove(data.getValue() + 1);
+                } else {
+                    childrenComments.remove((int)data.getValue());
+                }
+            }
+        });
+    }
+
 }

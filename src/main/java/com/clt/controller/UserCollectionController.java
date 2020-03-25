@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * (UserCollection)表控制层
@@ -86,5 +87,14 @@ public class UserCollectionController {
         } else {
             return ResultUtil.failed("查询失败");
         }
+    }
+
+
+    @PostMapping("/queryAllGroupCollectTime")
+    @ApiOperation("分页查询数据")
+    public ResultUtil<Map<String, List<UserCollection>>> queryAllGroupCollectTime(
+            @RequestBody UserCollection userCollection
+    ) {
+        return ResultUtil.success(this.userCollectionService.queryAllGroupCollectTime(userCollection), "success");
     }
 }
