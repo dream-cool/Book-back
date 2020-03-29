@@ -8,6 +8,8 @@ import com.clt.constant.Const;
  */
 public enum BorrowingEnum {
 
+    BORROWING_STATUS_CANCEL(Const.BORROWING_STATUS_CANCEL, "0"),
+
     BORROWING_STATUS_APPLYING(Const.BORROWING_STATUS_APPLYING, "1"),
 
     BORROWING_STATUS_REFUSED(Const.BORROWING_STATUS_REFUSED, "2"),

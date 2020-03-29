@@ -16,7 +16,7 @@ public enum BookEnum {
 
     BOOK_TYPE_EBOOK(Const.BOOK_EBOOK,"1"),
 
-    BOOK_TPYE_PAPER(Const.BOOK_PAPER,"0");
+    BOOK_TYPE_PAPER(Const.BOOK_PAPER,"0");
 
 
     private String message;

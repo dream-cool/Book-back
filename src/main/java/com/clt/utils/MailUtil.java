@@ -29,6 +29,8 @@ public class MailUtil {
 
     private Logger logger = LoggerFactory.getLogger(MailUtil.class);
 
+    private int retryNumber = 0;
+
     /**
      * 发送文本邮件
      *
@@ -46,8 +48,18 @@ public class MailUtil {
             mailMessage.setText(email.getContent());
             javaMailSender.send(mailMessage);
         } catch (Exception e) {
-            logger.error("邮件发送失败，将进行重试操作", e.getMessage());
-            sendSimpleMail(email);
+            logger.error("邮件发送失败，100毫秒后将进行重试操作", e.getMessage());
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e1) {
+                e1.printStackTrace();
+            }
+            if (retryNumber < 10){
+                retryNumber++;
+                sendSimpleMail(email);
+            } else {
+                retryNumber = 0;
+            }
             return;
         }
         logger.info("邮件发送成功，耗时" + (System.currentTimeMillis() - start) + "毫米");

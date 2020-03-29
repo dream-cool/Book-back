@@ -57,9 +57,9 @@ public interface UserService {
 
     List<User> queryAllByCondition(User user);
 
-    ResultUtil<Map<String, Object>> sendVerification(User user);
+    ResultUtil<Map<String, Object>> sendVerification(User user, String operation);
 
-    ResultUtil<Map<String, Object>> verificationCheck(User user);
+    ResultUtil<Map<String, Object>> verificationCheck(User user, String operation);
 
     ResultUtil<Map<String, Object>> updatePWByOldPW(String oldPassword, String newPassword, String userId);
 

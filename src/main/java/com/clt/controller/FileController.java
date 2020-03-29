@@ -51,7 +51,7 @@ public class FileController {
         String fileName = DateUtils.getDateString(new Date())+ file.getOriginalFilename();
         int size = (int) file.getSize();
         logger.info("文件名:" + fileName + "-->" + size);
-        File dest = new File(path + "/" + fileName);
+        File dest = new File(path + File.separator + fileName);
         if (!dest.getParentFile().exists()) {
             dest.getParentFile().mkdir();
         }
@@ -108,7 +108,7 @@ public class FileController {
                                @PathVariable String filename,
                                @RequestParam(value = "filePath", required = false) String filePath) throws UnsupportedEncodingException {
         filePath = filePath == null ? "" : filePath;
-        File file = new File(path + "/" + filePath + "/" + filename);
+        File file = new File(path + File.separator + filePath + File.separator + filename);
         if (file.exists()) {
             response.setContentType("application/vnd.ms-excel;charset=UTF-8");
             response.setCharacterEncoding("UTF-8");

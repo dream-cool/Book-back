@@ -7,9 +7,11 @@
         <result property="bookId" column="book_id" jdbcType="VARCHAR"/>
         <result property="userId" column="user_id" jdbcType="VARCHAR"/>
         <result property="bookName" column="book_name" jdbcType="VARCHAR"/>
+        <result property="bookImg" column="book_img" jdbcType="VARCHAR"/>
         <result property="userName" column="user_name" jdbcType="VARCHAR"/>
         <result property="duration" column="duration" jdbcType="INTEGER"/>
         <result property="applicationTime" column="application_time" jdbcType="TIMESTAMP"/>
+        <result property="cancelTime" column="cancel_time" jdbcType="TIMESTAMP"/>
         <result property="handleTime" column="handle_time" jdbcType="TIMESTAMP"/>
         <result property="borrowingTime" column="borrowing_time" jdbcType="TIMESTAMP"/>
         <result property="returnTime" column="return_time" jdbcType="TIMESTAMP"/>
@@ -19,7 +21,6 @@
         <result property="note" column="note" jdbcType="VARCHAR"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
-        <result property="remark1" column="remark1" jdbcType="VARCHAR"/>
         <result property="remark2" column="remark2" jdbcType="VARCHAR"/>
         <result property="remark3" column="remark3" jdbcType="VARCHAR"/>
     </resultMap>
@@ -27,7 +28,7 @@
     <!--查询单个-->
     <select id="queryById" resultMap="BorrowingMap">
         select
-          borrowing_id, book_id, user_id, book_name, user_name, duration, application_time, handle_time, borrowing_time, return_time, borrowing_status, borrowing_operator, return_operator, note, create_time, update_time, remark1, remark2, remark3
+          borrowing_id, book_id, user_id, book_name, user_name, duration, application_time, handle_time, borrowing_time, return_time, borrowing_status, borrowing_operator, return_operator, note, create_time, update_time, cancel_time, remark2, remark3
         from library.borrowing
         where borrowing_id = #{borrowingId}
     </select>
@@ -35,7 +36,7 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="BorrowingMap">
         select
-          borrowing_id, book_id, user_id, book_name, user_name, duration, application_time, handle_time, borrowing_time, return_time, borrowing_status, borrowing_operator, return_operator, note, create_time, update_time, remark1, remark2, remark3
+          borrowing_id, book_id, user_id, book_name, user_name, duration, application_time, handle_time, borrowing_time, return_time, borrowing_status, borrowing_operator, return_operator, note, create_time, update_time, cancel_time, remark2, remark3
         from library.borrowing
         limit #{offset}, #{limit}
     </select>
@@ -43,80 +44,102 @@
     <!--查询指定行数据-->
     <select id="queryAll" resultMap="BorrowingMap">
         select
-          borrowing_id, book_id, user_id, book_name, user_name, duration, application_time, handle_time, borrowing_time, return_time, borrowing_status, borrowing_operator, return_operator, note, create_time, update_time, remark1, remark2, remark3
+          borrowing_id, book_id, user_id, book_name, user_name, duration, application_time, handle_time, borrowing_time, return_time, borrowing_status, borrowing_operator, return_operator, note, create_time, update_time, cancelTime, remark2, remark3
         from library.borrowing
     </select>
 
     <!--通过实体作为筛选条件查询-->
     <select id="queryAllByCondition" resultMap="BorrowingMap">
-        select
-          borrowing_id, book_id, user_id, book_name, user_name, duration, application_time, handle_time, borrowing_time, return_time, borrowing_status, borrowing_operator, return_operator, note, create_time, update_time, remark1, remark2, remark3
-        from library.borrowing
+        SELECT
+            borrowing_id,
+            borrowing.book_id,
+            user_id,
+            img book_img,
+            borrowing.book_name,
+            user_name,
+            duration,
+            application_time,
+            handle_time,
+            borrowing_time,
+            return_time,
+            borrowing_status,
+            borrowing_operator,
+            return_operator,
+            note,
+            borrowing.create_time,
+            borrowing.update_time,
+            borrowing.cancel_time,
+            borrowing.remark2,
+            borrowing.remark3
+            FROM
+            library.borrowing, library.book
         <where>
+            borrowing.book_id = book.book_id
             <if test="borrowingId != null and borrowingId != ''">
-                and borrowing_id = #{borrowingId}
+                and borrowing.borrowing_id = #{borrowingId}
             </if>
             <if test="bookId != null and bookId != ''">
-                and book_id = #{bookId}
+                and borrowing.book_id = #{bookId}
             </if>
             <if test="userId != null and userId != ''">
-                and user_id = #{userId}
+                and borrowing.user_id = #{userId}
             </if>
             <if test="bookName != null and bookName != ''">
-                and book_name like "%"#{bookName}"%"
+                and borrowing.book_name like "%"#{bookName}"%"
             </if>
             <if test="userName != null and userName != ''">
-                and user_name like "%"#{userName}"%"
+                and borrowing.user_name like "%"#{userName}"%"
             </if>
             <if test="duration != null">
-                and duration &lt; #{duration}
+                and borrowing.duration &lt; #{duration}
             </if>
             <if test="applicationTime != null">
-                and application_time  &lt;  #{applicationTime}
+                and borrowing.application_time  &lt;  #{applicationTime}
             </if>
             <if test="handleTime != null">
-                and handle_time  &lt;  #{handleTime}
+                and borrowing.handle_time  &lt;  #{handleTime}
             </if>
             <if test="borrowingTime != null">
-                and borrowing_time  &lt;   #{borrowingTime}
+                and borrowing.borrowing_time  &lt;   #{borrowingTime}
             </if>
             <if test="returnTime != null">
-                and return_time  &lt;  #{returnTime}
+                and borrowing.return_time  &lt;  #{returnTime}
             </if>
             <if test="borrowingStatus != null and borrowingStatus != ''">
-                and borrowing_status = #{borrowingStatus}
+                and borrowing.borrowing_status = #{borrowingStatus}
             </if>
             <if test="borrowingOperator != null and borrowingOperator != ''">
-                and borrowing_operator = #{borrowingOperator}
+                and borrowing.borrowing_operator = #{borrowingOperator}
             </if>
             <if test="returnOperator != null and returnOperator != ''">
-                and return_operator = #{returnOperator}
+                and borrowing.return_operator = #{returnOperator}
             </if>
             <if test="note != null and note != ''">
-                and note = #{note}
+                and borrowing.note = #{note}
             </if>
             <if test="createTime != null">
-                and create_time = #{createTime}
+                and borrowing.create_time = #{createTime}
             </if>
             <if test="updateTime != null">
-                and update_time = #{updateTime}
+                and borrowing.update_time = #{updateTime}
             </if>
-            <if test="remark1 != null and remark1 != ''">
-                and remark1 = #{remark1}
+            <if test="cancelTime != null">
+                and borrowing.cancel_time = #{cancelTime}
             </if>
             <if test="remark2 != null and remark2 != ''">
-                and remark2 = #{remark2}
+                and borrowing.remark2 = #{remark2}
             </if>
             <if test="remark3 != null and remark3 != ''">
-                and remark3 = #{remark3}
+                and borrowing.remark3 = #{remark3}
             </if>
         </where>
+        order by borrowing.application_time desc
     </select>
 
     <!--新增所有列-->
     <insert id="insert">
-        insert into library.borrowing(borrowing_id, book_id, user_id, book_name, user_name, duration, application_time, handle_time, borrowing_time, return_time, borrowing_status, borrowing_operator, return_operator, note, create_time, update_time, remark1, remark2, remark3)
-        values (#{borrowingId}, #{bookId}, #{userId}, #{bookName}, #{userName}, #{duration}, #{applicationTime}, #{handleTime}, #{borrowingTime}, #{returnTime}, #{borrowingStatus}, #{borrowingOperator}, #{returnOperator}, #{note}, #{createTime}, #{updateTime}, #{remark1}, #{remark2}, #{remark3})
+        insert into library.borrowing(borrowing_id, book_id, user_id, book_name, user_name, duration, application_time, handle_time, borrowing_time, return_time, borrowing_status, borrowing_operator, return_operator, note, create_time, update_time, cancel_time, remark2, remark3)
+        values (#{borrowingId}, #{bookId}, #{userId}, #{bookName}, #{userName}, #{duration}, #{applicationTime}, #{handleTime}, #{borrowingTime}, #{returnTime}, #{borrowingStatus}, #{borrowingOperator}, #{returnOperator}, #{note}, #{createTime}, #{updateTime}, #{cancelTime}, #{remark2}, #{remark3})
     </insert>
 
     <!--通过主键修改数据-->
@@ -168,8 +191,8 @@
             <if test="updateTime != null">
                 update_time = #{updateTime},
             </if>
-            <if test="remark1 != null and remark1 != ''">
-                remark1 = #{remark1},
+            <if test="cancelTime != null">
+                cancel_time = #{cancelTime},
             </if>
             <if test="remark2 != null and remark2 != ''">
                 remark2 = #{remark2},

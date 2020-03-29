@@ -8,12 +8,9 @@ import com.clt.service.UserCollectionService;
 import com.clt.utils.DateUtils;
 import com.clt.utils.ResultUtil;
 import com.clt.utils.UUIDUtil;
-import com.google.common.collect.Lists;
-import org.apache.commons.collections.ListUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -80,12 +77,12 @@ public class UserCollectionServiceImpl implements UserCollectionService {
         /**
          *  添加收藏
          */
-        if (!userCollectionResult.getIsCollect() && userCollection.getIsCollect()){
+        if (!userCollectionResult.getIsCollect() && userCollection.getIsCollect()) {
             userCollection.setCollectionTime(new Date());
         }
-        if (!userCollectionResult.getIsLike().equals(userCollection.getIsLike())){
+        if (!userCollectionResult.getIsLike().equals(userCollection.getIsLike())) {
             final Book bookResult = this.bookDao.queryById(userCollection.getBookId());
-            if (userCollection.getIsLike()){
+            if (userCollection.getIsLike()) {
                 bookResult.increaseZanNumber();
             } else {
                 bookResult.decreaseZanNumber();
@@ -118,13 +115,13 @@ public class UserCollectionServiceImpl implements UserCollectionService {
     }
 
     @Override
-    public Map<String,List<UserCollection>> queryAllGroupCollectTime(UserCollection userCollection) {
+    public Map<String, List<UserCollection>> queryAllGroupCollectTime(UserCollection userCollection) {
         final List<UserCollection> userCollections = queryAllByCondition(userCollection);
         Map<String, List<UserCollection>> data = new LinkedHashMap<>(16);
         userCollections.stream().forEach(userCollectionResult -> {
             String key = DateUtils.standardTimeToStringTime(userCollectionResult.getCollectionTime());
             final List<UserCollection> userCollectionsResultByDay = data.get(key);
-            if (userCollectionsResultByDay == null || userCollectionsResultByDay.isEmpty()){
+            if (userCollectionsResultByDay == null || userCollectionsResultByDay.isEmpty()) {
                 List<UserCollection> userCollectionsByDay = new ArrayList<>();
                 userCollectionsByDay.add(userCollectionResult);
                 data.put(key, userCollectionsByDay);

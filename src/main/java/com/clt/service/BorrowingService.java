@@ -26,7 +26,7 @@ public interface BorrowingService {
      * 查询多条数据
      *
      * @param offset 查询起始位置
-     * @param limit 查询条数
+     * @param limit  查询条数
      * @return 对象列表
      */
     List<Borrowing> queryAllByLimit(int offset, int limit);
@@ -62,9 +62,13 @@ public interface BorrowingService {
 
     List<Borrowing> queryAllByCondition(Borrowing borrowing);
 
-    ResultUtil<Borrowing> handleApplying(String operation, String userName, String borrowingId,String note);
+    ResultUtil<Borrowing> handleApplying(String operation, String userName, String borrowingId, String note);
 
-    ResultUtil<Map<String,Object>> getBorrowingStatus();
+    ResultUtil<Map<String, Object>> getBorrowingStatus();
 
     ResultUtil<Borrowing> handleReturn(String borrowingId, String userName);
+
+    Map<String, List<Borrowing>> userBorrowingInfoGroupTime(Borrowing borrowing);
+
+    ResultUtil<Borrowing> cancelApplying(String borrowingId);
 }

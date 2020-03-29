@@ -11,7 +11,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -80,11 +79,11 @@ public class BorrowingController {
     /**
      * 分页查询数据
      *
-     * @param pageNum 起始
+     * @param pageNum   起始
      * @param pageSize  条数
      * @param borrowing 借阅实体，筛选条件
      * @return 满足条件的数据
-     *
+     * <p>
      * 由于需要传入实体类筛选数据，所有请求方式为post
      */
     @PostMapping("/all")
@@ -106,9 +105,30 @@ public class BorrowingController {
         }
     }
 
+    /**
+     * 分页查询数据
+     *
+     * @param pageNum   起始
+     * @param pageSize  条数
+     * @param borrowing 借阅实体，筛选条件
+     * @return 满足条件的数据
+     * <p>
+     * 由于需要传入实体类筛选数据，所有请求方式为post
+     */
+    @PostMapping("/userBorrowingInfo")
+    @ApiOperation("分页查询数据")
+    public ResultUtil<Map<String, List<Borrowing>>> userBorrowingInfoGroupTime(
+            @ApiParam("页码") @RequestParam(required = false) Integer pageNum,
+            @ApiParam("每页大小") @RequestParam(required = false) Integer pageSize,
+            @RequestBody(required = false) Borrowing borrowing
+    ) {
+        return ResultUtil.success(borrowingService.userBorrowingInfoGroupTime(borrowing), null);
+    }
+
+
     @GetMapping("/get/borrowingStatus")
     @ApiOperation("获取借阅状态数组")
-    public ResultUtil<Map<String,Object>> getBorrowingStatus(){
+    public ResultUtil<Map<String, Object>> getBorrowingStatus() {
         return this.borrowingService.getBorrowingStatus();
     }
 
@@ -119,8 +139,16 @@ public class BorrowingController {
             @ApiParam("操作人员") @RequestParam(value = "userName") String userName,
             @ApiParam("备注") @RequestParam(value = "note", required = false) String note,
             @ApiParam("借阅编号") @PathVariable String borrowingId
-    ){
-        return this.borrowingService.handleApplying(operation,userName,borrowingId,note);
+    ) {
+        return this.borrowingService.handleApplying(operation, userName, borrowingId, note);
+    }
+
+    @GetMapping("/cancelApplying/{borrowingId}")
+    @ApiOperation("取消申请借阅的书籍")
+    public ResultUtil<Borrowing> cancelApplying(
+            @ApiParam("借阅编号") @PathVariable String borrowingId
+    ) {
+        return this.borrowingService.cancelApplying(borrowingId);
     }
 
     @GetMapping("/handleReturn/{borrowingId}")
@@ -128,11 +156,9 @@ public class BorrowingController {
     public ResultUtil<Borrowing> handleReturn(
             @ApiParam("操作人员") @RequestParam(value = "userName") String userName,
             @ApiParam("借阅编号") @PathVariable String borrowingId
-    ){
-        return this.borrowingService.handleReturn(borrowingId,userName);
+    ) {
+        return this.borrowingService.handleReturn(borrowingId, userName);
     }
-
-
 
 
     /**
@@ -188,5 +214,4 @@ public class BorrowingController {
             return ResultUtil.failed("删除失败");
         }
     }
-
 }

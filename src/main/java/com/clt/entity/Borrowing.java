@@ -42,6 +42,12 @@ public class Borrowing implements Serializable {
      */
     @ApiModelProperty("书籍名称")
     private String bookName;
+
+    /**
+     * 书籍图片
+     */
+    @ApiModelProperty("书籍图片")
+    private String bookImg;
     /**
      * 用户姓名
      */
@@ -66,6 +72,13 @@ public class Borrowing implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @ApiModelProperty("申请时间")
     private Date applicationTime;
+
+    /**
+     * 取消时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @ApiModelProperty("取消时间")
+    private Date cancelTime;
 
     /**
      * 处理时间
@@ -130,11 +143,6 @@ public class Borrowing implements Serializable {
     @ApiModelProperty("修改时间")
     private Date updateTime;
 
-    /**
-     * 备用字段1
-     */
-    @ApiModelProperty("备用字段1")
-    private String remark1;
 
     /**
      * 备用字段2

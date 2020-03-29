@@ -91,7 +91,7 @@ public class UserController {
      * @param user 用户实体
      * @return 新增的数据
      */
-    @PostMapping("")
+    @PutMapping("")
     @ApiOperation("新增单条数据")
     public ResultUtil<User> insert(@RequestBody User user) {
         if (user == null) {
@@ -195,18 +195,20 @@ public class UserController {
 
     @GetMapping("/verificationCheck")
     @ApiModelProperty("登录接口")
-    public ResultUtil<Map<String, Object>> verificationCheck(User user) {
-        return userService.verificationCheck(user);
+    public ResultUtil<Map<String, Object>> verificationCheck(User user,
+         @ApiParam("操作") @RequestParam(required = false) String operation) {
+        return userService.verificationCheck(user, operation);
     }
 
 
     @RequestMapping("/sendVerificationLogin")
     @ResponseBody
-    public ResultUtil<Map<String, Object>> sendVerification(User user) {
+    public ResultUtil<Map<String, Object>> sendVerification(User user,
+            @ApiParam("操作") @RequestParam(required = false) String operation) {
         if (user.getEmail() == null){
             return ResultUtil.failed("用户邮箱为空");
         }
-        return userService.sendVerification(user);
+        return userService.sendVerification(user, operation);
     }
 
     @RequestMapping("/updatePWByOldPW")

@@ -149,4 +149,12 @@ public class User implements Serializable {
     @ApiModelProperty("权限记录")
     private Permission permission;
 
+    public void increaseCredit(int score){
+        this.credit += score;
+    }
+
+    public void decreaseCredit(int score){
+        this.credit -=score;
+    }
+
 }

@@ -62,6 +62,7 @@ public class RecordServiceImpl implements RecordService {
             final Record firstRecord = records.get(0);
             if (System.currentTimeMillis() - firstRecord.getBrowsingTime().getTime() < DateUtils.oneDay){
                 firstRecord.setBrowsingTime(new Date());
+                firstRecord.setBookPage(record.getBookPage());
                 update(firstRecord);
                 return firstRecord;
             }

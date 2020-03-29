@@ -129,4 +129,9 @@
         delete from library.comment where comment_id = #{commentId}
     </delete>
 
+    <delete id="deleteByCommentPid">
+        delete from library.comment where comment_pid = #{commentPid}
+    </delete>
+
+
 </mapper>

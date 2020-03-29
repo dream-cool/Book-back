@@ -37,8 +37,8 @@ public class LoginController {
     @ApiOperation("")
     @RequestMapping("/login")
     public ResultUtil<Map<String, Object>> login(
-            @ApiParam("") @RequestParam("userName") String userName,
-            @ApiParam("") @RequestParam("password") String password) {
+            @ApiParam("用户名") @RequestParam("userName") String userName,
+            @ApiParam("密码") @RequestParam("password") String password) {
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
         try {
@@ -48,7 +48,7 @@ public class LoginController {
         } catch (IncorrectCredentialsException e) {
             return ResultUtil.failed("密码错误");
         } catch (LockedAccountException e) {
-            return ResultUtil.failed("用户已锁定");
+            return ResultUtil.failed("用户已锁定，请联系管理员");
         }
         final User userDetail = (User) subject.getPrincipal();
         userDetail.setLastLoginTime(new Date());

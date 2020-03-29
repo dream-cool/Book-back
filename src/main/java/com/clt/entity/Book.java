@@ -100,11 +100,57 @@ public class Book implements Serializable {
     @ApiModelProperty("修改时间")
     private Date updateTime;
 
+    /**
+     * 借阅次数
+     */
+    @ApiModelProperty("修改时间")
+    private Integer borrowingNumber;
+
+    /**
+     * 备用字段1
+     */
+    @ApiModelProperty("备用字段1")
+    private String remark1;
+
+    /**
+     * 备用字段2
+     */
+    @ApiModelProperty("备用字段2")
+    private String remark2;
+
+    /**
+     * 备用字段3
+     */
+    @ApiModelProperty("备用字段3")
+    private String remark3;
+
+    /**
+     * 备用字段4
+     */
+    @ApiModelProperty("备用字段4")
+    private String remark4;
+
     public void increaseZanNumber(){
         this.zanNumber++;
     }
 
     public void decreaseZanNumber(){
         this.zanNumber--;
+    }
+
+    public void increaseBorrowingNumber(){
+        this.borrowingNumber++;
+    }
+
+    public void decreaseBorrowingNumber(){
+        this.borrowingNumber--;
+    }
+
+    public void calculateScore(float score){
+        if (this.score == null || this.score == 0){
+            this.score = score;
+        } else {
+            this.score = (this.score + score) / 2;
+        }
     }
 }

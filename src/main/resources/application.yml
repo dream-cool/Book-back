@@ -18,7 +18,6 @@ spring:
         login-password: druid
   servlet:
     multipart:
-      location: D:/file
       max-file-size: 100MB
 
 

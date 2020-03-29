@@ -135,16 +135,16 @@
             <if test="sex != null and sex != ''">
                 sex = #{sex},
             </if>
-            <if test="idcard != null and idcard != ''">
+            <if test="idcard != null ">
                 IDcard = #{idcard},
             </if>
-            <if test="tel != null and tel != ''">
+            <if test="tel != null ">
                 tel = #{tel},
             </if>
-            <if test="email != null and email != ''">
+            <if test="email != null ">
                 email = #{email},
             </if>
-            <if test="address != null and address != ''">
+            <if test="address != null ">
                 address = #{address},
             </if>
             <if test="credit != null">

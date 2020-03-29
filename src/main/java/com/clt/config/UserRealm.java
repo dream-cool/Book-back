@@ -61,7 +61,7 @@ public class UserRealm extends AuthorizingRealm {
             if (userResult == null){
                 return null;
             } else {
-                if (UserEnum.USER_STATUS_LOCKED.getCode().equals(user.getStatus())){
+                if (UserEnum.USER_STATUS_LOCKED.getCode().equals(userResult.getStatus())){
                     throw new LockedAccountException();
                 }
             }

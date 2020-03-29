@@ -21,6 +21,8 @@ public class Const {
 
     public static final long GB = 1024 * 1024 * 1024 * 1024L;
 
+    public static final String BORROWING_STATUS_CANCEL = "已取消";
+
     public static final String BORROWING_STATUS_APPLYING = "申请中";
 
     public static final String BORROWING_STATUS_REFUSED = "已驳回";

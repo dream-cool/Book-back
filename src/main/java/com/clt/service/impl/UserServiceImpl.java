@@ -149,7 +149,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResultUtil<Map<String, Object>> sendVerification(User user) {
+    public ResultUtil<Map<String, Object>> sendVerification(User user, String operation) {
         Random random = new Random();
         Map<String, Object> rmap = new HashMap<>(16);
         Map<String, Object> map = new HashMap<>(16);
@@ -159,7 +159,10 @@ public class UserServiceImpl implements UserService {
             int temp = random.nextInt(10);
             content += temp;
         }
-        String key = user.getEmail() + "check";
+        if (operation == null) {
+            operation = "";
+        }
+        String key = user.getEmail() + operation + "check";
         String check = template.opsForValue().get(key);
         if (check != null) {
             if (Integer.parseInt(check) >= 3) {
@@ -171,7 +174,7 @@ public class UserServiceImpl implements UserService {
         } else {
             template.opsForValue().set(key, "1");
         }
-        rmap.put("password", content);
+        rmap.put(operation + "password", content);
         rmap.put("count", "0");
         template.opsForHash().putAll(user.getEmail(), rmap);
         mailUtil.sendSimpleMail(new Email(user.getEmail(), "验证码邮件", "验证码为: " + content + " 五分钟内有效"));
@@ -180,17 +183,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResultUtil<Map<String, Object>> verificationCheck(User user) {
+    public ResultUtil<Map<String, Object>> verificationCheck(User user, String operation) {
         Map<String, Object> map = new HashMap<>(16);
         String temp;
-        String password = (String) template.opsForHash().get(user.getEmail(), "password");
+        if (operation == null) {
+            operation = "";
+        }
+        String password = (String) template.opsForHash().get(user.getEmail(), operation + "password");
         if (password != null) {
             temp = (String) template.opsForHash().get(user.getEmail(), "count");
             if (Integer.parseInt(temp) >= 2) {
                 template.delete(user.getEmail());
                 return ResultUtil.failed("您已连续输错三次，验证码已失效");
             } else if (user.getPassword().equals(password)) {
-                template.opsForValue().set(user.getEmail() + "check", "0");
+                template.opsForValue().set(user.getEmail() + operation + "check", "0");
                 return ResultUtil.success(null, "验证成功");
             } else {
                 template.opsForHash().increment(user.getEmail(), "count", 1);
@@ -222,17 +228,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResultUtil<Map<String, Object>> updatePWByVerificationCode(String userId, String newPassword) {
-        if (userId == null){
+        if (userId == null) {
             return ResultUtil.failed("用户id为空");
         }
         final User userResult = this.userDao.queryById(userId);
-        if (userResult == null){
+        if (userResult == null) {
             return ResultUtil.failed("没有找到用户信息");
         }
         Object md5NewPassword = new SimpleHash(Const.ENCRYPTION_ALGORITHM, newPassword,
                 userResult.getUserName(), Const.ENCRYPTION_TIMES);
         userResult.setPassword(md5NewPassword.toString());
         this.userDao.update(userResult);
-        return ResultUtil.success(null,"密码修改成功");
+        return ResultUtil.success(null, "密码修改成功");
     }
 }

@@ -6,7 +6,6 @@ import com.clt.dao.UserDao;
 import com.clt.entity.*;
 import com.clt.enums.BookEnum;
 import com.clt.enums.BorrowingEnum;
-import com.clt.service.BookService;
 import com.clt.service.BorrowingService;
 import com.clt.service.MessageService;
 import com.clt.service.UserService;
@@ -105,6 +104,7 @@ public class BorrowingServiceImpl implements BorrowingService {
             borrowing.setCreateTime(now);
             borrowing.setUpdateTime(now);
             borrowingBook.setBookStatus(BookEnum.BOOK_STATUS_LEND.getCode());
+            borrowingBook.increaseBorrowingNumber();
             borrowingDao.insert(borrowing);
             bookDao.update(borrowingBook);
             return ResultUtil.success(borrowing, "申请成功");
@@ -158,7 +158,33 @@ public class BorrowingServiceImpl implements BorrowingService {
         return borrowings;
     }
 
-
+    @Override
+    public ResultUtil<Borrowing> cancelApplying(String borrowingId) {
+        final Borrowing borrowingResult = queryById(borrowingId);
+        if (borrowingResult == null){
+            return ResultUtil.failed("没有找到对应借阅信息");
+        }
+        final Book bookResult = bookDao.queryById(borrowingResult.getBookId());
+        if (bookResult == null){
+            return ResultUtil.failed("没有找到对应书籍信息");
+        }
+        final User userResult = userDao.queryById(borrowingResult.getUserId());
+        if (userResult == null){
+            return ResultUtil.failed("没有找到对应用户信息");
+        }
+        userResult.decreaseCredit(10);
+        bookResult.setBookStatus(BookEnum.BOOK_STATUS_IN_LIBRARY.getCode());
+        borrowingResult.setBorrowingStatus(BorrowingEnum.BORROWING_STATUS_CANCEL.getCode());
+        borrowingResult.setCancelTime(new Date());
+        final Borrowing cancelResult = update(borrowingResult);
+        bookDao.update(bookResult);
+        userDao.update(userResult);
+        if (cancelResult != null) {
+            return ResultUtil.success(cancelResult, "取消成功");
+        } else {
+            return ResultUtil.failed("操作失败");
+        }
+    }
 
     @Override
     public ResultUtil<Borrowing> handleApplying(
@@ -168,16 +194,16 @@ public class BorrowingServiceImpl implements BorrowingService {
         if (borrowingResult == null) {
             ResultUtil.failed("没有找到对应借阅信息");
         }
-        String messageContent = borrowingResult.getUserName()+
-                ",您好，你申请借阅的书籍《"+borrowingResult.getBookName()+"》已通过批准,请于借阅日期前往领取！";
+        String messageContent = borrowingResult.getUserName() +
+                ",您好，你申请借阅的书籍《" + borrowingResult.getBookName() + "》已通过批准,请于借阅日期前往领取！";
         if (operation.equals(BorrowingEnum.BORROWING_STATUS_REFUSED.name())) {
             Book book = bookDao.queryById(borrowingResult.getBookId());
             book.setBookStatus(BookEnum.BOOK_STATUS_IN_LIBRARY.getCode());
             bookDao.update(book);
-            messageContent = borrowingResult.getUserName()+",您好，你申请借阅的书籍《"+borrowingResult.getBookName()+"》被驳回，驳回理由：" + note;
+            messageContent = borrowingResult.getUserName() + ",您好，你申请借阅的书籍《" + borrowingResult.getBookName() + "》被驳回，驳回理由：" + note;
         }
         final User applyUser = userService.queryById(borrowingResult.getUserId());
-        if (applyUser.getEmail() != null){
+        if (applyUser.getEmail() != null) {
             mailUtil.sendSimpleMail(new Email(applyUser.getEmail(), "申请借阅结果", messageContent));
         }
         Message message = new Message();
@@ -245,5 +271,23 @@ public class BorrowingServiceImpl implements BorrowingService {
         }
         data.put("obj", dataObj);
         return ResultUtil.success(data, "查询成功");
+    }
+
+    @Override
+    public Map<String, List<Borrowing>> userBorrowingInfoGroupTime(Borrowing borrowing) {
+        final List<Borrowing> userBorrowing = queryAllByCondition(borrowing);
+        Map<String, List<Borrowing>> data = new LinkedHashMap<>(16);
+        userBorrowing.stream().forEach(userBorrowingResult -> {
+            String key = DateUtils.standardTimeToStringTime(userBorrowingResult.getApplicationTime());
+            List<Borrowing> userBorrowingsByDay = data.get(key);
+            if (userBorrowingsByDay == null || userBorrowingsByDay.isEmpty()) {
+                userBorrowingsByDay = new ArrayList<>();
+                userBorrowingsByDay.add(userBorrowingResult);
+                data.put(key, userBorrowingsByDay);
+            } else {
+                userBorrowingsByDay.add(userBorrowingResult);
+            }
+        });
+        return data;
     }
 }

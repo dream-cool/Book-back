@@ -3,7 +3,6 @@ package com.clt.service;
 import com.clt.entity.UserCollection;
 import com.clt.utils.ResultUtil;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,7 +26,7 @@ public interface UserCollectionService {
      * 查询多条数据
      *
      * @param offset 查询起始位置
-     * @param limit 查询条数
+     * @param limit  查询条数
      * @return 对象列表
      */
     List<UserCollection> queryAllByLimit(int offset, int limit);
@@ -71,7 +70,7 @@ public interface UserCollectionService {
      * @param userCollection 实例对象
      * @return 对象列表
      */
-    Map<String,List<UserCollection>> queryAllGroupCollectTime(UserCollection userCollection);
+    Map<String, List<UserCollection>> queryAllGroupCollectTime(UserCollection userCollection);
 
     /**
      * 查询对应用户对应书籍的对象列表

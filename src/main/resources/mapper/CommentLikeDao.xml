@@ -104,7 +104,6 @@
         where comment_like_id = #{commentLikeId}
     </update>
 
-    <!--通过主键删除-->
     <delete id="deleteById">
         delete from library.comment_like where comment_like_id = #{commentLikeId}
     </delete>
@@ -113,6 +112,5 @@
     <delete id="deleteByCommentId">
         delete from library.comment_like where comment_id = #{commentId}
     </delete>
-
 
 </mapper>

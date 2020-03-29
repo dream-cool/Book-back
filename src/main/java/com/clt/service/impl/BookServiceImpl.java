@@ -102,6 +102,9 @@ public class BookServiceImpl implements BookService {
             if (book.getZanNumber() == null) {
                 book.setZanNumber(0);
             }
+            if (book.getImg() == null){
+                book.setImg(book.getBookName());
+            }
             book.setUpdateTime(new Date());
         }
     }
@@ -150,8 +153,7 @@ public class BookServiceImpl implements BookService {
     }
 
 
-    @Value("${spring.servlet.multipart.location}")
-    private String path;
+    private String path = System.getProperty("user.dir") + File.separator + "fileData";
 
     @Override
     public Map<Object, Object> getEbookInfo(Integer pageNum, Integer pageSize, String bookId) {
@@ -214,7 +216,6 @@ public class BookServiceImpl implements BookService {
         if (book == null) {
             return ResultUtil.failed("没有找到书籍信息");
         }
-        book.setImg(Const.SERVER_URL + "/download/" + book.getImg());
         cascadeTypes = this.typeService.queryAllByCascade();
         List<Integer> ids = new ArrayList<>(10);
         ids = hanleCategory(Integer.valueOf(book.getCategoryId()), cascadeTypes, ids);
