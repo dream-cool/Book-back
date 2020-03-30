@@ -12,7 +12,6 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -50,10 +49,10 @@ public class UserCollectionController {
      * @return 单条数据
      */
     @GetMapping("/{userId}/{bookId}")
-    public ResultUtil<UserCollection>queryByUserIdAndBookId(
+    public ResultUtil<UserCollection> queryByUserIdAndBookId(
             @ApiParam("userId") @PathVariable String userId,
             @ApiParam("bookId") @PathVariable String bookId
-            ) {
+    ) {
         final UserCollection userCollection = this.userCollectionService.queryAllByUserIdAndBookId(userId, bookId);
         return ResultUtil.success(userCollection, "");
     }
@@ -79,7 +78,7 @@ public class UserCollectionController {
     ) {
         pageNum = (pageNum == null || pageNum < 0) ? 1 : pageNum;
         pageSize = (pageSize == null || pageSize < 0) ? 10 : pageSize;
-        Page page = PageHelper.startPage(pageNum,pageSize);
+        Page page = PageHelper.startPage(pageNum, pageSize);
         this.userCollectionService.queryAllByCondition(userCollection);
         PageInfo<Comment> pageInfo = new PageInfo<>(page);
         if (pageInfo != null) {

@@ -1,23 +1,58 @@
 package com.clt.service;
 
-import com.clt.utils.ResultUtil;
+import com.clt.entity.Dictionary;
 
 import java.util.List;
-import java.util.Map;
 
 /**
- * @author ：clt
- * @Date ：Created in 17:11 2020/03/29
+ * (Dictionary)表服务接口
+ *
+ * @author makejava
+ * @since 2020-03-30 19:06:58
  */
 public interface DictionaryService {
 
-    ResultUtil<Map<Object, Object>> insert(String field, String key, String value);
+    /**
+     * 通过ID查询单条数据
+     *
+     * @param id 主键
+     * @return 实例对象
+     */
+    Dictionary queryById(String id);
 
-    ResultUtil<Map<Object, Object>> delete(String field, String key);
+    /**
+     * 查询多条数据
+     *
+     * @param offset 查询起始位置
+     * @param limit  查询条数
+     * @return 对象列表
+     */
+    List<Dictionary> queryAllByLimit(int offset, int limit);
 
-    ResultUtil<Map<Object, Object>> update(String field, String key, String value);
+    /**
+     * 新增数据
+     *
+     * @param dictionary 实例对象
+     * @return 实例对象
+     */
+    Dictionary insert(Dictionary dictionary);
 
-    ResultUtil<Map<Object, Object>> query(String field, String key);
+    /**
+     * 修改数据
+     *
+     * @param dictionary 实例对象
+     * @return 实例对象
+     */
+    Dictionary update(Dictionary dictionary);
 
-    ResultUtil<List<Map<Object, Object>>> multipleQuery(List<String> fields);
+    /**
+     * 通过主键删除数据
+     *
+     * @param id 主键
+     * @return 是否成功
+     */
+    boolean deleteById(String id);
+
+
+    List<Dictionary> queryAllByCondition(Dictionary dictionary);
 }

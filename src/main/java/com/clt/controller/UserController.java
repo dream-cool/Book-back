@@ -91,7 +91,7 @@ public class UserController {
      * @param user 用户实体
      * @return 新增的数据
      */
-    @PutMapping("")
+    @PostMapping("")
     @ApiOperation("新增单条数据")
     public ResultUtil<User> insert(@RequestBody User user) {
         if (user == null) {

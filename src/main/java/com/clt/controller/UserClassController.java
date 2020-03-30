@@ -2,9 +2,14 @@ package com.clt.controller;
 
 import com.clt.entity.UserClass;
 import com.clt.service.UserClassService;
+import com.clt.utils.ResultUtil;
+import io.swagger.annotations.ApiParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * (UserClass)表控制层
@@ -21,6 +26,7 @@ public class UserClassController {
     @Resource
     private UserClassService userClassService;
 
+
     /**
      * 通过主键查询单条数据
      *
@@ -31,5 +37,6 @@ public class UserClassController {
     public UserClass selectOne(String id) {
         return this.userClassService.queryById(id);
     }
+
 
 }

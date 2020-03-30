@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clt.dao.DictionaryDataDao">
+
+    <resultMap type="com.clt.entity.DictionaryData" id="DictionaryDataMap">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="number" column="number" jdbcType="INTEGER"/>
+        <result property="label" column="label" jdbcType="VARCHAR"/>
+        <result property="value" column="value" jdbcType="VARCHAR"/>
+        <result property="sort" column="sort" jdbcType="INTEGER"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="note" column="note" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="remark1" column="remark1" jdbcType="VARCHAR"/>
+        <result property="remark2" column="remark2" jdbcType="VARCHAR"/>
+        <result property="remark3" column="remark3" jdbcType="VARCHAR"/>
+        <result property="remark4" column="remark4" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="DictionaryDataMap">
+        select
+          id, number, label, value, sort, status, note, create_time, update_time, remark1, remark2, remark3, remark4
+        from library.dictionary_data
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="DictionaryDataMap">
+        select
+          id, number, label, value, sort, status, note, create_time, update_time, remark1, remark2, remark3, remark4
+        from library.dictionary_data
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllByCondition" resultMap="DictionaryDataMap">
+        select
+        id, number, label, value, sort, status, note, create_time, update_time, remark1, remark2, remark3, remark4
+        from library.dictionary_data
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="number != null">
+                and number = #{number}
+            </if>
+            <if test="label != null and label != ''">
+                and label = #{label}
+            </if>
+            <if test="value != null and value != ''">
+                and value = #{value}
+            </if>
+            <if test="sort != null">
+                and sort = #{sort}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="note != null and note != ''">
+                and note = #{note}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remark1 != null and remark1 != ''">
+                and remark1 = #{remark1}
+            </if>
+            <if test="remark2 != null and remark2 != ''">
+                and remark2 = #{remark2}
+            </if>
+            <if test="remark3 != null and remark3 != ''">
+                and remark3 = #{remark3}
+            </if>
+            <if test="remark4 != null and remark4 != ''">
+                and remark4 = #{remark4}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into library.dictionary_data(id, number, label, value, sort, status, note, create_time, update_time, remark1, remark2, remark3, remark4)
+        values (#{id},#{number}, #{label}, #{value}, #{sort}, #{status}, #{note}, #{createTime}, #{updateTime}, #{remark1}, #{remark2}, #{remark3}, #{remark4})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update library.dictionary_data
+        <set>
+            <if test="number != null">
+                number = #{number},
+            </if>
+            <if test="label != null and label != ''">
+                label = #{label},
+            </if>
+            <if test="value != null and value != ''">
+                value = #{value},
+            </if>
+            <if test="sort != null">
+                sort = #{sort},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="note != null and note != ''">
+                note = #{note},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="remark1 != null and remark1 != ''">
+                remark1 = #{remark1},
+            </if>
+            <if test="remark2 != null and remark2 != ''">
+                remark2 = #{remark2},
+            </if>
+            <if test="remark3 != null and remark3 != ''">
+                remark3 = #{remark3},
+            </if>
+            <if test="remark4 != null and remark4 != ''">
+                remark4 = #{remark4},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from library.dictionary_data where id = #{id}
+    </delete>
+
+</mapper>
