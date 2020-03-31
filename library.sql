@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 39.97.239.108
+ Source Server         : localhost
  Source Server Type    : MySQL
- Source Server Version : 80019
- Source Host           : 39.97.239.108:3306
+ Source Server Version : 80018
+ Source Host           : localhost:3306
  Source Schema         : library
 
  Target Server Type    : MySQL
- Target Server Version : 80019
+ Target Server Version : 80018
  File Encoding         : 65001
 
- Date: 29/03/2020 21:38:34
+ Date: 31/03/2020 17:24:38
 */
 
 SET NAMES utf8mb4;
@@ -31,13 +31,13 @@ CREATE TABLE `book`  (
   `price` decimal(10, 2) NULL DEFAULT NULL COMMENT '价格',
   `book_status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '书籍状态  在库 已借 损坏',
   `img` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '书籍封面',
-  `ebook` int(0) NULL DEFAULT NULL COMMENT '是否是电子书',
+  `ebook` int(11) NULL DEFAULT NULL COMMENT '是否是电子书',
   `location` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '书籍位置',
-  `zan_number` int(0) NULL DEFAULT NULL COMMENT '点赞数量',
+  `zan_number` int(11) NULL DEFAULT NULL COMMENT '点赞数量',
   `score` decimal(2, 1) NULL DEFAULT NULL COMMENT '得分',
   `input_time` timestamp(0) NULL DEFAULT NULL COMMENT '录入时间',
   `update_time` timestamp(0) NULL DEFAULT NULL COMMENT '修改时间',
-  `borrowing_number` int(0) NULL DEFAULT NULL COMMENT '借阅数量',
+  `borrowing_number` int(11) NULL DEFAULT NULL COMMENT '借阅数量',
   `remark1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `remark2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `remark3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
@@ -75,7 +75,7 @@ CREATE TABLE `borrowing`  (
   `user_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户id',
   `book_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '书籍名称',
   `user_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户姓名',
-  `duration` int(0) NULL DEFAULT NULL COMMENT '借阅时长',
+  `duration` int(11) NULL DEFAULT NULL COMMENT '借阅时长',
   `application_time` timestamp(0) NULL DEFAULT NULL COMMENT '申请时间',
   `handle_time` timestamp(0) NULL DEFAULT NULL COMMENT '处理时间',
   `borrowing_time` timestamp(0) NULL DEFAULT NULL COMMENT '借阅时间',
@@ -157,6 +157,20 @@ INSERT INTO `category` VALUES ('02004000', '文学', '戏曲文学', NULL);
 INSERT INTO `category` VALUES ('02005000', '文学', '散文', NULL);
 
 -- ----------------------------
+-- Table structure for collection
+-- ----------------------------
+DROP TABLE IF EXISTS `collection`;
+CREATE TABLE `collection`  (
+  `collection_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `user_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `book_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `collection_time` timestamp(0) NULL DEFAULT NULL,
+  `book_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `book_img` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`collection_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
 -- Table structure for collection_group
 -- ----------------------------
 DROP TABLE IF EXISTS `collection_group`;
@@ -194,10 +208,10 @@ CREATE TABLE `comment`  (
   `user_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户id',
   `comment_time` timestamp(0) NOT NULL COMMENT '评论时间',
   `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '评论内容',
-  `score` int(0) NULL DEFAULT NULL COMMENT '评分',
-  `reply_flag` int(0) NULL DEFAULT NULL,
+  `score` int(11) NULL DEFAULT NULL COMMENT '评分',
+  `reply_flag` int(11) NULL DEFAULT NULL,
   `reply_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `zan_number` int(0) NULL DEFAULT NULL,
+  `zan_number` int(11) NULL DEFAULT NULL,
   `comment_pid` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `reply_user_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   PRIMARY KEY (`comment_id`) USING BTREE
@@ -297,7 +311,7 @@ CREATE TABLE `comment_like`  (
   `comment_like_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'id',
   `comment_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '评论id',
   `user_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户id',
-  `is_like` int(0) NULL DEFAULT NULL,
+  `is_like` int(11) NULL DEFAULT NULL,
   `remark1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `remark2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `remark3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
@@ -323,6 +337,104 @@ INSERT INTO `comment_like` VALUES ('f2bd2d44ed5b46b38e7dc4d6d0c7eb92', '898926c2
 INSERT INTO `comment_like` VALUES ('f63b993c0d98464d99a712a50e930fe7', '3faa0166674b4ceaa32e8436035e29c7', '1', 1, NULL, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
+-- Table structure for dictionary
+-- ----------------------------
+DROP TABLE IF EXISTS `dictionary`;
+CREATE TABLE `dictionary`  (
+  `id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '字典id',
+  `number` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '字典编号',
+  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '字典名称',
+  `type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '字典类型',
+  `status` int(2) NULL DEFAULT NULL COMMENT '状态',
+  `note` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备注',
+  `create_time` timestamp(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` timestamp(0) NULL DEFAULT NULL COMMENT '修改时间',
+  `remark1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备用字段1',
+  `remark2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备用字段2',
+  `remark3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备用字段3',
+  `remark4` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备用字段4',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of dictionary
+-- ----------------------------
+INSERT INTO `dictionary` VALUES ('3e4be16b360d4efe87008ad69e0842d5', NULL, '院系', 'sys_depart', 1, '院系列表', '2020-03-31 14:00:18', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `dictionary` VALUES ('8d113063fcc4478e898388825e4045f3', NULL, '专业', 'sys_major', 1, '专业列表', '2020-03-31 10:21:32', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `dictionary` VALUES ('9fffa299f7a24331a5f0f4760988e06a', NULL, '班级', 'sys_class_number', 1, '班级列表', '2020-03-31 10:23:56', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `dictionary` VALUES ('fced055171e74ab7898edc2659a1bd49', NULL, '年级', 'sys_grade', 1, '年级列表', '2020-03-31 10:05:50', NULL, NULL, NULL, NULL, NULL);
+
+-- ----------------------------
+-- Table structure for dictionary_data
+-- ----------------------------
+DROP TABLE IF EXISTS `dictionary_data`;
+CREATE TABLE `dictionary_data`  (
+  `id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '字典数据id',
+  `number` int(11) NULL DEFAULT NULL COMMENT '字典数据编号',
+  `label` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '字典数据标签',
+  `value` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '字典数据键值',
+  `sort` int(4) NULL DEFAULT NULL COMMENT '排序号',
+  `status` int(2) NULL DEFAULT NULL COMMENT '状态',
+  `note` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备注',
+  `create_time` timestamp(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` timestamp(0) NULL DEFAULT NULL COMMENT '修改时间',
+  `type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '所属类型',
+  `remark2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备用字段2',
+  `remark3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '被用字段3',
+  `remark4` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '被用字段4',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of dictionary_data
+-- ----------------------------
+INSERT INTO `dictionary_data` VALUES ('007502ff233f4fe18449cd5fd4dbed1d', NULL, '2019级', '2019', 19, 1, '111111', '2020-03-31 11:20:01', NULL, 'sys_grade', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('0ac94b89273241aa80011832300298e3', NULL, '2017级', '2017', 17, 1, NULL, '2020-03-31 11:21:34', NULL, 'sys_grade', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('14b4b4b132fc47118f5c25da61e41c84', NULL, '2016级', '2016', 16, 1, NULL, '2020-03-31 11:21:39', NULL, 'sys_grade', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('17256c8b3c524bac9b00b2031b0a2fd5', NULL, '法学院', '06', 6, 1, '法学院', '2020-03-31 15:07:17', NULL, 'sys_depart', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('2354452187d843bb9ac7d49b96522da8', NULL, '音乐学院', '11', 11, 1, '音乐学院', '2020-03-31 15:08:26', NULL, 'sys_depart', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('27fd1537f44d4ca9a51b5f11ed3a458a', NULL, '体育学院', '13', 13, 1, '体育学院', '2020-03-31 15:14:26', NULL, 'sys_depart', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('2a4d3a72836345f0b83759ad691f3b60', NULL, '1111', '1111', 999, 1, '1111', '2020-03-31 17:19:16', NULL, 'sys_major', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('2d692dee11bc4a82b1ac63b3e58a3c7d', NULL, '信科', '0303', 303, 1, '信息与计算科学', '2020-03-31 15:16:49', NULL, 'sys_major', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('2ff90b38b7314769a6e44e0c81faf1a5', NULL, '五班', '05', 5, 1, NULL, '2020-03-31 14:25:22', NULL, 'sys_class_number', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('38014983d96d4b4d94b7ffe64b45cab7', NULL, '软件', '0302', 302, 1, '软件工程', '2020-03-31 15:48:35', NULL, 'sys_major', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('3fe3b51095ef458a873a17407554489d', NULL, '物联网', '0304', 304, 1, '物联网工程', '2020-03-31 15:49:29', NULL, 'sys_major', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('4225914202a34a2ba6cf8280bfe064fa', NULL, '2015级', '2015', 15, 1, NULL, '2020-03-31 13:45:45', NULL, 'sys_grade', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('56c3474875c44ea3abef48015fa1eabc', NULL, '机电院', '02', 2, 1, '机电工程学院', '2020-03-31 14:20:54', NULL, 'sys_depart', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('5a0816862e76449bacbba1aa2f8f4292', NULL, '影视摄影与制作', '0704', 704, 1, '影视摄影与制作', '2020-03-31 17:16:07', NULL, 'sys_major', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('5af31a38068443099fc53d08d96710ce', NULL, '八班', '08', 8, 1, NULL, '2020-03-31 15:15:58', NULL, 'sys_class_number', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('6720db6befac40dbadea73a22c1a905b', NULL, '计数院', '03', 3, 1, '计算机工程与应用数学', '2020-03-31 14:10:41', NULL, 'sys_depart', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('6d20e20f01874004afcd107d590b3368', NULL, '通信工程', '0402', 402, 1, '通信工程', '2020-03-31 17:12:27', NULL, 'sys_major', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('7269b60336f14e22ae1228a3179ce7a8', NULL, '外语院', '08', 8, 1, '外国语学院', '2020-03-31 15:07:37', NULL, 'sys_depart', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('7b2df0e447b146a1adcb91d959be9ce9', NULL, '马克思主义学院', '12', 12, 1, '马克思主义学院', '2020-03-31 15:08:38', NULL, 'sys_depart', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('7b8a575dc6d944c698a51e9cda183e70', NULL, '电气工程及其自动化', '0404', 404, 1, '电气工程及其自动化', '2020-03-31 17:12:54', NULL, 'sys_major', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('843de29d16c74a7f92248555b36e7e23', NULL, '经管院', '09', 9, 1, '经济与管理学院', '2020-03-31 15:07:49', NULL, 'sys_depart', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('89b15e84972d4dd5817b8c6fe961a876', NULL, '土木院', '01', 1, 1, '土木工程学院', '2020-03-31 14:14:06', NULL, 'sys_depart', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('8aa0f0086cd14c258fb00dabe9a42806', NULL, '乡村振兴研究院', '99', 99, 1, '乡村振兴研究院', '2020-03-31 15:14:39', NULL, 'sys_depart', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('8ebe81e5f6c546e6b4de17fad87f7236', NULL, '一班', '01', 1, 1, NULL, '2020-03-31 14:24:01', NULL, 'sys_class_number', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('98fc499b94a64fe9931d45d648adc035', NULL, '通天塔', '1111', 0, 1, NULL, '2020-03-31 17:19:23', NULL, 'sys_major', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('9c39dca7a8af43668800ae89f7f6bf80', NULL, '播音与主持艺术', '0702', 702, 1, '播音与主持艺术', '2020-03-31 17:15:25', NULL, 'sys_major', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('a7bdc225879940899b2f7587b929e043', NULL, '广播电视编导', '0703', 703, 1, '广播电视编导', '2020-03-31 17:15:44', NULL, 'sys_major', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('ac695ccc636442f184334e5b018010d7', NULL, '六班', '06', 6, 1, NULL, '2020-03-31 14:25:30', NULL, 'sys_class_number', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('ba25f2117eb4450cb11029ff330126e2', NULL, '2020级', '2020', 20, 1, NULL, '2020-03-31 11:18:22', NULL, 'sys_grade', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('bb9fff2f95a74b52bab69e0f45867076', NULL, '艺术院', '10', 10, 1, '艺术设计学院', '2020-03-31 15:08:03', NULL, 'sys_depart', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('bc99bdfc38764e4e8da2a1a04d0a41ee', NULL, '七班', '07', 7, 1, NULL, '2020-03-31 14:25:40', NULL, 'sys_class_number', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('bd58fa9b0edf484d831de36d3772bd72', NULL, '三班', '03', 3, 1, NULL, '2020-03-31 14:25:08', NULL, 'sys_class_number', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('be8f7b348fae4c6981c6897985fd711b', NULL, '应用数学', '0305', 305, 1, '应用数学', '2020-03-31 15:49:52', NULL, 'sys_major', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('c0c62a8e08ab42b6b9e4a6c1d36ded51', NULL, '新闻专业', '0701', 701, 1, '新闻专业', '2020-03-31 17:14:30', NULL, 'sys_major', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('c1d670d715554dd9a5d511fcfce7320a', NULL, '2018级', '2018', 18, 1, NULL, '2020-03-31 11:21:27', NULL, 'sys_grade', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('c46571b966ee4a5ba72bedec4694b9a0', NULL, '生环院', '05', 5, 1, '生物与环境工程学院', '2020-03-31 15:05:35', NULL, 'sys_depart', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('cbf6700b83bb4b4db43e15ccbf6d5597', NULL, '电子信息工程', '0401', 401, 1, '电子信息工程', '2020-03-31 17:12:12', NULL, 'sys_major', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('d32c18f4655d479793c5090ffa4bf38e', NULL, '电气院', '04', 4, 1, '电子信息与电气工程学院', '2020-03-31 15:10:52', NULL, 'sys_depart', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('d4960802efda450b8584aa0236aded3f', NULL, '四班', '04', 4, 1, NULL, '2020-03-31 14:25:15', NULL, 'sys_class_number', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('dc950cfab3c94d56aebc9e85352dd08e', NULL, '光电信息工程', '0403', 403, 1, '光电信息工程', '2020-03-31 17:12:41', NULL, 'sys_major', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('e01bc30352d145028e6fa937f624d0ac', NULL, '计科', '0301', 301, 1, '计算机科学与方法', '2020-03-31 15:48:07', NULL, 'sys_major', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('e857729edb904269ac5bd86a4347f4e6', NULL, '影视院', '07', 7, 1, '影视艺术与文化传播学院', '2020-03-31 15:12:18', NULL, 'sys_depart', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('ef364f1e887f49d9a515915485d03419', NULL, '研究生学院', '98', 98, 1, '研究生学院', '2020-03-31 15:13:38', NULL, 'sys_depart', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('f4ce8ce258a840f49baf386fe5e26be3', NULL, '二班', '02', 2, 1, NULL, '2020-03-31 14:24:58', NULL, 'sys_class_number', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('f57c2e29ba44400690bec912eb942d47', NULL, 'test', 'test', 999, 1, NULL, '2020-03-31 17:19:34', NULL, 'sys_major', NULL, NULL, NULL);
+
+-- ----------------------------
 -- Table structure for message
 -- ----------------------------
 DROP TABLE IF EXISTS `message`;
@@ -332,7 +444,7 @@ CREATE TABLE `message`  (
   `send_user_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '发送用户id',
   `sending_time` timestamp(0) NULL DEFAULT NULL COMMENT '发送时间',
   `content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '信息内容',
-  `status` int(0) NULL DEFAULT NULL COMMENT '信息状态  已读、未读',
+  `status` int(11) NULL DEFAULT NULL COMMENT '信息状态  已读、未读',
   `remark1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `remark2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `remark3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
@@ -375,16 +487,16 @@ INSERT INTO `message` VALUES ('fafsafgdhg', '1', NULL, '2020-03-07 01:10:08', 'a
 DROP TABLE IF EXISTS `permission`;
 CREATE TABLE `permission`  (
   `user_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户id',
-  `book_r` int(0) NULL DEFAULT NULL COMMENT '书籍信息读权限',
-  `book_w` int(0) NULL DEFAULT NULL COMMENT '书籍信息写权限',
-  `user_r` int(0) NULL DEFAULT NULL COMMENT '用户信息读权限',
-  `user_w` int(0) NULL DEFAULT NULL COMMENT '用户信息写权限',
-  `borrowing_r` int(0) NULL DEFAULT NULL COMMENT '借阅信息读权限',
-  `borrowing_w` int(0) NULL DEFAULT NULL COMMENT '借阅信息写权限',
-  `category_w` int(0) NULL DEFAULT NULL COMMENT '类别信息写权限',
-  `statistics_r` int(0) NULL DEFAULT NULL COMMENT '统计信息读权限',
-  `privilege` int(0) NULL DEFAULT NULL,
-  `admin` int(0) NULL DEFAULT NULL,
+  `book_r` int(11) NULL DEFAULT NULL COMMENT '书籍信息读权限',
+  `book_w` int(11) NULL DEFAULT NULL COMMENT '书籍信息写权限',
+  `user_r` int(11) NULL DEFAULT NULL COMMENT '用户信息读权限',
+  `user_w` int(11) NULL DEFAULT NULL COMMENT '用户信息写权限',
+  `borrowing_r` int(11) NULL DEFAULT NULL COMMENT '借阅信息读权限',
+  `borrowing_w` int(11) NULL DEFAULT NULL COMMENT '借阅信息写权限',
+  `category_w` int(11) NULL DEFAULT NULL COMMENT '类别信息写权限',
+  `statistics_r` int(11) NULL DEFAULT NULL COMMENT '统计信息读权限',
+  `privilege` int(11) NULL DEFAULT NULL,
+  `admin` int(11) NULL DEFAULT NULL,
   `remark1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `remark2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `remark3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
@@ -419,7 +531,7 @@ CREATE TABLE `record`  (
   `browsing_time` timestamp(0) NOT NULL COMMENT '浏览时间',
   `book_img` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '书籍封面',
   `book_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '书籍名称',
-  `book_page` int(0) NULL DEFAULT NULL COMMENT '电子书行数',
+  `book_page` int(11) NULL DEFAULT NULL COMMENT '电子书行数',
   `descr` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `remark2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `remark3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
@@ -498,14 +610,14 @@ CREATE TABLE `statistics`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `type`;
 CREATE TABLE `type`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT,
-  `pid` int(0) NULL DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pid` int(11) NULL DEFAULT NULL,
   `name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `level` int(0) NULL DEFAULT NULL,
-  `sort` int(0) NULL DEFAULT NULL,
+  `level` int(11) NULL DEFAULT NULL,
+  `sort` int(11) NULL DEFAULT NULL,
   `title` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `icon` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `hidden` int(0) NULL DEFAULT NULL,
+  `hidden` int(11) NULL DEFAULT NULL,
   `create_time` timestamp(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 22 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
@@ -547,7 +659,7 @@ CREATE TABLE `user`  (
   `tel` char(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '电话',
   `email` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '邮箱',
   `address` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户地址',
-  `credit` int(0) NULL DEFAULT NULL COMMENT '信用分',
+  `credit` int(11) NULL DEFAULT NULL COMMENT '信用分',
   `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户状态',
   `role` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '角色',
   `register_time` timestamp(0) NULL DEFAULT NULL COMMENT '注册时间',
@@ -607,8 +719,8 @@ CREATE TABLE `user_collection`  (
   `book_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '书籍名称',
   `descr` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '书籍描述',
   `book_img` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '书籍图片',
-  `is_like` int(0) NULL DEFAULT NULL COMMENT '赞标志',
-  `is_collect` int(0) NULL DEFAULT NULL COMMENT '收藏标志',
+  `is_like` int(11) NULL DEFAULT NULL COMMENT '赞标志',
+  `is_collect` int(11) NULL DEFAULT NULL COMMENT '收藏标志',
   `group_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '分组名',
   `remark2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备用字段2',
   `remark3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备用字段3',

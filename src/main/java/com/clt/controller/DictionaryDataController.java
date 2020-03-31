@@ -100,6 +100,12 @@ public class DictionaryDataController {
         }
     }
 
+    @GetMapping("/class/getClassInfo")
+    @ApiOperation("获取班级级联信息")
+    public ResultUtil<List<List<DictionaryData>>> getClassInfo() {
+        return this.dictionaryDataService.getClassInfo();
+    }
+
 
     /**
      * 通过实体数据新增单条数据
@@ -112,9 +118,9 @@ public class DictionaryDataController {
     public ResultUtil<DictionaryData> insert(@RequestBody DictionaryData dictionaryData) {
         DictionaryData insertDictionaryData = this.dictionaryDataService.insert(dictionaryData);
         if (insertDictionaryData != null) {
-            return ResultUtil.success(insertDictionaryData, "评论成功");
+            return ResultUtil.success(insertDictionaryData, "新增成功");
         } else {
-            return ResultUtil.failed("评论失败");
+            return ResultUtil.failed("新增失败");
         }
     }
 
@@ -157,6 +163,7 @@ public class DictionaryDataController {
             return ResultUtil.failed("删除失败");
         }
     }
+
 
 
     @PostMapping("/redis")

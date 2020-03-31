@@ -4,15 +4,13 @@ import com.clt.entity.DictionaryData;
 import com.clt.dao.DictionaryDataDao;
 import com.clt.service.DictionaryDataService;
 import com.clt.utils.ResultUtil;
+import com.clt.utils.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * (DictionaryData)表服务实现类
@@ -53,6 +51,22 @@ public class DictionaryDataServiceImpl implements DictionaryDataService {
         return this.dictionaryDataDao.queryAllByCondition(dictionaryData);
     }
 
+    @Override
+    public ResultUtil<List<List<DictionaryData>>> getClassInfo() {
+        List<String> list = new ArrayList<>(4);
+        list.add("sys_grade");
+        list.add("sys_depart");
+        list.add("sys_major");
+        list.add("sys_class_number");
+        DictionaryData condition = new DictionaryData();
+        List<List<DictionaryData>> contain = new ArrayList<>();
+        list.stream().forEach( type -> {
+            condition.setType(type);
+            contain.add(queryAllByCondition(condition));
+        });
+        return ResultUtil.success(contain);
+    }
+
     /**
      * 新增数据
      *
@@ -61,6 +75,16 @@ public class DictionaryDataServiceImpl implements DictionaryDataService {
      */
     @Override
     public DictionaryData insert(DictionaryData dictionaryData) {
+        if (dictionaryData.getId() == null){
+            dictionaryData.setId(UUIDUtil.getUUID());
+        }
+        if (dictionaryData.getSort() == null){
+            dictionaryData.setSort(0);
+        }
+        if (dictionaryData.getStatus() == null){
+            dictionaryData.setStatus(1);
+        }
+        dictionaryData.setCreateTime(new Date());
         this.dictionaryDataDao.insert(dictionaryData);
         return dictionaryData;
     }

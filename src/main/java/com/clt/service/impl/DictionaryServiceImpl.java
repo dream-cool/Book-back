@@ -60,6 +60,9 @@ public class DictionaryServiceImpl implements DictionaryService {
         if (dictionary.getId() == null){
             dictionary.setId(UUIDUtil.getUUID());
         }
+        if (dictionary.getStatus() == null){
+            dictionary.setStatus(1);
+        }
         dictionary.setCreateTime(new Date());
         this.dictionaryDao.insert(dictionary);
         return dictionary;

@@ -36,6 +36,10 @@ public class DictionaryData implements Serializable {
     */
     private String value;
     /**
+     * 所属类型
+     */
+    private String type;
+    /**
     * 排序号
     */
     private Integer sort;
@@ -58,10 +62,6 @@ public class DictionaryData implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date updateTime;
     /**
-    * 备用字段1
-    */
-    private String remark1;
-    /**
     * 备用字段2
     */
     private String remark2;
@@ -73,5 +73,6 @@ public class DictionaryData implements Serializable {
     * 被用字段4
     */
     private String remark4;
+
 
 }

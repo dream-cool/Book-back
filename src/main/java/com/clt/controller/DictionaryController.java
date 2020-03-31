@@ -78,7 +78,6 @@ public class DictionaryController {
     public ResultUtil<PageInfo<Dictionary>> selectAllByPage(
             @ApiParam("页码") @RequestParam(required = false) Integer pageNum,
             @ApiParam("每页大小") @RequestParam(required = false) Integer pageSize,
-            @ApiParam("用户id") @RequestParam(required = false) String userId,
             @RequestBody Dictionary dictionary
     ) {
         pageNum = (pageNum == null || pageNum < 0) ? 1 : pageNum;
@@ -103,8 +102,8 @@ public class DictionaryController {
     @PostMapping("")
     @ApiOperation("通过实体数据新增单条数据")
     public ResultUtil<Dictionary> insert(@RequestBody Dictionary dictionary) {
-        if (dictionary == null || StringUtils.isBlank(dictionary.getId())) {
-            return ResultUtil.failed("评论内容为空");
+        if (dictionary == null || StringUtils.isBlank(dictionary.getName())) {
+            return ResultUtil.failed("字典名称为空");
         }
         Dictionary insertDictionary = this.dictionaryService.insert(dictionary);
         if (insertDictionary != null) {

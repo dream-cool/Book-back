@@ -67,4 +67,6 @@ public interface DictionaryDataService {
 
     ResultUtil<List<Map<Object, Object>>> multipleQuery(List<String> fields);
 
+    ResultUtil<List<List<DictionaryData>>> getClassInfo();
+
 }
