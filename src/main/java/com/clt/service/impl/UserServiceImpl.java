@@ -2,11 +2,14 @@ package com.clt.service.impl;
 
 import com.clt.constant.Const;
 import com.clt.dao.PermissionDao;
+import com.clt.dao.UserClassDao;
 import com.clt.dao.UserDao;
 import com.clt.entity.Email;
 import com.clt.entity.Permission;
 import com.clt.entity.User;
+import com.clt.entity.UserClass;
 import com.clt.enums.UserEnum;
+import com.clt.service.UserClassService;
 import com.clt.service.UserService;
 import com.clt.utils.DateUtils;
 import com.clt.utils.MailUtil;
@@ -36,6 +39,9 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     private PermissionDao permissionDao;
+
+    @Resource
+    private UserClassService userClassService;
 
     @Autowired
     private StringRedisTemplate template;
@@ -100,6 +106,11 @@ public class UserServiceImpl implements UserService {
         }
         if (user.getCredit() == null || user.getCredit() < 0 || user.getCredit() > 100) {
             user.setCredit(60);
+        }
+        if (user.getClassId() != null){
+            UserClass userClass = new UserClass();
+            userClass.setClassId(user.getClassId());
+            userClassService.insert(userClass);
         }
         user.setAvatar(Const.USER_DEFAULT_AVATAR);
         user.setUserId(user.getStuNo());

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clt.dao.LocationDao">
+
+    <resultMap type="com.clt.entity.Location" id="LocationMap">
+        <result property="locationId" column="location_id" jdbcType="VARCHAR"/>
+        <result property="areaNo" column="area_no" jdbcType="VARCHAR"/>
+        <result property="floorNo" column="floor_no" jdbcType="VARCHAR"/>
+        <result property="roomNo" column="room_no" jdbcType="VARCHAR"/>
+        <result property="bookshelfNo" column="bookshelf_no" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="remark1" column="remark1" jdbcType="VARCHAR"/>
+        <result property="remark2" column="remark2" jdbcType="VARCHAR"/>
+        <result property="remark3" column="remark3" jdbcType="VARCHAR"/>
+        <result property="remark4" column="remark4" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="LocationMap">
+        select
+          location_id, area_no, floor_no, room_no, bookshelf_no, create_time, update_time, remark1, remark2, remark3, remark4
+        from library.location
+        where location_id = #{locationId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="LocationMap">
+        select
+          location_id, area_no, floor_no, room_no, bookshelf_no, create_time, update_time, remark1, remark2, remark3, remark4
+        from library.location
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="LocationMap">
+        select
+          location_id, area_no, floor_no, room_no, bookshelf_no, create_time, update_time, remark1, remark2, remark3, remark4
+        from library.location
+        <where>
+            <if test="locationId != null and locationId != ''">
+                and location_id = #{locationId}
+            </if>
+            <if test="areaNo != null and areaNo != ''">
+                and area_no = #{areaNo}
+            </if>
+            <if test="floorNo != null and floorNo != ''">
+                and floor_no = #{floorNo}
+            </if>
+            <if test="roomNo != null and roomNo != ''">
+                and room_no = #{roomNo}
+            </if>
+            <if test="bookshelfNo != null and bookshelfNo != ''">
+                and bookshelf_no = #{bookshelfNo}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remark1 != null and remark1 != ''">
+                and remark1 = #{remark1}
+            </if>
+            <if test="remark2 != null and remark2 != ''">
+                and remark2 = #{remark2}
+            </if>
+            <if test="remark3 != null and remark3 != ''">
+                and remark3 = #{remark3}
+            </if>
+            <if test="remark4 != null and remark4 != ''">
+                and remark4 = #{remark4}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" >
+        insert into library.location(location_id, area_no, floor_no, room_no, bookshelf_no, create_time, update_time, remark1, remark2, remark3, remark4)
+        values (#{locationId}, #{areaNo}, #{floorNo}, #{roomNo}, #{bookshelfNo}, #{createTime}, #{updateTime}, #{remark1}, #{remark2}, #{remark3}, #{remark4})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update library.location
+        <set>
+            <if test="areaNo != null and areaNo != ''">
+                area_no = #{areaNo},
+            </if>
+            <if test="floorNo != null and floorNo != ''">
+                floor_no = #{floorNo},
+            </if>
+            <if test="roomNo != null and roomNo != ''">
+                room_no = #{roomNo},
+            </if>
+            <if test="bookshelfNo != null and bookshelfNo != ''">
+                bookshelf_no = #{bookshelfNo},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="remark1 != null and remark1 != ''">
+                remark1 = #{remark1},
+            </if>
+            <if test="remark2 != null and remark2 != ''">
+                remark2 = #{remark2},
+            </if>
+            <if test="remark3 != null and remark3 != ''">
+                remark3 = #{remark3},
+            </if>
+            <if test="remark4 != null and remark4 != ''">
+                remark4 = #{remark4},
+            </if>
+        </set>
+        where location_id = #{locationId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from library.location where location_id = #{locationId}
+    </delete>
+
+</mapper>

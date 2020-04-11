@@ -17,6 +17,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author ：clt
@@ -38,6 +40,7 @@ public class ShiroFilter extends AccessControlFilter {
 
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
+        Map<String, Object> data = new HashMap<>(16);
         HttpServletRequest req = (HttpServletRequest) request;
         if (req.getMethod().equalsIgnoreCase(RequestMethod.OPTIONS.name())) {
             return true;
@@ -45,7 +48,6 @@ public class ShiroFilter extends AccessControlFilter {
         String token = getRequestToken((HttpServletRequest) request);
         String url = ((HttpServletRequest) request).getServletPath();
         IgnoreUrlsConfig ignoreUrlsConfig = (IgnoreUrlsConfig) SpringUtils.getBean("ignoreUrlsConfig");
-
         for (String ignoreUrl : ignoreUrlsConfig.getUrls()) {
             if (url.startsWith(ignoreUrl)){
                 return true;

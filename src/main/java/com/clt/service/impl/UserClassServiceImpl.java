@@ -1,11 +1,14 @@
 package com.clt.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.clt.entity.UserClass;
 import com.clt.dao.UserClassDao;
 import com.clt.service.UserClassService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -50,6 +53,24 @@ public class UserClassServiceImpl implements UserClassService {
      */
     @Override
     public UserClass insert(UserClass userClass) {
+        final UserClass queryClassResult = queryById(userClass.getClassId());
+        if (queryClassResult != null){
+            return null;
+        }
+        if (userClass.getClassId() != null){
+            final JSONArray classInfoArray = JSON.parseArray(userClass.getClassId());
+            if (classInfoArray != null && classInfoArray.size() == 4){
+                userClass.setGradeNo(classInfoArray.get(0).toString());
+                userClass.setDepartNo(classInfoArray.get(1).toString());
+                userClass.setMajorNo(classInfoArray.get(2).toString());
+                userClass.setClassNumberNo(classInfoArray.get(3).toString());
+                Date now = new Date();
+                userClass.setCreateTime(now);
+                userClass.setUpdateTime(now);
+            }
+        } else {
+            return null;
+        }
         this.userClassDao.insert(userClass);
         return userClass;
     }

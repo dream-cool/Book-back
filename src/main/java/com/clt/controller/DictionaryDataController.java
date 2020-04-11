@@ -102,8 +102,14 @@ public class DictionaryDataController {
 
     @GetMapping("/class/getClassInfo")
     @ApiOperation("获取班级级联信息")
-    public ResultUtil<List<List<DictionaryData>>> getClassInfo() {
+    public ResultUtil<List<DictionaryData>> getClassInfo() {
         return this.dictionaryDataService.getClassInfo();
+    }
+
+    @GetMapping("/book/getLocationInfo")
+    @ApiOperation("获取班级级联信息")
+    public ResultUtil<List<DictionaryData>> getLocationInfo() {
+        return this.dictionaryDataService.getLocationInfo();
     }
 
 

@@ -4,10 +4,10 @@
 
     <resultMap type="com.clt.entity.UserClass" id="UserClassMap">
         <result property="classId" column="class_id" jdbcType="VARCHAR"/>
-        <result property="grade" column="grade" jdbcType="VARCHAR"/>
-        <result property="depart" column="depart" jdbcType="VARCHAR"/>
-        <result property="major" column="major" jdbcType="VARCHAR"/>
-        <result property="number" column="number" jdbcType="VARCHAR"/>
+        <result property="gradeNo" column="grade_no" jdbcType="VARCHAR"/>
+        <result property="departNo" column="depart_no" jdbcType="VARCHAR"/>
+        <result property="majorNo" column="major_no" jdbcType="VARCHAR"/>
+        <result property="classNumberNo" column="class_number_no" jdbcType="VARCHAR"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
         <result property="remark1" column="remark1" jdbcType="VARCHAR"/>
@@ -18,7 +18,7 @@
     <!--查询单个-->
     <select id="queryById" resultMap="UserClassMap">
         select
-          class_id, grade, depart, major, number, create_time, update_time, remark1, remark2, remark3
+          class_id, grade_no, depart_no, major_no, class_number_no, create_time, update_time, remark1, remark2, remark3
         from library.user_class
         where class_id = #{classId}
     </select>
@@ -26,7 +26,7 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="UserClassMap">
         select
-          class_id, grade, depart, major, number, create_time, update_time, remark1, remark2, remark3
+          class_id, grade_no, depart_no, major_no, class_number_no, create_time, update_time, remark1, remark2, remark3
         from library.user_class
         limit #{offset}, #{limit}
     </select>
@@ -34,23 +34,23 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="UserClassMap">
         select
-          class_id, grade, depart, major, number, create_time, update_time, remark1, remark2, remark3
+          class_id, grade_no, depart_no, major_no, class_number_no, create_time, update_time, remark1, remark2, remark3
         from library.user_class
         <where>
             <if test="classId != null and classId != ''">
                 and class_id = #{classId}
             </if>
-            <if test="grade != null and grade != ''">
-                and grade = #{grade}
+            <if test="gradeNo != null and gradeNo != ''">
+                and grade_no = #{gradeNo}
             </if>
-            <if test="depart != null and depart != ''">
-                and depart = #{depart}
+            <if test="departNo != null and departNo != ''">
+                and depart_no = #{departNo}
             </if>
-            <if test="major != null and major != ''">
-                and major = #{major}
+            <if test="majorNo != null and majorNo != ''">
+                and major_no = #{majorNo}
             </if>
-            <if test="number != null and number != ''">
-                and number = #{number}
+            <if test="classNumberNo != null and classNumberNo != ''">
+                and class_number_no = #{classNumberNo}
             </if>
             <if test="createTime != null">
                 and create_time = #{createTime}
@@ -71,26 +71,26 @@
     </select>
 
     <!--新增所有列-->
-    <insert id="insert" keyProperty="classId" useGeneratedKeys="true">
-        insert into library.user_class(grade, depart, major, number, create_time, update_time, remark1, remark2, remark3)
-        values (#{grade}, #{depart}, #{major}, #{number}, #{createTime}, #{updateTime}, #{remark1}, #{remark2}, #{remark3})
+    <insert id="insert" >
+        insert into library.user_class(class_id,grade_no, depart_no, major_no, class_number_no, create_time, update_time, remark1, remark2, remark3)
+        values (#{classId}, #{gradeNo}, #{departNo}, #{majorNo}, #{classNumberNo}, #{createTime}, #{updateTime}, #{remark1}, #{remark2}, #{remark3})
     </insert>
 
     <!--通过主键修改数据-->
     <update id="update">
         update library.user_class
         <set>
-            <if test="grade != null and grade != ''">
-                grade = #{grade},
+            <if test="gradeNo != null and gradeNo != ''">
+                grade_no = #{gradeNo},
             </if>
-            <if test="depart != null and depart != ''">
-                depart = #{depart},
+            <if test="departNo != null and departNo != ''">
+                depart_no = #{departNo},
             </if>
-            <if test="major != null and major != ''">
-                major = #{major},
+            <if test="majorNo != null and majorNo != ''">
+                major_no = #{majorNo},
             </if>
-            <if test="number != null and number != ''">
-                number = #{number},
+            <if test="classNumberNo != null and classNumberNo != ''">
+                class_number_no = #{classNumberNo},
             </if>
             <if test="createTime != null">
                 create_time = #{createTime},

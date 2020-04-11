@@ -6,7 +6,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * (DictionaryData)实体类
@@ -74,5 +76,5 @@ public class DictionaryData implements Serializable {
     */
     private String remark4;
 
-
+    private List<DictionaryData> children = new ArrayList<>();
 }

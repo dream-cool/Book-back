@@ -103,7 +103,7 @@ public class Book implements Serializable {
     /**
      * 借阅次数
      */
-    @ApiModelProperty("修改时间")
+    @ApiModelProperty("借阅次数")
     private Integer borrowingNumber;
 
     /**

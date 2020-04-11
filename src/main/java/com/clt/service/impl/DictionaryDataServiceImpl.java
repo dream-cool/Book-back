@@ -1,10 +1,13 @@
 package com.clt.service.impl;
 
+import com.clt.dao.DictionaryDao;
+import com.clt.entity.Dictionary;
 import com.clt.entity.DictionaryData;
 import com.clt.dao.DictionaryDataDao;
 import com.clt.service.DictionaryDataService;
 import com.clt.utils.ResultUtil;
 import com.clt.utils.UUIDUtil;
+import com.mchange.v2.collection.MapEntry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -22,6 +25,9 @@ import java.util.*;
 public class DictionaryDataServiceImpl implements DictionaryDataService {
     @Resource
     private DictionaryDataDao dictionaryDataDao;
+
+    @Resource
+    private DictionaryDao dictionaryDao;
 
     /**
      * 通过ID查询单条数据
@@ -51,20 +57,94 @@ public class DictionaryDataServiceImpl implements DictionaryDataService {
         return this.dictionaryDataDao.queryAllByCondition(dictionaryData);
     }
 
+    private List<DictionaryData> getMajorList(){
+        return  dictionaryDataDao.queryMajorList();
+    }
+
     @Override
-    public ResultUtil<List<List<DictionaryData>>> getClassInfo() {
-        List<String> list = new ArrayList<>(4);
-        list.add("sys_grade");
-        list.add("sys_depart");
-        list.add("sys_major");
-        list.add("sys_class_number");
+    public ResultUtil<List<DictionaryData>> getClassInfo() {
         DictionaryData condition = new DictionaryData();
-        List<List<DictionaryData>> contain = new ArrayList<>();
-        list.stream().forEach( type -> {
-            condition.setType(type);
-            contain.add(queryAllByCondition(condition));
+        condition.setStatus(1);
+        Map<String,List<DictionaryData>> contain = new HashMap<>(16);
+        contain.put("sys_grade", null);
+        contain.put("sys_depart", null);
+        contain.put("sys_class_number", null);
+
+        for (Map.Entry<String, List<DictionaryData>> data: contain.entrySet()) {
+            String key = data.getKey();
+            condition.setType(key);
+            contain.put(key, queryAllByCondition(condition));
+        }
+
+        contain.put("sys_major",getMajorList());
+
+        //把班级编号加入到专业列表信息里面
+        contain.get("sys_major").stream().forEach(major -> {
+            contain.get("sys_class_number").stream().forEach(classInfo -> {
+                major.getChildren().add(classInfo);
+            });
         });
-        return ResultUtil.success(contain);
+
+        //把专业信息放入院系列表信息中
+        contain.get("sys_depart").stream().forEach(depart -> {
+            contain.get("sys_major").stream().forEach(major -> {
+                if (major.getType().endsWith(depart.getValue())){
+                    depart.getChildren().add(major);
+                }
+            });
+        });
+
+        //把院系信息加入到年级列表信息里面
+        contain.get("sys_grade").stream().forEach(grade -> {
+            contain.get("sys_depart").stream().forEach( depart -> {
+                grade.getChildren().add(depart);
+            });
+        });
+
+        return ResultUtil.success(contain.get("sys_grade"));
+    }
+
+    @Override
+    public ResultUtil<List<DictionaryData>> getLocationInfo() {
+        DictionaryData condition = new DictionaryData();
+        condition.setStatus(1);
+        Map<String,List<DictionaryData>> contain = new HashMap<>(16);
+        contain.put("sys_location_area", null);
+        contain.put("sys_location_floor", null);
+        contain.put("sys_location_room", null);
+        contain.put("sys_location_shelf", null);
+
+        for (Map.Entry<String, List<DictionaryData>> data: contain.entrySet()) {
+            String key = data.getKey();
+            condition.setType(key);
+            contain.put(key, queryAllByCondition(condition));
+        }
+
+
+        //把书架编号加入到房间列表信息里面
+        contain.get("sys_location_room").stream().forEach(room -> {
+            contain.get("sys_location_shelf").stream().forEach(shelf -> {
+                room.getChildren().add(shelf);
+            });
+        });
+
+        //把房间信息放入楼层列表信息中
+        contain.get("sys_location_floor").stream().forEach(floor -> {
+            contain.get("sys_location_room").stream().forEach(room -> {
+                if (room.getValue().startsWith(floor.getValue())){
+                    floor.getChildren().add(room);
+                }
+            });
+        });
+
+        //把楼层信息加入到楼区列表信息里面
+        contain.get("sys_location_area").stream().forEach(area -> {
+            contain.get("sys_location_floor").stream().forEach( floor -> {
+                area.getChildren().add(floor);
+            });
+        });
+
+        return ResultUtil.success(contain.get("sys_location_area"));
     }
 
     /**

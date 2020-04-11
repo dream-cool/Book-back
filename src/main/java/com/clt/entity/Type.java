@@ -90,6 +90,6 @@ public class Type implements Serializable {
      * 子类数组
      */
     @ApiModelProperty("子类数组")
-    private List<Type> child = new ArrayList<>(0);
+    private List<Type> children = new ArrayList<>(0);
 
 }

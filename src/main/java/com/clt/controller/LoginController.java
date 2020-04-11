@@ -46,7 +46,7 @@ public class LoginController {
         } catch (UnknownAccountException e) {
             return ResultUtil.failed("账号不存在");
         } catch (IncorrectCredentialsException e) {
-            return ResultUtil.failed("密码错误");
+            return ResultUtil.failed("账号或密码错误");
         } catch (LockedAccountException e) {
             return ResultUtil.failed("用户已锁定，请联系管理员");
         }

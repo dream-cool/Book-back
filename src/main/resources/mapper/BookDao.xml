@@ -126,7 +126,7 @@
           img, ebook, location, zan_number, score, input_time, update_time, borrowing_number, remark1, remark2, remark3, remark4)
         values (#{bookId}, #{categoryId}, #{bookName}, #{bookDescribe}, #{author}, #{published}, #{price},
         #{bookStatus}, #{img}, #{ebook}, #{location}, #{zanNumber}, #{score}, #{inputTime}, #{updateTime},
-        #{borrowing_number}, #{remark1}, #{remark2}, #{remark3}, #{remark4})
+        #{borrowingNumber}, #{remark1}, #{remark2}, #{remark3}, #{remark4})
     </insert>
 
     <!--通过主键修改数据-->

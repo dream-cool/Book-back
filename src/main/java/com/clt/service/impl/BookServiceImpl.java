@@ -2,11 +2,14 @@ package com.clt.service.impl;
 
 import com.clt.constant.Const;
 import com.clt.dao.BookDao;
+import com.clt.dao.LocationDao;
 import com.clt.dao.TypeDao;
 import com.clt.entity.Book;
+import com.clt.entity.Location;
 import com.clt.entity.Type;
 import com.clt.enums.BookEnum;
 import com.clt.service.BookService;
+import com.clt.service.LocationService;
 import com.clt.service.TypeService;
 import com.clt.utils.FileUtil;
 import com.clt.utils.PageUtil;
@@ -34,8 +37,12 @@ import java.util.*;
 public class BookServiceImpl implements BookService {
 
     Logger logger = LoggerFactory.getLogger(BookServiceImpl.class);
+
     @Resource
     private BookDao bookDao;
+
+    @Resource
+    private LocationService locationService;
 
     @Autowired
     private TypeDao typeDao;
@@ -105,6 +112,12 @@ public class BookServiceImpl implements BookService {
             if (book.getImg() == null){
                 book.setImg(book.getBookName());
             }
+            if (book.getLocation() != null){
+                Location location = new Location();
+                location.setLocationId(book.getLocation());
+                locationService.insert(location);
+            }
+            book.setBorrowingNumber(0);
             book.setUpdateTime(new Date());
         }
     }
@@ -251,8 +264,8 @@ public class BookServiceImpl implements BookService {
                 ids.add(id);
                 this.hanleCategory(type.getPid(), cascadeTypes, ids);
             }
-            if (type.getChild() != null && !type.getChild().isEmpty()) {
-                hanleCategory(id, type.getChild(), ids);
+            if (type.getChildren() != null && !type.getChildren().isEmpty()) {
+                hanleCategory(id, type.getChildren(), ids);
             }
         }
         return ids;
@@ -306,8 +319,8 @@ public class BookServiceImpl implements BookService {
             targetType = type;
             logger.info("type----" + type);
         }
-        if (type.getChild() != null && type.getChild().size() > 0) {
-            final List<Type> childList = type.getChild();
+        if (type.getChildren() != null && type.getChildren().size() > 0) {
+            final List<Type> childList = type.getChildren();
             childList.stream().forEach(childType -> {
                 resumeQueryTargetType(childType, typeId);
             });
@@ -323,8 +336,8 @@ public class BookServiceImpl implements BookService {
      */
     private void resumeQueryTypeForIdSet(Type type) {
         idSet.add(type.getId());
-        if (type.getChild() != null && !type.getChild().isEmpty()) {
-            final List<Type> childList = type.getChild();
+        if (type.getChildren() != null && !type.getChildren().isEmpty()) {
+            final List<Type> childList = type.getChildren();
             childList.stream().forEach(childType -> {
                 resumeQueryTypeForIdSet(childType);
             });

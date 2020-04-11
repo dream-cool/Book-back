@@ -138,4 +138,14 @@
         delete from library.dictionary_data where id = #{id}
     </delete>
 
+    <select id="queryMajorList" resultMap="DictionaryDataMap">
+        select
+            dictionary_data.id, dictionary_data.number, dictionary_data.label, dictionary_data.`value`, dictionary_data.sort, dictionary_data.`status`,
+            dictionary_data.note, dictionary_data.create_time, dictionary_data.update_time, dictionary_data.type, dictionary_data.remark2, dictionary_data.remark3, dictionary_data.remark4
+        FROM dictionary, dictionary_data
+
+        WHERE dictionary_data.type like 'sys_major%' and dictionary.type = dictionary_data.type and dictionary_data.status = '1'
+        order by type,  sort , create_time
+    </select>
+
 </mapper>

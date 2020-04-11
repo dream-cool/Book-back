@@ -1,5 +1,6 @@
 package com.clt.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * (Class)实体类
@@ -31,38 +33,40 @@ public class UserClass implements Serializable {
      * 年级编号
      */
     @ApiModelProperty("")
-    private String grade;
+    private String gradeNo;
 
     /**
      * 院系编号
      */
     @ApiModelProperty("")
-    private String depart;
+    private String departNo;
 
     /**
      * 专业编号
      */
     @ApiModelProperty("")
-    private String major;
+    private String majorNo;
 
     /**
      * 班级编号
      */
     @ApiModelProperty("班级编号")
-    private String number;
+    private String classNumberNo;
 
     /**
      * 创建时间
      */
     @ApiModelProperty("创建时间")
-    private String createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date createTime;
 
 
     /**
      * 修改时间
      */
     @ApiModelProperty("修改时间")
-    private String updateTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date updateTime;
 
 
     /**

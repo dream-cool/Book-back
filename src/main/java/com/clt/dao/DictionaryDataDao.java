@@ -1,5 +1,6 @@
 package com.clt.dao;
 
+import com.clt.entity.Dictionary;
 import com.clt.entity.DictionaryData;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -64,4 +65,10 @@ public interface DictionaryDataDao {
      */
     int deleteById(String id);
 
+    /**
+     * 查询所有的专业数据
+     *
+     * @return 专业列表数据
+     */
+    List<DictionaryData> queryMajorList();
 }

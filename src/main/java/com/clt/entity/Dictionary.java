@@ -44,6 +44,10 @@ public class Dictionary implements Serializable {
     */
     private String note;
     /**
+     * 排序号
+     */
+    private Integer sort;
+    /**
     * 创建时间
     */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
@@ -53,10 +57,6 @@ public class Dictionary implements Serializable {
     */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date updateTime;
-    /**
-    * 备用字段1
-    */
-    private String remark1;
     /**
     * 备用字段2
     */

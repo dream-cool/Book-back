@@ -167,7 +167,7 @@ public class TypeServiceImpl implements TypeService {
                 final List<Type> collect = types.stream().filter(type -> {
                     return type.getId().equals(next.getPid());
                 }).collect(Collectors.toList());
-                collect.get(0).getChild().add(next);
+                collect.get(0).getChildren().add(next);
             }
         }
         /**

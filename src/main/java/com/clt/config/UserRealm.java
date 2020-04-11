@@ -59,7 +59,7 @@ public class UserRealm extends AuthorizingRealm {
         final List<User> users = userService.queryAllByCondition(user);
         for (User userResult : users) {
             if (userResult == null){
-                return null;
+                throw new IncorrectCredentialsException();
             } else {
                 if (UserEnum.USER_STATUS_LOCKED.getCode().equals(userResult.getStatus())){
                     throw new LockedAccountException();

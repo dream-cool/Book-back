@@ -59,6 +59,29 @@ public class UserController {
     }
 
     /**
+     * 根据用户名和邮箱查询用户
+     *
+     * @param userName 用户名
+     * @param email 邮箱
+     * @return 单条数据
+     */
+    @GetMapping("/queryUser/{userName}/{email}")
+    @ApiOperation("根据用户名和邮箱查询用户")
+    public ResultUtil<User> queryByUserNameAndEmail(
+            @ApiParam("userName") @PathVariable String userName,
+            @ApiParam("email") @PathVariable String email) {
+        User condiction = new User();
+        condiction.setUserName(userName);
+        condiction.setEmail(email);
+        final List<User> users = userService.queryAllByCondition(condiction);
+        if (users != null && users.size() == 1) {
+            return ResultUtil.success(users.get(0));
+        } else {
+            return ResultUtil.failed("没有找到对应信息");
+        }
+    }
+
+    /**
      * 分页查询数据
      *
      * @param pageNum  起始
