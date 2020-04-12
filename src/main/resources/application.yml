@@ -54,3 +54,6 @@ secure:
     - /unauthorized
     - /verificationCheck
     - /sendVerificationLogin
+    - /swagger.json
+    - /swagger-ui.html
+    - /favicon.ico

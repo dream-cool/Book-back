@@ -65,8 +65,13 @@ public class DateUtils {
         return format.format(date);
     }
 
-    public static Date stringTimeToStandardTime(String time) throws ParseException {
-        return format.parse(time);
+    public static Date stringTimeToStandardTime(String time) {
+        try {
+            return format.parse(time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 

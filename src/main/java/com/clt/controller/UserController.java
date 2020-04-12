@@ -2,6 +2,7 @@ package com.clt.controller;
 
 import com.clt.constant.Const;
 import com.clt.entity.User;
+import com.clt.entity.UserClass;
 import com.clt.service.UserService;
 import com.clt.utils.ResultUtil;
 import com.github.pagehelper.Page;
@@ -82,6 +83,26 @@ public class UserController {
     }
 
     /**
+     * 根据邮箱查询用户
+     *
+     * @param email 邮箱
+     * @return 单条数据
+     */
+    @GetMapping("/queryUserByEmail/{email}")
+    @ApiOperation("根据用户名和邮箱查询用户")
+    public ResultUtil<User> queryUserByEmail(
+            @ApiParam("email") @PathVariable String email) {
+        User condiction = new User();
+        condiction.setEmail(email);
+        final List<User> users = userService.queryAllByCondition(condiction);
+        if (users == null || users.size() == 0) {
+            return ResultUtil.success(null);
+        } else {
+            return ResultUtil.failed("该邮箱已被绑定");
+        }
+    }
+
+    /**
      * 分页查询数据
      *
      * @param pageNum  起始
@@ -124,6 +145,14 @@ public class UserController {
             User queryUser = this.userService.queryById(user.getStuNo());
             if (queryUser != null) {
                 return ResultUtil.failed("用户编号已存在");
+            }
+        }
+        if (user.getUserName() != null){
+            User condition = new User();
+            condition.setUserName(user.getUserName());
+            List<User> queryUser = userService.queryAllByCondition(condition);
+            if (queryUser != null && queryUser.size() > 0) {
+                return ResultUtil.failed("用户名已存在");
             }
         }
         User insertUser = this.userService.insert(user);
@@ -224,7 +253,7 @@ public class UserController {
     }
 
 
-    @RequestMapping("/sendVerificationLogin")
+    @GetMapping("/sendVerificationLogin")
     @ResponseBody
     public ResultUtil<Map<String, Object>> sendVerification(User user,
             @ApiParam("操作") @RequestParam(required = false) String operation) {
@@ -234,7 +263,7 @@ public class UserController {
         return userService.sendVerification(user, operation);
     }
 
-    @RequestMapping("/updatePWByOldPW")
+    @GetMapping("/updatePWByOldPW")
     @ResponseBody
     public ResultUtil<Map<String, Object>> updatePWByOldPW(
             @ApiParam("oldPassword") @RequestParam("oldPassword") String oldPassword,
@@ -244,7 +273,7 @@ public class UserController {
         return userService.updatePWByOldPW(oldPassword, newPassword, userId);
     }
 
-    @RequestMapping("/updatePWByVerificationCode")
+    @GetMapping("/updatePWByVerificationCode")
     @ResponseBody
     public ResultUtil<Map<String, Object>> updatePWByVerificationCode(
             @ApiParam("newPassword") @RequestParam("newPassword") String newPassword,

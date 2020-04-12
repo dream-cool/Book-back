@@ -70,4 +70,6 @@ public interface DictionaryDataService {
     ResultUtil<List<DictionaryData>> getClassInfo();
 
     ResultUtil<List<DictionaryData>> getLocationInfo();
+
+    ResultUtil<Integer> deleteByType(String type);
 }

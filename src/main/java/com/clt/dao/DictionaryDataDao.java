@@ -2,6 +2,7 @@ package com.clt.dao;
 
 import com.clt.entity.Dictionary;
 import com.clt.entity.DictionaryData;
+import com.clt.utils.ResultUtil;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
@@ -71,4 +72,6 @@ public interface DictionaryDataDao {
      * @return 专业列表数据
      */
     List<DictionaryData> queryMajorList();
+
+    int deleteByType(String type);
 }

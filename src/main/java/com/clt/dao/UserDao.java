@@ -1,6 +1,7 @@
 package com.clt.dao;
 
 import com.clt.entity.User;
+import com.clt.entity.UserClass;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -24,6 +25,14 @@ public interface UserDao {
     User queryById(String userId);
 
     /**
+     * 通过用户名查询单条数据
+     *
+     * @param userName 主键
+     * @return 实例对象
+     */
+    User queryByUserName(@Param("userName") String userName);
+
+    /**
      * 查询指定行数据
      *
      * @param offset 查询起始位置
@@ -40,6 +49,8 @@ public interface UserDao {
      * @return 对象列表
      */
     List<User> queryAllByCondition(User user);
+
+    List<User> queryByClass(UserClass userClass);
 
     /**
      * 新增数据
@@ -64,5 +75,6 @@ public interface UserDao {
      * @return 影响行数
      */
     int deleteById(String userId);
+
 
 }

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clt.dao.SchedulingTaskDao">
+
+    <resultMap type="com.clt.entity.SchedulingTask" id="SchedulingTaskMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="taskName" column="task_name" jdbcType="VARCHAR"/>
+        <result property="cronExpr" column="cron_expr" jdbcType="VARCHAR"/>
+        <result property="excuteMethod" column="excute_method" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="note" column="note" jdbcType="VARCHAR"/>
+        <result property="remark2" column="remark2" jdbcType="VARCHAR"/>
+        <result property="remark3" column="remark3" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="SchedulingTaskMap">
+        select
+          id, task_name, cron_expr, excute_method, status, create_time, update_time, note, remark2, remark3
+        from library.scheduling_task
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="SchedulingTaskMap">
+        select
+          id, task_name, cron_expr, excute_method, status, create_time, update_time, note, remark2, remark3
+        from library.scheduling_task
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="SchedulingTaskMap">
+        select
+          id, task_name, cron_expr, excute_method, status, create_time, update_time, note, remark2, remark3
+        from library.scheduling_task
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="taskName != null and taskName != ''">
+                and task_name = #{taskName}
+            </if>
+            <if test="cronExpr != null and cronExpr != ''">
+                and cron_expr = #{cronExpr}
+            </if>
+            <if test="excuteMethod != null and excuteMethod != ''">
+                and excute_method = #{excuteMethod}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="note != null and note != ''">
+                and note = #{note}
+            </if>
+            <if test="remark2 != null and remark2 != ''">
+                and remark2 = #{remark2}
+            </if>
+            <if test="remark3 != null and remark3 != ''">
+                and remark3 = #{remark3}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into library.scheduling_task(task_name, cron_expr, excute_method, status, create_time, update_time, note, remark2, remark3)
+        values (#{taskName}, #{cronExpr}, #{excuteMethod}, #{status}, #{createTime}, #{updateTime}, #{note}, #{remark2}, #{remark3})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update library.scheduling_task
+        <set>
+            <if test="taskName != null and taskName != ''">
+                task_name = #{taskName},
+            </if>
+            <if test="cronExpr != null and cronExpr != ''">
+                cron_expr = #{cronExpr},
+            </if>
+            <if test="excuteMethod != null and excuteMethod != ''">
+                excute_method = #{excuteMethod},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="note != null and note != ''">
+                note = #{note},
+            </if>
+            <if test="remark2 != null and remark2 != ''">
+                remark2 = #{remark2},
+            </if>
+            <if test="remark3 != null and remark3 != ''">
+                remark3 = #{remark3},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from library.scheduling_task where id = #{id}
+    </delete>
+
+</mapper>

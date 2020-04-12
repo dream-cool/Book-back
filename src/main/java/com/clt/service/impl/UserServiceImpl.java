@@ -15,11 +15,15 @@ import com.clt.utils.DateUtils;
 import com.clt.utils.MailUtil;
 import com.clt.utils.ResultUtil;
 import com.clt.utils.UUIDUtil;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -58,6 +62,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User queryById(String userId) {
         return this.userDao.queryById(userId);
+    }
+
+    @Override
+    public User queryByUserName(String userName) {
+        return userDao.queryByUserName(userName);
     }
 
     /**
@@ -133,6 +142,11 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User update(User user) {
+        if (user.getClassId() != null){
+            UserClass userClass = new UserClass();
+            userClass.setClassId(user.getClassId());
+            userClassService.insert(userClass);
+        }
         this.userDao.update(user);
         return this.queryById(user.getUserId());
     }
@@ -157,6 +171,11 @@ public class UserServiceImpl implements UserService {
             return userResult;
         }).collect(Collectors.toList());
         return users;
+    }
+
+    @Override
+    public List<User> queryByClass(UserClass userClass) {
+        return userDao.queryByClass(userClass);
     }
 
     @Override

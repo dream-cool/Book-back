@@ -1,6 +1,7 @@
 package com.clt.service.impl;
 
 import com.clt.dao.DictionaryDao;
+import com.clt.dao.DictionaryDataDao;
 import com.clt.entity.Dictionary;
 import com.clt.service.DictionaryService;
 import com.clt.utils.UUIDUtil;
@@ -20,6 +21,9 @@ import java.util.List;
 public class DictionaryServiceImpl implements DictionaryService {
     @Resource
     private DictionaryDao dictionaryDao;
+
+    @Resource
+    private DictionaryDataDao dictionaryDataDao;
 
     /**
      * 通过ID查询单条数据
@@ -88,6 +92,8 @@ public class DictionaryServiceImpl implements DictionaryService {
      */
     @Override
     public boolean deleteById(String id) {
+        final Dictionary dictionary = queryById(id);
+        dictionaryDataDao.deleteByType(dictionary.getType());
         return this.dictionaryDao.deleteById(id) > 0;
     }
 }

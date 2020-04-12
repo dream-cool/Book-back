@@ -1,6 +1,7 @@
 package com.clt.service;
 
 import com.clt.entity.User;
+import com.clt.entity.UserClass;
 import com.clt.utils.ResultUtil;
 
 import java.util.List;
@@ -21,6 +22,14 @@ public interface UserService {
      * @return 实例对象
      */
     User queryById(String userId);
+
+    /**
+     * 通过用户名查询单条数据
+     *
+     * @param userName 主键
+     * @return 实例对象
+     */
+    User queryByUserName(String userName);
 
     /**
      * 查询多条数据
@@ -57,6 +66,14 @@ public interface UserService {
 
     List<User> queryAllByCondition(User user);
 
+    /**
+     * 根据班级查询用户
+     *
+     * @param userClass 班级信息
+     * @return 用户列表
+     */
+    List<User> queryByClass(UserClass userClass);
+
     ResultUtil<Map<String, Object>> sendVerification(User user, String operation);
 
     ResultUtil<Map<String, Object>> verificationCheck(User user, String operation);
@@ -64,4 +81,6 @@ public interface UserService {
     ResultUtil<Map<String, Object>> updatePWByOldPW(String oldPassword, String newPassword, String userId);
 
     ResultUtil<Map<String, Object>> updatePWByVerificationCode(String userId, String newPassword);
+
+
 }

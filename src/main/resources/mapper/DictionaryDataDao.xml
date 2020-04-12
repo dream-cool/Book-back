@@ -138,6 +138,10 @@
         delete from library.dictionary_data where id = #{id}
     </delete>
 
+    <delete id="deleteByType">
+        delete from library.dictionary_data where type = #{type}
+    </delete>
+    
     <select id="queryMajorList" resultMap="DictionaryDataMap">
         select
             dictionary_data.id, dictionary_data.number, dictionary_data.label, dictionary_data.`value`, dictionary_data.sort, dictionary_data.`status`,

@@ -192,6 +192,17 @@ public class DictionaryDataServiceImpl implements DictionaryDataService {
         return this.dictionaryDataDao.deleteById(id) > 0;
     }
 
+    /**
+     * 删除某一字典类型的所有字典数据
+     *
+     * @param type 字典类型名称
+     * @return 是否成功
+     */
+    @Override
+    public ResultUtil<Integer> deleteByType(String type) {
+        return ResultUtil.success(this.dictionaryDataDao.deleteByType(type));
+    }
+
     @Autowired
     private StringRedisTemplate template;
 
@@ -227,6 +238,8 @@ public class DictionaryDataServiceImpl implements DictionaryDataService {
         }
         return ResultUtil.success(null, "删除成功");
     }
+
+
 
     @Override
     public ResultUtil<Map<Object, Object>> update(String field, String key, String value) {
