@@ -1,6 +1,8 @@
 package com.clt.controller;
 
+import com.clt.annotation.Log;
 import com.clt.entity.User;
+import com.clt.enums.LogOperationTypeEnum;
 import com.clt.service.UserService;
 import com.clt.utils.JwtTokenUtil;
 import com.clt.utils.ResultUtil;
@@ -34,6 +36,7 @@ public class LoginController {
 
     @ApiOperation("")
     @GetMapping("/login")
+    @Log(value = "用户登录", method = LogOperationTypeEnum.LOGIN)
     public ResultUtil<Map<String, Object>> login(
             @ApiParam("用户名") @RequestParam("userName") String userName,
             @ApiParam("密码") @RequestParam("password") String password) {

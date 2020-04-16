@@ -1,8 +1,10 @@
 package com.clt.controller;
 
+import com.clt.annotation.Log;
 import com.clt.constant.Const;
 import com.clt.entity.User;
 import com.clt.entity.UserClass;
+import com.clt.enums.LogOperationTypeEnum;
 import com.clt.service.UserService;
 import com.clt.utils.ResultUtil;
 import com.github.pagehelper.Page;
@@ -68,6 +70,7 @@ public class UserController {
      */
     @GetMapping("/queryUser/{userName}/{email}")
     @ApiOperation("根据用户名和邮箱查询用户")
+    @Log(value = "根据用户名和邮箱查询用户数据", method = LogOperationTypeEnum.QUERY)
     public ResultUtil<User> queryByUserNameAndEmail(
             @ApiParam("userName") @PathVariable String userName,
             @ApiParam("email") @PathVariable String email) {
@@ -89,7 +92,8 @@ public class UserController {
      * @return 单条数据
      */
     @GetMapping("/queryUserByEmail/{email}")
-    @ApiOperation("根据用户名和邮箱查询用户")
+    @ApiOperation("根据邮箱查询用户")
+    @Log(value = "根据邮箱查询用户数据", method = LogOperationTypeEnum.QUERY)
     public ResultUtil<User> queryUserByEmail(
             @ApiParam("email") @PathVariable String email) {
         User condiction = new User();
@@ -111,6 +115,7 @@ public class UserController {
      */
     @PostMapping("/all")
     @ApiOperation("分页查询数据")
+    @Log(value = "分页查询用户数据", method = LogOperationTypeEnum.QUERY)
     public ResultUtil<PageInfo<User>> selectAllByLimit(
             @ApiParam("页码") @RequestParam(required = false) Integer pageNum,
             @ApiParam("每页大小") @RequestParam(required = false) Integer pageSize,
@@ -137,6 +142,7 @@ public class UserController {
      */
     @PostMapping("")
     @ApiOperation("新增单条数据")
+    @Log(value = "新增用户数据", method = LogOperationTypeEnum.INSERT)
     public ResultUtil<User> insert(@RequestBody User user) {
         if (user == null) {
             return ResultUtil.failed("用户信息为空");
@@ -171,6 +177,7 @@ public class UserController {
      */
     @PutMapping("")
     @ApiOperation("更新单条数据")
+    @Log(value = "修改用户数据", method = LogOperationTypeEnum.UPDATE)
     public ResultUtil<User> update(@RequestBody User user) {
         if (this.userService.queryById(user.getUserId()) == null) {
             return ResultUtil.failed("修改失败，没有找到对应信息");
@@ -191,6 +198,7 @@ public class UserController {
      */
     @DeleteMapping("/{id}")
     @ApiOperation("删除单条数据")
+    @Log(value = "删除用户数据", method = LogOperationTypeEnum.DELETE)
     public ResultUtil<Boolean> delete(@PathVariable String id) {
         if (this.userService.queryById(id) == null) {
             return ResultUtil.failed("删除失败，没有找到对应信息");
@@ -211,6 +219,7 @@ public class UserController {
      */
     @GetMapping("/delete/batch")
     @ApiOperation("批量删除用户")
+    @Log(value = "根据id数组批量删除用户数据", method = LogOperationTypeEnum.DELETE)
     public ResultUtil<Boolean> deleteBatch(@ApiParam(value = "id数组") @RequestParam(value = "ids") List<String> ids) {
         logger.info(ids.toString());
         ids.stream().forEach(id -> {
@@ -227,6 +236,7 @@ public class UserController {
      */
     @PutMapping("/resetPassword/{userId}")
     @ApiOperation("重置密码")
+    @Log(value = "根据id重置用户密码", method = LogOperationTypeEnum.UPDATE)
     public ResultUtil<Boolean> resetPassword(@PathVariable String userId) {
         final User user = this.userService.queryById(userId);
         if (user == null) {

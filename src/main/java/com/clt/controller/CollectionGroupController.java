@@ -1,9 +1,12 @@
 package com.clt.controller;
 
+import com.clt.annotation.Log;
 import com.clt.entity.CollectionGroup;
+import com.clt.enums.LogOperationTypeEnum;
 import com.clt.service.CollectionGroupService;
 import com.clt.utils.ResultUtil;
 import com.clt.utils.UUIDUtil;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -59,6 +62,8 @@ public class CollectionGroupController {
      * @return 单条数据
      */
     @PostMapping("")
+    @ApiOperation("新增用户收藏分组")
+    @Log(value = "新增用户收藏分组", method = LogOperationTypeEnum.INSERT)
     public ResultUtil<CollectionGroup> insert(@RequestBody CollectionGroup collectionGroup) {
         final List<CollectionGroup> result = collectionGroupService.queryByName(collectionGroup.getName());
         if (result == null || result.isEmpty()){

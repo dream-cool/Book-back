@@ -1,5 +1,9 @@
 package com.clt.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import java.util.Date;
 import java.io.Serializable;
 
@@ -9,6 +13,9 @@ import java.io.Serializable;
  * @author makejava
  * @since 2020-04-11 11:23:29
  */
+@Getter
+@Setter
+@ToString
 public class Location implements Serializable {
     private static final long serialVersionUID = 111700316994244713L;
     /**

@@ -1,6 +1,8 @@
 package com.clt.controller;
 
+import com.clt.annotation.Log;
 import com.clt.entity.Comment;
+import com.clt.enums.LogOperationTypeEnum;
 import com.clt.service.CommentService;
 import com.clt.utils.ResultUtil;
 import com.github.pagehelper.Page;
@@ -107,6 +109,7 @@ public class CommentController {
      */
     @PostMapping("")
     @ApiOperation("通过实体数据新增单条数据")
+    @Log(value = "新增评论信息", method = LogOperationTypeEnum.INSERT)
     public ResultUtil<Comment> insert(@RequestBody Comment comment) {
         if (comment == null || StringUtils.isBlank(comment.getContent())){
             return ResultUtil.failed("评论内容为空");
@@ -147,6 +150,7 @@ public class CommentController {
      */
     @DeleteMapping("/{id}")
     @ApiOperation("通过主键删除单条数据")
+    @Log(value = "根据id删除评论数据", method = LogOperationTypeEnum.DELETE)
     public ResultUtil<Boolean> delete(@PathVariable String id) {
         if (this.commentService.queryById(id) == null) {
             return ResultUtil.failed("删除失败，没有找到对应信息");

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import java.util.List;
  */
 @Getter
 @Setter
+@ToString
 @ApiModel
 public class DictionaryData implements Serializable {
     private static final long serialVersionUID = 181603672119353424L;

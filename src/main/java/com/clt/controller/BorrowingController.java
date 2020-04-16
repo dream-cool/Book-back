@@ -1,6 +1,8 @@
 package com.clt.controller;
 
+import com.clt.annotation.Log;
 import com.clt.entity.Borrowing;
+import com.clt.enums.LogOperationTypeEnum;
 import com.clt.enums.ResultEnum;
 import com.clt.service.BorrowingService;
 import com.clt.utils.ResultUtil;
@@ -42,6 +44,7 @@ public class BorrowingController {
      */
     @GetMapping("/{id}")
     @ApiOperation("通过主键查询单条数据")
+    @Log(value = "通过id查询借阅数据", method = LogOperationTypeEnum.QUERY)
     public ResultUtil<Borrowing> selectOne(
             @ApiParam("id")
             @PathVariable String id) {
@@ -88,6 +91,7 @@ public class BorrowingController {
      */
     @PostMapping("/all")
     @ApiOperation("分页查询数据")
+    @Log(value = "分页查询借阅数据", method = LogOperationTypeEnum.QUERY)
     public ResultUtil<PageInfo<Borrowing>> selectAllByPage(
             @ApiParam("页码") @RequestParam(required = false) Integer pageNum,
             @ApiParam("每页大小") @RequestParam(required = false) Integer pageSize,
@@ -117,6 +121,7 @@ public class BorrowingController {
      */
     @PostMapping("/userBorrowingInfo")
     @ApiOperation("分页查询数据")
+    @Log(value = "分页查询某一用户的借阅数据", method = LogOperationTypeEnum.QUERY)
     public ResultUtil<Map<String, List<Borrowing>>> userBorrowingInfoGroupTime(
             @ApiParam("页码") @RequestParam(required = false) Integer pageNum,
             @ApiParam("每页大小") @RequestParam(required = false) Integer pageSize,
@@ -134,6 +139,7 @@ public class BorrowingController {
 
     @GetMapping("/handleApplying/{borrowingId}")
     @ApiOperation("处理申请借阅的书籍")
+    @Log(value = "处理申请借阅的书籍", method = LogOperationTypeEnum.UPDATE)
     public ResultUtil<Borrowing> handleApplying(
             @ApiParam("操作") @RequestParam(value = "operation") String operation,
             @ApiParam("操作人员") @RequestParam(value = "userName") String userName,
@@ -145,6 +151,7 @@ public class BorrowingController {
 
     @GetMapping("/cancelApplying/{borrowingId}")
     @ApiOperation("取消申请借阅的书籍")
+    @Log(value = "取消申请借阅的书籍", method = LogOperationTypeEnum.UPDATE)
     public ResultUtil<Borrowing> cancelApplying(
             @ApiParam("借阅编号") @PathVariable String borrowingId
     ) {
@@ -152,7 +159,8 @@ public class BorrowingController {
     }
 
     @GetMapping("/handleReturn/{borrowingId}")
-    @ApiOperation("归还以借的书籍")
+    @ApiOperation("归还已借的书籍")
+    @Log(value = "归还已借的书籍", method = LogOperationTypeEnum.UPDATE)
     public ResultUtil<Borrowing> handleReturn(
             @ApiParam("操作人员") @RequestParam(value = "userName") String userName,
             @ApiParam("借阅编号") @PathVariable String borrowingId
@@ -168,6 +176,7 @@ public class BorrowingController {
      * @return 新增的数据
      */
     @PostMapping("")
+    @Log(value = "新增借阅数据", method = LogOperationTypeEnum.INSERT)
     public ResultUtil<Borrowing> insert(@RequestBody Borrowing borrowing) {
         ResultUtil<Borrowing> insertBorrowingResult = this.borrowingService.insert(borrowing);
         if (insertBorrowingResult.getCode() == Long.parseLong(ResultEnum.SUCCESS.getCode().toString())) {
@@ -184,6 +193,8 @@ public class BorrowingController {
      * @return 更新的数据
      */
     @PutMapping("")
+    @ApiOperation("修改借阅数据")
+    @Log(value = "修改借阅数据", method = LogOperationTypeEnum.UPDATE)
     public ResultUtil<Borrowing> update(@RequestBody Borrowing borrowing) {
         if (this.borrowingService.queryById(borrowing.getBookId()) == null) {
             return ResultUtil.failed("修改失败，没有找到对应信息");
@@ -203,6 +214,8 @@ public class BorrowingController {
      * @return 删除结果
      */
     @DeleteMapping("/{id}")
+    @ApiOperation("根据id删除借阅数据")
+    @Log(value = "根据id删除借阅数据", method = LogOperationTypeEnum.DELETE)
     public ResultUtil<Boolean> delete(@PathVariable String id) {
         if (this.borrowingService.queryById(id) == null) {
             return ResultUtil.failed("修改失败，没有找到对应信息");

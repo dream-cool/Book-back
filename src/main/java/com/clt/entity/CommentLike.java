@@ -3,6 +3,7 @@ package com.clt.entity;
 import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 
@@ -14,6 +15,7 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
+@ToString
 @ApiModel
 public class CommentLike implements Serializable {
     private static final long serialVersionUID = 364850368142316699L;

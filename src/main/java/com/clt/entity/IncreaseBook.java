@@ -2,6 +2,7 @@ package com.clt.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * @author clt
@@ -9,6 +10,7 @@ import lombok.Setter;
  */
 @Setter
 @Getter
+@ToString
 public class IncreaseBook {
 
     private String date;

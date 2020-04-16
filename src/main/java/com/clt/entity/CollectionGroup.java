@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -16,6 +17,7 @@ import java.util.Date;
  */
 @Getter
 @Setter
+@ToString
 @ApiModel("收藏夹分组实体")
 public class CollectionGroup implements Serializable {
     private static final long serialVersionUID = 496583690550169230L;

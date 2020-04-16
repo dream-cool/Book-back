@@ -1,6 +1,8 @@
 package com.clt.controller;
 
+import com.clt.annotation.Log;
 import com.clt.entity.Dictionary;
+import com.clt.enums.LogOperationTypeEnum;
 import com.clt.service.DictionaryService;
 import com.clt.utils.ResultUtil;
 import com.github.pagehelper.Page;
@@ -38,6 +40,7 @@ public class DictionaryController {
      */
     @GetMapping("/{id}")
     @ApiOperation("通过主键查询单条数据")
+    @Log(value = "根据id查询字典类型数据", method = LogOperationTypeEnum.QUERY)
     public ResultUtil<Dictionary> selectOne(
             @ApiParam("id")
             @PathVariable String id) {
@@ -75,6 +78,7 @@ public class DictionaryController {
 
     @PostMapping("/all")
     @ApiOperation("分页查询数据")
+    @Log(value = "分页查询字典类型数据", method = LogOperationTypeEnum.QUERY)
     public ResultUtil<PageInfo<Dictionary>> selectAllByPage(
             @ApiParam("页码") @RequestParam(required = false) Integer pageNum,
             @ApiParam("每页大小") @RequestParam(required = false) Integer pageSize,
@@ -100,7 +104,8 @@ public class DictionaryController {
      * @return 新增的数据
      */
     @PostMapping("")
-    @ApiOperation("通过实体数据新增单条数据")
+    @ApiOperation("新增字典类型数据")
+    @Log(value = "新增字典类型数据", method = LogOperationTypeEnum.INSERT)
     public ResultUtil<Dictionary> insert(@RequestBody Dictionary dictionary) {
         if (dictionary == null || StringUtils.isBlank(dictionary.getName())) {
             return ResultUtil.failed("字典名称为空");
@@ -121,6 +126,7 @@ public class DictionaryController {
      */
     @PutMapping("")
     @ApiOperation("通过实体数据更新单条数据")
+    @Log(value = "修改字典类型数据", method = LogOperationTypeEnum.UPDATE)
     public ResultUtil<Dictionary> update(@RequestBody Dictionary dictionary) {
         if (this.dictionaryService.queryById(dictionary.getId()) == null) {
             return ResultUtil.failed("修改失败，没有找到对应信息");
@@ -141,6 +147,7 @@ public class DictionaryController {
      */
     @DeleteMapping("/{id}")
     @ApiOperation("通过主键删除单条数据")
+    @Log(value = "通过id删除字典类型数据", method = LogOperationTypeEnum.DELETE)
     public ResultUtil<Boolean> delete(@PathVariable String id) {
         if (this.dictionaryService.queryById(id) == null) {
             return ResultUtil.failed("删除失败，没有找到对应信息");

@@ -1,6 +1,8 @@
 package com.clt.controller;
 
+import com.clt.annotation.Log;
 import com.clt.entity.Book;
+import com.clt.enums.LogOperationTypeEnum;
 import com.clt.service.BookService;
 import com.clt.utils.ResultUtil;
 import com.github.pagehelper.PageInfo;
@@ -39,7 +41,8 @@ public class BookController {
      * @return 单条数据
      */
     @GetMapping("/{id}")
-    @ApiOperation("通过主键查询单条数据")
+    @ApiOperation("通过书籍id查询书籍")
+    @Log(value = "通过书籍id查询书籍", method = LogOperationTypeEnum.QUERY)
     public ResultUtil<Book> selectOne(
             @ApiParam("id")
             @PathVariable String id) {
@@ -58,7 +61,8 @@ public class BookController {
      * @return 单条数据
      */
     @GetMapping("/detail/{id}")
-    @ApiOperation("通过主键查询单条数据")
+    @ApiOperation("通过书籍id查询书籍详细信息")
+    @Log(value = "通过书籍id查询书籍详细信息", method = LogOperationTypeEnum.QUERY)
     public ResultUtil<Map<String, Object>> getBookDetail(
             @ApiParam("id")
             @PathVariable String id) {
@@ -89,7 +93,8 @@ public class BookController {
     }
 
     @PostMapping("all")
-    @ApiOperation("分页查询数据")
+    @ApiOperation("分页查询书籍数据")
+    @Log(value = "分页查询书籍数据", method = LogOperationTypeEnum.QUERY)
     public ResultUtil<PageInfo<Book>> selectAllByPage(
             @ApiParam("页码") @RequestParam(value = "pageNum", required = false) Integer pageNum,
             @ApiParam("每页大小") @RequestParam(value = "pageSize", required = false) Integer pageSize,
@@ -111,6 +116,8 @@ public class BookController {
      * @return 新增的数据
      */
     @PostMapping("")
+    @ApiOperation("新增书籍信息")
+    @Log(value = "新增书籍信息", method = LogOperationTypeEnum.INSERT)
     public ResultUtil<Book> insert(@RequestBody Book book) {
         Book insertBook = this.bookService.insert(book);
         if (insertBook != null) {
@@ -127,6 +134,8 @@ public class BookController {
      * @return 更新的数据
      */
     @PutMapping("")
+    @ApiOperation("修改书籍信息")
+    @Log(value = "修改书籍信息", method = LogOperationTypeEnum.UPDATE)
     public ResultUtil<Map<String, Object>> update(@RequestBody Book book) {
         if (this.bookService.queryById(book.getBookId()) == null) {
             return ResultUtil.failed("修改失败，没有找到对应信息");
@@ -148,6 +157,8 @@ public class BookController {
      * @return 删除结果
      */
     @DeleteMapping("/{id}")
+    @ApiOperation("通过书籍id删除书籍信息")
+    @Log(value = "通过书籍id删除书籍信息", method = LogOperationTypeEnum.DELETE)
     public ResultUtil<Boolean> delete(@PathVariable String id) {
         if (this.bookService.queryById(id) == null) {
             return ResultUtil.failed("删除失败，没有找到对应信息");
@@ -167,7 +178,8 @@ public class BookController {
      * @return 删除结果
      */
     @GetMapping("/delete/batch")
-    @ApiOperation("批量删除书籍数据")
+    @ApiOperation("通过书籍id数组批量删除书籍数据")
+    @Log(value = "通过书籍id数组批量删除书籍数据", method = LogOperationTypeEnum.DELETE)
     public ResultUtil<Boolean> deleteBatch(@ApiParam(value = "id数组") @RequestParam(value = "ids") List<String> ids) {
         logger.info(ids.toString());
         ids.stream().forEach(id -> {
@@ -178,7 +190,8 @@ public class BookController {
 
 
     @GetMapping("/ebook/{bookId}")
-    @ApiOperation("根据电子书页码返回具体内容")
+    @ApiOperation("根据电子书页码查询具体内容")
+    @Log(value = "根据电子书页码查询具体内容", method = LogOperationTypeEnum.QUERY)
     public ResultUtil<Map<Object, Object>> getEbookInfo(
             @ApiParam(value = "页码", required = true, defaultValue = "1")
             @RequestParam(value = "pageNum", required = false) Integer pageNum,
