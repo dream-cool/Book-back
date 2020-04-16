@@ -1,5 +1,7 @@
 package com.clt.constant;
 
+import java.io.File;
+
 /**
  * @author ：clt
  * @Date ：Created in 19:10 2020/02/25
@@ -10,6 +12,8 @@ public class Const {
 
     private Const() {
     }
+
+    public static final String filePath = System.getProperty("user.dir") + File.separator + "fileData";
 
     public static final int DEFAULT_CREDIT = 80;
 

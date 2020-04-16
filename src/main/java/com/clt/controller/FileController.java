@@ -103,7 +103,7 @@ public class FileController {
         return ResultUtil.success(null);
     }
 
-    @RequestMapping("/download/{filename}")
+    @GetMapping("/download/{filename}")
     public ResultUtil downLoad(HttpServletResponse response,
                                @PathVariable String filename,
                                @RequestParam(value = "filePath", required = false) String filePath) throws UnsupportedEncodingException {

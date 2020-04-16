@@ -14,10 +14,7 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -36,7 +33,7 @@ public class LoginController {
 
 
     @ApiOperation("")
-    @RequestMapping("/login")
+    @GetMapping("/login")
     public ResultUtil<Map<String, Object>> login(
             @ApiParam("用户名") @RequestParam("userName") String userName,
             @ApiParam("密码") @RequestParam("password") String password) {
@@ -62,13 +59,13 @@ public class LoginController {
 
 
     @ApiOperation("")
-    @RequestMapping("/toLogin")
+    @GetMapping("/toLogin")
     public ResultUtil<Map<Object, Object>> toLogin() {
         return ResultUtil.unauthorized(null, "");
     }
 
     @ApiOperation("")
-    @RequestMapping("/unauthorized")
+    @GetMapping("/unauthorized")
     public ResultUtil<Map<Object, Object>> unauthorized() {
         return ResultUtil.unauthorized(null, "");
     }

@@ -25,7 +25,7 @@ import java.util.Map;
  */
 public class JwtTokenUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenUtil.class);
-    private static final String CLAIM_KEY_USERID = "sub";
+    private static final String CLAIM_KEY_USERNAME = "sub";
     private static final String CLAIM_KEY_CREATED = "created";
 
     private static String secret = "secret";
@@ -69,15 +69,15 @@ public class JwtTokenUtil {
     /**
      * 从token中获取登录用户名
      */
-    public static String getUserIdFromToken(String token) {
-        String userId;
+    public static String getUserNameFromToken(String token) {
+        String userName;
         try {
             Claims claims = getClaimsFromToken(token);
-            userId = claims.getSubject();
+            userName = claims.getSubject();
         } catch (Exception e) {
-            userId = null;
+            userName = null;
         }
-        return userId;
+        return userName;
     }
 
     /**
@@ -87,8 +87,8 @@ public class JwtTokenUtil {
      * @param userDao 从数据库中查询出来的用户信息
      */
     public static boolean validateToken(String token, UserDao userDao) {
-        String userId = getUserIdFromToken(token);
-        return userDao.queryById(userId) != null && !isTokenExpired(token);
+        String userName = getUserNameFromToken(token);
+        return userDao.queryByUserName(userName) != null && !isTokenExpired(token);
     }
 
     /**
@@ -111,8 +111,8 @@ public class JwtTokenUtil {
      * 根据用户信息生成token
      */
     public static String generateToken(User user) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put(CLAIM_KEY_USERID, user.getUserId());
+        Map<String, Object> claims = new HashMap<>(16);
+        claims.put(CLAIM_KEY_USERNAME, user.getUserName());
         claims.put(CLAIM_KEY_CREATED, new Date());
         return generateToken(claims);
     }

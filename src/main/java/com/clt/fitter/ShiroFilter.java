@@ -63,8 +63,8 @@ public class ShiroFilter extends AccessControlFilter {
             return false;
         }
         //对当前ID进行SHA256加密
-        final String userIdFromToken = JwtTokenUtil.getUserIdFromToken(token);
-        if (userIdFromToken == null || JwtTokenUtil.isTokenExpired(token)) {
+        final String userNameFromToken = JwtTokenUtil.getUserNameFromToken(token);
+        if (userNameFromToken == null || JwtTokenUtil.isTokenExpired(token)) {
             logger.info("无效token");
             request.getRequestDispatcher("/unauthorized").forward(request, response);
             return false;
