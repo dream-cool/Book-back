@@ -1,5 +1,6 @@
 package com.clt.utils;
 
+import com.clt.dao.UserDao;
 import com.clt.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -29,7 +30,7 @@ public class JwtTokenUtil {
 
     private static String secret = "secret";
 
-    private static Long expiration = 604800L;
+    private static Long expiration = 1800L;
 
     /**
      * 根据负责生成JWT的token
@@ -83,17 +84,17 @@ public class JwtTokenUtil {
      * 验证token是否还有效
      *
      * @param token       客户端传入的token
-     * @param userDetails 从数据库中查询出来的用户信息
+     * @param userDao 从数据库中查询出来的用户信息
      */
-//    public boolean validateToken(String token, UserDetails userDetails) {
-//        String username = getUserNameFromToken(token);
-//        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
-//    }
+    public static boolean validateToken(String token, UserDao userDao) {
+        String userId = getUserIdFromToken(token);
+        return userDao.queryById(userId) != null && !isTokenExpired(token);
+    }
 
     /**
      * 判断token是否已经失效
      */
-    private static boolean isTokenExpired(String token) {
+    public static boolean isTokenExpired(String token) {
         Date expiredDate = getExpiredDateFromToken(token);
         return expiredDate.before(new Date());
     }
@@ -101,7 +102,7 @@ public class JwtTokenUtil {
     /**
      * 从token中获取过期时间
      */
-    private static Date getExpiredDateFromToken(String token) {
+    public static Date getExpiredDateFromToken(String token) {
         Claims claims = getClaimsFromToken(token);
         return claims.getExpiration();
     }

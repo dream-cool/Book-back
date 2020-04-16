@@ -81,7 +81,7 @@ public class ResultUtil<T> {
     /**
      * 未登录返回结果
      */
-    public static <T> ResultUtil<T> unauthorized(T data) {
+    public static <T> ResultUtil<T> unauthorized(T data, String message) {
         return new ResultUtil<T>(ResultEnum.UNAUTHORIZED.getCode(), ResultEnum.UNAUTHORIZED.getMessage(), data);
     }
 

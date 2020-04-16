@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost
+ Source Server         : 39.97.239.108
  Source Server Type    : MySQL
- Source Server Version : 80018
- Source Host           : localhost:3306
+ Source Server Version : 80019
+ Source Host           : 39.97.239.108:3306
  Source Schema         : library
 
  Target Server Type    : MySQL
- Target Server Version : 80018
+ Target Server Version : 80019
  File Encoding         : 65001
 
- Date: 31/03/2020 17:24:38
+ Date: 16/04/2020 09:03:07
 */
 
 SET NAMES utf8mb4;
@@ -31,13 +31,13 @@ CREATE TABLE `book`  (
   `price` decimal(10, 2) NULL DEFAULT NULL COMMENT '价格',
   `book_status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '书籍状态  在库 已借 损坏',
   `img` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '书籍封面',
-  `ebook` int(11) NULL DEFAULT NULL COMMENT '是否是电子书',
+  `ebook` int(0) NULL DEFAULT NULL COMMENT '是否是电子书',
   `location` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '书籍位置',
-  `zan_number` int(11) NULL DEFAULT NULL COMMENT '点赞数量',
+  `zan_number` int(0) NULL DEFAULT NULL COMMENT '点赞数量',
   `score` decimal(2, 1) NULL DEFAULT NULL COMMENT '得分',
   `input_time` timestamp(0) NULL DEFAULT NULL COMMENT '录入时间',
   `update_time` timestamp(0) NULL DEFAULT NULL COMMENT '修改时间',
-  `borrowing_number` int(11) NULL DEFAULT NULL COMMENT '借阅数量',
+  `borrowing_number` int(0) NULL DEFAULT NULL COMMENT '借阅数量',
   `remark1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `remark2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `remark3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
@@ -63,6 +63,7 @@ INSERT INTO `book` VALUES ('d58a37c26ed2456c9f566768afc1d4ae', '9', '1111', '414
 INSERT INTO `book` VALUES ('d80b2ce8a65d438e942b60e0352dda84', '1', '122', '1', '1222', '1222', 1.00, '0', '20200310201826603QQ截图20200226194757.jpg', 1, '20200309203156844魔道祖师.txt', 0, 1.0, '2020-02-05 21:03:12', '2020-03-10 20:18:28', 7, NULL, NULL, NULL, NULL);
 INSERT INTO `book` VALUES ('dd445e68a24f40459266aedb395e5817', '1', '122', '1', '122', '122', 1.00, '0', '20200310201353073QQ截图20200226194757.jpg', 1, '20200309203156844魔道祖师.txt', 0, 1.0, '2020-02-05 21:03:12', '2020-03-10 20:14:02', 8, NULL, NULL, NULL, NULL);
 INSERT INTO `book` VALUES ('f65f5a4768694472b70715fd73bca2f5', '12', '111', '111', '111', '111', 11.00, '0', '20200310194929794桌面.jpg', 0, '111', 0, NULL, '2020-02-22 00:00:00', '2020-03-10 19:49:30', 7, NULL, NULL, NULL, NULL);
+INSERT INTO `book` VALUES ('faedc4d3fa27413287e33f8d47c42b31', '1', '我是书籍啊', '我是书籍啊', '我是书籍啊', '我是书籍啊', 11.00, '0', '我是书籍啊', 0, '[\"A\",\"03\",\"0301\",\"D\"]', 0, NULL, '2020-04-11 00:00:00', '2020-04-11 14:39:29', 0, NULL, NULL, NULL, NULL);
 INSERT INTO `book` VALUES ('fd05624d73214dedaabe3dc0f00cd1f8', '1', '124', '11111', '24211', '124', 1.00, '0', '20200310194739112桌面.jpg', 1, '20200309203156844魔道祖师.txt', 0, NULL, '2020-03-13 18:24:12', '2020-03-10 19:48:17', 7, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
@@ -75,7 +76,7 @@ CREATE TABLE `borrowing`  (
   `user_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户id',
   `book_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '书籍名称',
   `user_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户姓名',
-  `duration` int(11) NULL DEFAULT NULL COMMENT '借阅时长',
+  `duration` int(0) NULL DEFAULT NULL COMMENT '借阅时长',
   `application_time` timestamp(0) NULL DEFAULT NULL COMMENT '申请时间',
   `handle_time` timestamp(0) NULL DEFAULT NULL COMMENT '处理时间',
   `borrowing_time` timestamp(0) NULL DEFAULT NULL COMMENT '借阅时间',
@@ -208,10 +209,10 @@ CREATE TABLE `comment`  (
   `user_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户id',
   `comment_time` timestamp(0) NOT NULL COMMENT '评论时间',
   `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '评论内容',
-  `score` int(11) NULL DEFAULT NULL COMMENT '评分',
-  `reply_flag` int(11) NULL DEFAULT NULL,
+  `score` int(0) NULL DEFAULT NULL COMMENT '评分',
+  `reply_flag` int(0) NULL DEFAULT NULL,
   `reply_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `zan_number` int(11) NULL DEFAULT NULL,
+  `zan_number` int(0) NULL DEFAULT NULL,
   `comment_pid` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `reply_user_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   PRIMARY KEY (`comment_id`) USING BTREE
@@ -311,7 +312,7 @@ CREATE TABLE `comment_like`  (
   `comment_like_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'id',
   `comment_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '评论id',
   `user_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户id',
-  `is_like` int(11) NULL DEFAULT NULL,
+  `is_like` int(0) NULL DEFAULT NULL,
   `remark1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `remark2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `remark3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
@@ -345,11 +346,11 @@ CREATE TABLE `dictionary`  (
   `number` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '字典编号',
   `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '字典名称',
   `type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '字典类型',
-  `status` int(2) NULL DEFAULT NULL COMMENT '状态',
+  `status` int(0) NULL DEFAULT NULL COMMENT '状态',
   `note` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备注',
   `create_time` timestamp(0) NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` timestamp(0) NULL DEFAULT NULL COMMENT '修改时间',
-  `remark1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备用字段1',
+  `sort` int(0) NULL DEFAULT NULL COMMENT '备用字段1',
   `remark2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备用字段2',
   `remark3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备用字段3',
   `remark4` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备用字段4',
@@ -359,10 +360,18 @@ CREATE TABLE `dictionary`  (
 -- ----------------------------
 -- Records of dictionary
 -- ----------------------------
-INSERT INTO `dictionary` VALUES ('3e4be16b360d4efe87008ad69e0842d5', NULL, '院系', 'sys_depart', 1, '院系列表', '2020-03-31 14:00:18', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `dictionary` VALUES ('8d113063fcc4478e898388825e4045f3', NULL, '专业', 'sys_major', 1, '专业列表', '2020-03-31 10:21:32', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `dictionary` VALUES ('9fffa299f7a24331a5f0f4760988e06a', NULL, '班级', 'sys_class_number', 1, '班级列表', '2020-03-31 10:23:56', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `dictionary` VALUES ('fced055171e74ab7898edc2659a1bd49', NULL, '年级', 'sys_grade', 1, '年级列表', '2020-03-31 10:05:50', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `dictionary` VALUES ('05615c8fabdb4b0281e1e3867d9444db', NULL, '影视院专业', 'sys_major_ysy_07', 1, '影视院专业列表', '2020-04-10 22:24:19', NULL, 307, NULL, NULL, NULL);
+INSERT INTO `dictionary` VALUES ('0bf772021cf5481db88ac603cd08663d', NULL, '土木院专业', 'sys_major_tmy_01', 1, '土木院专业列表', '2020-04-10 22:15:18', NULL, 301, NULL, NULL, NULL);
+INSERT INTO `dictionary` VALUES ('219e8ad5ce7144d9a114667843b0bfe9', NULL, '电气院专业', 'sys_major_dqy_04', 1, '电气院专业列表', '2020-04-10 22:22:54', NULL, 304, NULL, NULL, NULL);
+INSERT INTO `dictionary` VALUES ('3e4be16b360d4efe87008ad69e0842d5', NULL, '院系', 'sys_depart', 1, '院系列表', '2020-03-31 14:00:18', NULL, 3, NULL, NULL, NULL);
+INSERT INTO `dictionary` VALUES ('4b9c78d6be38425b9efc14ed525ef8f7', NULL, '书籍楼层位置', 'sys_location_floor', 1, '书籍楼层位置列表', '2020-04-11 11:28:52', NULL, 402, NULL, NULL, NULL);
+INSERT INTO `dictionary` VALUES ('753f2e0ee27949b990bea5b5d0f97bd4', NULL, '书籍房间位置', 'sys_location_room', 1, '书籍房间位置列表', '2020-04-11 11:29:35', NULL, 403, NULL, NULL, NULL);
+INSERT INTO `dictionary` VALUES ('986bd0df17da4dc8b737c434af45959c', NULL, '机电院专业', 'sys_major_jdy_02', 1, '机电院专业列表', '2020-04-10 22:16:39', NULL, 302, NULL, NULL, NULL);
+INSERT INTO `dictionary` VALUES ('9a05a0f6726a4eceb32875a8dfef05d6', NULL, '书籍楼区位置', 'sys_location_area', 1, '书籍楼区位置列表', '2020-04-11 11:28:00', NULL, 401, NULL, NULL, NULL);
+INSERT INTO `dictionary` VALUES ('9fffa299f7a24331a5f0f4760988e06a', NULL, '班级', 'sys_class_number', 1, '班级列表', '2020-03-31 10:23:56', NULL, 2, NULL, NULL, NULL);
+INSERT INTO `dictionary` VALUES ('bb778f22cb9245a58cb5532e19afce3d', NULL, '计数院专业', 'sys_major_jsy_03', 1, '计数院专业列表', '2020-04-10 22:11:49', NULL, 303, NULL, NULL, NULL);
+INSERT INTO `dictionary` VALUES ('c09fc4cd90c94dfa8c819d21d8cfb12e', NULL, '书籍书架位置', 'sys_location_shelf', 1, '书籍书架位置列表', '2020-04-11 11:30:44', NULL, 404, NULL, NULL, NULL);
+INSERT INTO `dictionary` VALUES ('fced055171e74ab7898edc2659a1bd49', NULL, '年级', 'sys_grade', 1, '年级列表', '2020-03-31 10:05:50', NULL, 1, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for dictionary_data
@@ -370,11 +379,11 @@ INSERT INTO `dictionary` VALUES ('fced055171e74ab7898edc2659a1bd49', NULL, '年�
 DROP TABLE IF EXISTS `dictionary_data`;
 CREATE TABLE `dictionary_data`  (
   `id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '字典数据id',
-  `number` int(11) NULL DEFAULT NULL COMMENT '字典数据编号',
+  `number` int(0) NULL DEFAULT NULL COMMENT '字典数据编号',
   `label` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '字典数据标签',
   `value` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '字典数据键值',
-  `sort` int(4) NULL DEFAULT NULL COMMENT '排序号',
-  `status` int(2) NULL DEFAULT NULL COMMENT '状态',
+  `sort` int(0) NULL DEFAULT NULL COMMENT '排序号',
+  `status` int(0) NULL DEFAULT NULL COMMENT '状态',
   `note` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备注',
   `create_time` timestamp(0) NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` timestamp(0) NULL DEFAULT NULL COMMENT '修改时间',
@@ -389,50 +398,133 @@ CREATE TABLE `dictionary_data`  (
 -- Records of dictionary_data
 -- ----------------------------
 INSERT INTO `dictionary_data` VALUES ('007502ff233f4fe18449cd5fd4dbed1d', NULL, '2019级', '2019', 19, 1, '111111', '2020-03-31 11:20:01', NULL, 'sys_grade', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('00888574d02f49b5abf84d57296f9da7', NULL, '0601', '0601', 601, 1, '0601', '2020-04-11 11:42:42', NULL, 'sys_location_room', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('030045f4383d43e5ab25fd8cf27d5af1', NULL, '0703', '0703', 703, 1, '0703', '2020-04-11 11:43:19', NULL, 'sys_location_room', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('03fc6ae064924d589859595f8892acbc', NULL, '0803', '0803', 803, 1, '0803', '2020-04-11 11:43:45', NULL, 'sys_location_room', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('08d3ae0acd4d440399b5d740fdfbc3b0', NULL, '0401', '0401', 401, 1, '0401', '2020-04-11 11:42:04', NULL, 'sys_location_room', NULL, NULL, NULL);
 INSERT INTO `dictionary_data` VALUES ('0ac94b89273241aa80011832300298e3', NULL, '2017级', '2017', 17, 1, NULL, '2020-03-31 11:21:34', NULL, 'sys_grade', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('0e0e03ff8a8b4f81877ceb3d21c9fc32', NULL, '0802', '0802', 802, 1, '0802', '2020-04-11 11:43:57', NULL, 'sys_location_room', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('13d67ff644f74de482746dd1c7d9a160', NULL, '0101', '0101', 101, 1, '0101', '2020-04-11 11:37:48', NULL, 'sys_location_room', NULL, NULL, NULL);
 INSERT INTO `dictionary_data` VALUES ('14b4b4b132fc47118f5c25da61e41c84', NULL, '2016级', '2016', 16, 1, NULL, '2020-03-31 11:21:39', NULL, 'sys_grade', NULL, NULL, NULL);
 INSERT INTO `dictionary_data` VALUES ('17256c8b3c524bac9b00b2031b0a2fd5', NULL, '法学院', '06', 6, 1, '法学院', '2020-03-31 15:07:17', NULL, 'sys_depart', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('18a3d99e5dea4d198f010d5f0b149ffd', NULL, 'F书架', 'F', 6, 1, NULL, '2020-04-11 11:45:49', NULL, 'sys_location_shelf', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('1ae03741b0db44398a39932e47cd2dbe', NULL, '0203', '0203', 203, 1, '0203', '2020-04-11 11:40:25', NULL, 'sys_location_room', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('1bc700702a654a918a6be4727f88ad6d', NULL, 'C书架', 'C', 3, 1, NULL, '2020-04-11 11:45:21', NULL, 'sys_location_shelf', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('228f3c0e9ccc4fa3b5f86627135a1211', NULL, 'E区', 'E', 5, 1, 'E区', '2020-04-11 11:33:38', NULL, 'sys_location_area', NULL, NULL, NULL);
 INSERT INTO `dictionary_data` VALUES ('2354452187d843bb9ac7d49b96522da8', NULL, '音乐学院', '11', 11, 1, '音乐学院', '2020-03-31 15:08:26', NULL, 'sys_depart', NULL, NULL, NULL);
 INSERT INTO `dictionary_data` VALUES ('27fd1537f44d4ca9a51b5f11ed3a458a', NULL, '体育学院', '13', 13, 1, '体育学院', '2020-03-31 15:14:26', NULL, 'sys_depart', NULL, NULL, NULL);
-INSERT INTO `dictionary_data` VALUES ('2a4d3a72836345f0b83759ad691f3b60', NULL, '1111', '1111', 999, 1, '1111', '2020-03-31 17:19:16', NULL, 'sys_major', NULL, NULL, NULL);
-INSERT INTO `dictionary_data` VALUES ('2d692dee11bc4a82b1ac63b3e58a3c7d', NULL, '信科', '0303', 303, 1, '信息与计算科学', '2020-03-31 15:16:49', NULL, 'sys_major', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('2908746acf274c85b00683aba90cd462', NULL, '0304', '0304', 304, 1, '0304', '2020-04-11 11:41:33', NULL, 'sys_location_room', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('2d692dee11bc4a82b1ac63b3e58a3c7d', NULL, '信科', '03', 303, 1, '信息与计算科学', '2020-03-31 15:16:49', NULL, 'sys_major_jsy_03', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('2de2a326b3794ce3a0c21337541ededa', NULL, '0204', '0204', 204, 1, '0204', '2020-04-11 11:40:31', NULL, 'sys_location_room', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('2f1f838691794918896027f473a6f4b2', NULL, '0504', '0504', 504, 1, '0504', '2020-04-11 11:42:32', NULL, 'sys_location_room', NULL, NULL, NULL);
 INSERT INTO `dictionary_data` VALUES ('2ff90b38b7314769a6e44e0c81faf1a5', NULL, '五班', '05', 5, 1, NULL, '2020-03-31 14:25:22', NULL, 'sys_class_number', NULL, NULL, NULL);
-INSERT INTO `dictionary_data` VALUES ('38014983d96d4b4d94b7ffe64b45cab7', NULL, '软件', '0302', 302, 1, '软件工程', '2020-03-31 15:48:35', NULL, 'sys_major', NULL, NULL, NULL);
-INSERT INTO `dictionary_data` VALUES ('3fe3b51095ef458a873a17407554489d', NULL, '物联网', '0304', 304, 1, '物联网工程', '2020-03-31 15:49:29', NULL, 'sys_major', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('30ea576af94847c1baa0fccbea87f995', NULL, '一楼', '01', 1, 1, '一楼', '2020-04-11 11:34:04', NULL, 'sys_location_floor', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('31a67bf35ecc4cf8bb6aa7f2ac4aa172', NULL, '0701', '0701', 701, 1, '0701', '2020-04-11 11:43:32', NULL, 'sys_location_room', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('334e009717844a0bb30b688d09665627', NULL, '0403', '0403', 403, 1, '0403', '2020-04-11 11:41:50', NULL, 'sys_location_room', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('33d673cb697c4e19946b4fadd602a724', NULL, '0801', '0801', 801, 1, '0801', '2020-04-11 11:43:40', NULL, 'sys_location_room', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('37a19a81d4014e15b43f6dd9c3078c15', NULL, '0804', '0804', 804, 1, '0804', '2020-04-11 11:44:20', NULL, 'sys_location_room', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('38014983d96d4b4d94b7ffe64b45cab7', NULL, '软件', '02', 302, 1, '软件工程', '2020-03-31 15:48:35', NULL, 'sys_major_jsy_03', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('3fe3b51095ef458a873a17407554489d', NULL, '物联网', '04', 304, 1, '物联网工程', '2020-03-31 15:49:29', NULL, 'sys_major_jsy_03', NULL, NULL, NULL);
 INSERT INTO `dictionary_data` VALUES ('4225914202a34a2ba6cf8280bfe064fa', NULL, '2015级', '2015', 15, 1, NULL, '2020-03-31 13:45:45', NULL, 'sys_grade', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('4b264c2e8e1b472586f4e729c9d24ae4', NULL, '0104', '0104', 104, 1, '0104', '2020-04-11 11:37:53', NULL, 'sys_location_room', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('4c1d280956244caf83e65cfdf7fde65b', NULL, 'E书架', 'E', 5, 1, NULL, '2020-04-11 11:45:40', NULL, 'sys_location_shelf', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('4fcf87c966e945659dce045d2b91ccce', NULL, 'D区', 'D', 4, 1, 'D区', '2020-04-11 11:33:08', NULL, 'sys_location_area', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('54c1b66074824aa79679eb4c21e4c2c5', NULL, '0301', '0301', 301, 1, '0301', '2020-04-11 11:40:41', NULL, 'sys_location_room', NULL, NULL, NULL);
 INSERT INTO `dictionary_data` VALUES ('56c3474875c44ea3abef48015fa1eabc', NULL, '机电院', '02', 2, 1, '机电工程学院', '2020-03-31 14:20:54', NULL, 'sys_depart', NULL, NULL, NULL);
-INSERT INTO `dictionary_data` VALUES ('5a0816862e76449bacbba1aa2f8f4292', NULL, '影视摄影与制作', '0704', 704, 1, '影视摄影与制作', '2020-03-31 17:16:07', NULL, 'sys_major', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('5a0816862e76449bacbba1aa2f8f4292', NULL, '影视摄影与制作', '0704', 704, 1, '影视摄影与制作', '2020-03-31 17:16:07', NULL, 'sys_major_ysy_07', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('5aede48b901e482886c285cc874b59f1', NULL, 'B书架', 'B', 2, 1, '', '2020-04-11 11:45:13', NULL, 'sys_location_shelf', NULL, NULL, NULL);
 INSERT INTO `dictionary_data` VALUES ('5af31a38068443099fc53d08d96710ce', NULL, '八班', '08', 8, 1, NULL, '2020-03-31 15:15:58', NULL, 'sys_class_number', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('6550dd65fbe24183841093d13a62b8f2', NULL, '0202', '0202', 202, 1, '0202', '2020-04-11 11:38:50', NULL, 'sys_location_room', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('6600b3f27a704d21a0024126dd045990', NULL, '0602', '0602', 602, 1, '0602', '2020-04-11 11:42:49', NULL, 'sys_location_room', NULL, NULL, NULL);
 INSERT INTO `dictionary_data` VALUES ('6720db6befac40dbadea73a22c1a905b', NULL, '计数院', '03', 3, 1, '计算机工程与应用数学', '2020-03-31 14:10:41', NULL, 'sys_depart', NULL, NULL, NULL);
-INSERT INTO `dictionary_data` VALUES ('6d20e20f01874004afcd107d590b3368', NULL, '通信工程', '0402', 402, 1, '通信工程', '2020-03-31 17:12:27', NULL, 'sys_major', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('6d20e20f01874004afcd107d590b3368', NULL, '通信工程', '02', 402, 1, '通信工程', '2020-03-31 17:12:27', NULL, 'sys_major_dqy_04', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('6ffea47d0e224ef1bef85e2345c89fd4', NULL, '二楼', '02', 2, 1, '二楼', '2020-04-11 11:34:21', NULL, 'sys_location_floor', NULL, NULL, NULL);
 INSERT INTO `dictionary_data` VALUES ('7269b60336f14e22ae1228a3179ce7a8', NULL, '外语院', '08', 8, 1, '外国语学院', '2020-03-31 15:07:37', NULL, 'sys_depart', NULL, NULL, NULL);
 INSERT INTO `dictionary_data` VALUES ('7b2df0e447b146a1adcb91d959be9ce9', NULL, '马克思主义学院', '12', 12, 1, '马克思主义学院', '2020-03-31 15:08:38', NULL, 'sys_depart', NULL, NULL, NULL);
-INSERT INTO `dictionary_data` VALUES ('7b8a575dc6d944c698a51e9cda183e70', NULL, '电气工程及其自动化', '0404', 404, 1, '电气工程及其自动化', '2020-03-31 17:12:54', NULL, 'sys_major', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('7b8a575dc6d944c698a51e9cda183e70', NULL, '电气工程及其自动化', '04', 404, 1, '电气工程及其自动化', '2020-03-31 17:12:54', NULL, 'sys_major_dqy_04', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('807574378f1b432e9b56491fa578dab0', NULL, '0302', '0302', 302, 1, '0302', '2020-04-11 11:40:48', NULL, 'sys_location_room', NULL, NULL, NULL);
 INSERT INTO `dictionary_data` VALUES ('843de29d16c74a7f92248555b36e7e23', NULL, '经管院', '09', 9, 1, '经济与管理学院', '2020-03-31 15:07:49', NULL, 'sys_depart', NULL, NULL, NULL);
 INSERT INTO `dictionary_data` VALUES ('89b15e84972d4dd5817b8c6fe961a876', NULL, '土木院', '01', 1, 1, '土木工程学院', '2020-03-31 14:14:06', NULL, 'sys_depart', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('89dfec0a48394b0fa43fb0dbdf8ac89e', NULL, 'A书架', 'A', 1, 1, '', '2020-04-11 11:44:55', NULL, 'sys_location_shelf', NULL, NULL, NULL);
 INSERT INTO `dictionary_data` VALUES ('8aa0f0086cd14c258fb00dabe9a42806', NULL, '乡村振兴研究院', '99', 99, 1, '乡村振兴研究院', '2020-03-31 15:14:39', NULL, 'sys_depart', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('8af09a777a1c42edbe663e3d4f0c4c6a', NULL, '0501', '0501', 501, 1, '0501', '2020-04-11 11:42:14', NULL, 'sys_location_room', NULL, NULL, NULL);
 INSERT INTO `dictionary_data` VALUES ('8ebe81e5f6c546e6b4de17fad87f7236', NULL, '一班', '01', 1, 1, NULL, '2020-03-31 14:24:01', NULL, 'sys_class_number', NULL, NULL, NULL);
-INSERT INTO `dictionary_data` VALUES ('98fc499b94a64fe9931d45d648adc035', NULL, '通天塔', '1111', 0, 1, NULL, '2020-03-31 17:19:23', NULL, 'sys_major', NULL, NULL, NULL);
-INSERT INTO `dictionary_data` VALUES ('9c39dca7a8af43668800ae89f7f6bf80', NULL, '播音与主持艺术', '0702', 702, 1, '播音与主持艺术', '2020-03-31 17:15:25', NULL, 'sys_major', NULL, NULL, NULL);
-INSERT INTO `dictionary_data` VALUES ('a7bdc225879940899b2f7587b929e043', NULL, '广播电视编导', '0703', 703, 1, '广播电视编导', '2020-03-31 17:15:44', NULL, 'sys_major', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('8ec928a23235406e9f68ee82a3d91300', NULL, 'A区', 'A', 1, 1, 'A区', '2020-04-11 11:32:15', NULL, 'sys_location_area', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('94507fe6af424c1eb40f52b3104a9aea', NULL, '0102', '0102', 102, 1, '0102', '2020-04-11 11:38:08', NULL, 'sys_location_room', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('972df6e68b8d4d8fa2b712374564b1af', NULL, '0402', '0402', 402, 1, '0402', '2020-04-11 11:41:56', NULL, 'sys_location_room', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('9c39dca7a8af43668800ae89f7f6bf80', NULL, '播音与主持艺术', '0702', 702, 1, '播音与主持艺术', '2020-03-31 17:15:25', NULL, 'sys_major_ysy_07', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('a7bdc225879940899b2f7587b929e043', NULL, '广播电视编导', '0703', 703, 1, '广播电视编导', '2020-03-31 17:15:44', NULL, 'sys_major_ysy_07', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('a7fbf134497b4e0b8715f1de81b2c2ef', NULL, '五楼', '05', 5, 1, '五楼', '2020-04-11 11:34:57', NULL, 'sys_location_floor', NULL, NULL, NULL);
 INSERT INTO `dictionary_data` VALUES ('ac695ccc636442f184334e5b018010d7', NULL, '六班', '06', 6, 1, NULL, '2020-03-31 14:25:30', NULL, 'sys_class_number', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('b254c8da4e354053b84afc279bceacb1', NULL, '0502', '0502', 502, 1, '0502', '2020-04-11 11:42:20', NULL, 'sys_location_room', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('b5dd6855c441466b8454ced37258d749', NULL, '0103', '0103', 103, 1, '0103', '2020-04-11 11:37:58', NULL, 'sys_location_room', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('b79d1963c23047738b0bc0950b7b6fe6', NULL, 'C区', 'C', 3, 1, 'C区', '2020-04-11 11:32:54', NULL, 'sys_location_area', NULL, NULL, NULL);
 INSERT INTO `dictionary_data` VALUES ('ba25f2117eb4450cb11029ff330126e2', NULL, '2020级', '2020', 20, 1, NULL, '2020-03-31 11:18:22', NULL, 'sys_grade', NULL, NULL, NULL);
 INSERT INTO `dictionary_data` VALUES ('bb9fff2f95a74b52bab69e0f45867076', NULL, '艺术院', '10', 10, 1, '艺术设计学院', '2020-03-31 15:08:03', NULL, 'sys_depart', NULL, NULL, NULL);
 INSERT INTO `dictionary_data` VALUES ('bc99bdfc38764e4e8da2a1a04d0a41ee', NULL, '七班', '07', 7, 1, NULL, '2020-03-31 14:25:40', NULL, 'sys_class_number', NULL, NULL, NULL);
 INSERT INTO `dictionary_data` VALUES ('bd58fa9b0edf484d831de36d3772bd72', NULL, '三班', '03', 3, 1, NULL, '2020-03-31 14:25:08', NULL, 'sys_class_number', NULL, NULL, NULL);
-INSERT INTO `dictionary_data` VALUES ('be8f7b348fae4c6981c6897985fd711b', NULL, '应用数学', '0305', 305, 1, '应用数学', '2020-03-31 15:49:52', NULL, 'sys_major', NULL, NULL, NULL);
-INSERT INTO `dictionary_data` VALUES ('c0c62a8e08ab42b6b9e4a6c1d36ded51', NULL, '新闻专业', '0701', 701, 1, '新闻专业', '2020-03-31 17:14:30', NULL, 'sys_major', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('be8f7b348fae4c6981c6897985fd711b', NULL, '应用数学', '05', 305, 1, '应用数学', '2020-03-31 15:49:52', NULL, 'sys_major_jsy_03', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('c0c62a8e08ab42b6b9e4a6c1d36ded51', NULL, '新闻专业', '0701', 701, 1, '新闻专业', '2020-03-31 17:14:30', NULL, 'sys_major_ysy_07', NULL, NULL, NULL);
 INSERT INTO `dictionary_data` VALUES ('c1d670d715554dd9a5d511fcfce7320a', NULL, '2018级', '2018', 18, 1, NULL, '2020-03-31 11:21:27', NULL, 'sys_grade', NULL, NULL, NULL);
 INSERT INTO `dictionary_data` VALUES ('c46571b966ee4a5ba72bedec4694b9a0', NULL, '生环院', '05', 5, 1, '生物与环境工程学院', '2020-03-31 15:05:35', NULL, 'sys_depart', NULL, NULL, NULL);
-INSERT INTO `dictionary_data` VALUES ('cbf6700b83bb4b4db43e15ccbf6d5597', NULL, '电子信息工程', '0401', 401, 1, '电子信息工程', '2020-03-31 17:12:12', NULL, 'sys_major', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('c5dd8d770d8d4a9784142503785e2326', NULL, '0303', '0303', 303, 1, '0303', '2020-04-11 11:41:00', NULL, 'sys_location_room', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('cb04a29374ce4bc7b1d53f62406e5a78', NULL, '0603', '0603', 603, 1, '0603', '2020-04-11 11:42:59', NULL, 'sys_location_room', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('cbf6700b83bb4b4db43e15ccbf6d5597', NULL, '电子信息工程', '01', 401, 1, '电子信息工程', '2020-03-31 17:12:12', NULL, 'sys_major_dqy_04', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('cfa2633d338349cf8863fee781af3709', NULL, '0604', '0604', 604, 1, '0604', '2020-04-11 11:43:04', NULL, 'sys_location_room', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('d27363e923f1469da97aad934dd0a143', NULL, 'B区', 'B', 2, 1, 'B区', '2020-04-11 11:32:31', NULL, 'sys_location_area', NULL, NULL, NULL);
 INSERT INTO `dictionary_data` VALUES ('d32c18f4655d479793c5090ffa4bf38e', NULL, '电气院', '04', 4, 1, '电子信息与电气工程学院', '2020-03-31 15:10:52', NULL, 'sys_depart', NULL, NULL, NULL);
 INSERT INTO `dictionary_data` VALUES ('d4960802efda450b8584aa0236aded3f', NULL, '四班', '04', 4, 1, NULL, '2020-03-31 14:25:15', NULL, 'sys_class_number', NULL, NULL, NULL);
-INSERT INTO `dictionary_data` VALUES ('dc950cfab3c94d56aebc9e85352dd08e', NULL, '光电信息工程', '0403', 403, 1, '光电信息工程', '2020-03-31 17:12:41', NULL, 'sys_major', NULL, NULL, NULL);
-INSERT INTO `dictionary_data` VALUES ('e01bc30352d145028e6fa937f624d0ac', NULL, '计科', '0301', 301, 1, '计算机科学与方法', '2020-03-31 15:48:07', NULL, 'sys_major', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('d75e6c1eefce43c98095743842d8ed6c', NULL, '七楼', '07', 7, 1, '七楼', '2020-04-11 11:35:09', NULL, 'sys_location_floor', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('da40b2aaad7e4b10b8f5c7167f207505', NULL, 'D书架', 'D', 4, 1, NULL, '2020-04-11 11:45:26', NULL, 'sys_location_shelf', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('dc950cfab3c94d56aebc9e85352dd08e', NULL, '光电信息工程', '03', 403, 1, '光电信息工程', '2020-03-31 17:12:41', NULL, 'sys_major_dqy_04', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('e01bc30352d145028e6fa937f624d0ac', NULL, '计科', '01', 301, 1, '计算机科学与方法', '2020-03-31 15:48:07', NULL, 'sys_major_jsy_03', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('e13891d53cb64380bf0800b59a3efde2', NULL, '0201', '0201', 201, 1, '0201', '2020-04-11 11:38:40', NULL, 'sys_location_room', NULL, NULL, NULL);
 INSERT INTO `dictionary_data` VALUES ('e857729edb904269ac5bd86a4347f4e6', NULL, '影视院', '07', 7, 1, '影视艺术与文化传播学院', '2020-03-31 15:12:18', NULL, 'sys_depart', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('eb329f04a7a04487b77b266b9619032b', NULL, '四楼', '04', 4, 1, '四楼', '2020-04-11 11:34:51', NULL, 'sys_location_floor', NULL, NULL, NULL);
 INSERT INTO `dictionary_data` VALUES ('ef364f1e887f49d9a515915485d03419', NULL, '研究生学院', '98', 98, 1, '研究生学院', '2020-03-31 15:13:38', NULL, 'sys_depart', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('f027b188578d4b6da29fe05a7ae55bf6', NULL, '八楼', '08', 8, 1, '八楼', '2020-04-11 11:35:12', NULL, 'sys_location_floor', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('f1e99b1fcaaa481195a3485746e04e03', NULL, '0404', '0404', 404, 1, '0404', '2020-04-11 11:41:42', NULL, 'sys_location_room', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('f2a321de916a45739bfb4c219f3fab62', NULL, '六楼', '06', 6, 1, '六楼', '2020-04-11 11:35:01', NULL, 'sys_location_floor', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('f2d613dcb68747d7b1ae7b78251819e1', NULL, '0704', '0704', 704, 1, '0704', '2020-04-11 11:43:14', NULL, 'sys_location_room', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('f3b250c6e825447eb4cde1cebdc7108b', NULL, '0503', '0503', 503, 1, '0503', '2020-04-11 11:42:26', NULL, 'sys_location_room', NULL, NULL, NULL);
 INSERT INTO `dictionary_data` VALUES ('f4ce8ce258a840f49baf386fe5e26be3', NULL, '二班', '02', 2, 1, NULL, '2020-03-31 14:24:58', NULL, 'sys_class_number', NULL, NULL, NULL);
-INSERT INTO `dictionary_data` VALUES ('f57c2e29ba44400690bec912eb942d47', NULL, 'test', 'test', 999, 1, NULL, '2020-03-31 17:19:34', NULL, 'sys_major', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('f57c2e29ba44400690bec912eb942d47', NULL, 'test', 'test', 999, 1, NULL, '2020-03-31 17:19:34', NULL, 'sys_major_test', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('fd68555145b64a639f3e0435e0f05c42', NULL, '三楼', '03', 3, 1, '三楼', '2020-04-11 11:34:41', NULL, 'sys_location_floor', NULL, NULL, NULL);
+INSERT INTO `dictionary_data` VALUES ('fe5053757f7040cd8437df7c848bd92c', NULL, '0702', '0702', 702, 1, '0702', '2020-04-11 11:43:24', NULL, 'sys_location_room', NULL, NULL, NULL);
+
+-- ----------------------------
+-- Table structure for location
+-- ----------------------------
+DROP TABLE IF EXISTS `location`;
+CREATE TABLE `location`  (
+  `location_id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '位置id',
+  `area_no` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '楼区编号',
+  `floor_no` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '楼层编号',
+  `room_no` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '房间编号',
+  `bookshelf_no` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '书架编号',
+  `create_time` timestamp(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` timestamp(0) NULL DEFAULT NULL COMMENT '修改时间',
+  `remark1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备用字段',
+  `remark2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `remark3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `remark4` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`location_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of location
+-- ----------------------------
+INSERT INTO `location` VALUES ('[\"A\",\"02\",\"0202\",\"A\"]', 'A', '02', '0202', 'A', '2020-04-11 12:56:46', '2020-04-11 12:56:46', NULL, NULL, NULL, NULL);
+INSERT INTO `location` VALUES ('[\"A\",\"02\",\"0202\",\"C\"]', 'A', '02', '0202', 'C', '2020-04-11 14:37:29', '2020-04-11 14:37:29', NULL, NULL, NULL, NULL);
+INSERT INTO `location` VALUES ('[\"A\",\"02\",\"0202\",\"D\"]', 'A', '02', '0202', 'D', '2020-04-11 14:37:43', '2020-04-11 14:37:43', NULL, NULL, NULL, NULL);
+INSERT INTO `location` VALUES ('[\"A\",\"02\",\"0202\",\"E\"]', 'A', '02', '0202', 'E', '2020-04-11 12:56:54', '2020-04-11 12:56:54', NULL, NULL, NULL, NULL);
+INSERT INTO `location` VALUES ('[\"A\",\"03\",\"0301\",\"D\"]', 'A', '03', '0301', 'D', '2020-04-11 14:39:29', '2020-04-11 14:39:29', NULL, NULL, NULL, NULL);
+INSERT INTO `location` VALUES ('[\"B\",\"02\",\"0203\",\"B\"]', 'B', '02', '0203', 'B', '2020-04-11 12:42:50', '2020-04-11 12:42:50', NULL, NULL, NULL, NULL);
+INSERT INTO `location` VALUES ('[\"B\",\"02\",\"0203\",\"C\"]', 'B', '02', '0203', 'C', '2020-04-11 12:38:02', '2020-04-11 12:38:02', NULL, NULL, NULL, NULL);
+INSERT INTO `location` VALUES ('[\"C\",\"02\",\"0202\",\"B\"]', 'C', '02', '0202', 'B', '2020-04-11 12:47:02', '2020-04-11 12:47:02', NULL, NULL, NULL, NULL);
+INSERT INTO `location` VALUES ('[\"C\",\"02\",\"0202\",\"C\"]', 'C', '02', '0202', 'C', '2020-04-11 12:53:48', '2020-04-11 12:53:48', NULL, NULL, NULL, NULL);
+INSERT INTO `location` VALUES ('[\"C\",\"02\",\"0202\",\"D\"]', 'C', '02', '0202', 'D', '2020-04-11 12:54:03', '2020-04-11 12:54:03', NULL, NULL, NULL, NULL);
+INSERT INTO `location` VALUES ('[\"C\",\"03\",\"0301\",\"B\"]', 'C', '03', '0301', 'B', '2020-04-11 14:38:38', '2020-04-11 14:38:38', NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for message
@@ -444,7 +536,7 @@ CREATE TABLE `message`  (
   `send_user_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '发送用户id',
   `sending_time` timestamp(0) NULL DEFAULT NULL COMMENT '发送时间',
   `content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '信息内容',
-  `status` int(11) NULL DEFAULT NULL COMMENT '信息状态  已读、未读',
+  `status` int(0) NULL DEFAULT NULL COMMENT '信息状态  已读、未读',
   `remark1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `remark2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `remark3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
@@ -462,24 +554,30 @@ INSERT INTO `message` VALUES ('1f058edf357147609a9aa90de3b0b81f', '1', '系统�
 INSERT INTO `message` VALUES ('1fafsafsasafsa', '1', NULL, '2020-03-07 01:09:09', 'sfafs', 1, NULL, NULL, NULL, NULL);
 INSERT INTO `message` VALUES ('2', '2', NULL, '2020-02-27 21:09:58', '1', 1, NULL, NULL, NULL, NULL);
 INSERT INTO `message` VALUES ('25r2asdf2saf2', '1', NULL, '2020-03-07 01:10:13', 'af', 1, NULL, NULL, NULL, NULL);
+INSERT INTO `message` VALUES ('2cd785d34c73477cb16f51b34373ccc0', '1', 'admin', '2020-04-12 19:07:46', '123456', 1, NULL, NULL, NULL, NULL);
 INSERT INTO `message` VALUES ('2r2dsf3q34tsv3', '1', NULL, '2020-03-13 01:10:16', 'd', 1, NULL, NULL, NULL, NULL);
 INSERT INTO `message` VALUES ('4144yhu5644', '1', NULL, '2020-03-06 01:10:29', 's', 1, NULL, NULL, NULL, NULL);
+INSERT INTO `message` VALUES ('5351580f5f5745f9ab4e249ac822d32d', 'd5c807fc853347648c4eb8a66d335d77', 'admin', '2020-04-12 17:18:01', '11111', 0, NULL, NULL, NULL, NULL);
 INSERT INTO `message` VALUES ('5eafc6457db84b44a2dff00f1816987e', '1', '系统管理员', '2020-03-25 20:51:38', 'admin,您好，你申请借阅的书籍《111》被驳回，驳回理由：11111', 1, NULL, NULL, NULL, NULL);
 INSERT INTO `message` VALUES ('735bf7223ede4e498e70c3a93e0ff699', '1', NULL, '2020-03-08 13:21:20', 'admin,您好，你申请借阅的书籍《hello》被驳回，驳回理由：信誉不够', 1, NULL, NULL, NULL, NULL);
 INSERT INTO `message` VALUES ('78c5c614660947e78d1c637ad62f8055', '1', '系统管理员', '2020-03-25 20:38:52', 'admin,您好，你申请借阅的书籍《hello》被驳回，驳回理由：bugou', 1, NULL, NULL, NULL, NULL);
 INSERT INTO `message` VALUES ('8272af1cdb6e4cda8a23b955aca6c998', '1', '系统管理员', '2020-03-25 20:50:28', 'admin,您好，你申请借阅的书籍《111》被驳回，驳回理由：1111', 1, NULL, NULL, NULL, NULL);
+INSERT INTO `message` VALUES ('8a31175831ee403fb762484bedf4b9b1', '1', 'admin', '2020-04-12 17:18:01', '11111', 1, NULL, NULL, NULL, NULL);
 INSERT INTO `message` VALUES ('8ca2936d45fd4ce09f8bed3483e26129', '1', '系统管理员', '2020-03-25 20:54:49', 'admin,您好，你申请借阅的书籍《111》被驳回，驳回理由：1111111111111', 1, NULL, NULL, NULL, NULL);
 INSERT INTO `message` VALUES ('ad6f8ba6bed744978c3a0a5c97ee3fb9', '1', '系统管理员', '2020-03-28 14:22:03', 'admin,您好，你申请借阅的书籍《hello》已通过批准,请于借阅日期前往领取！', 1, NULL, NULL, NULL, NULL);
 INSERT INTO `message` VALUES ('afdwqr2dhg4wt', '1', NULL, '2020-02-29 01:10:10', 'wf', 1, NULL, NULL, NULL, NULL);
 INSERT INTO `message` VALUES ('b033df2b987d41fd8ef20da1d66edb33', '1', '系统管理员', '2020-03-25 20:56:07', 'admin,您好，你申请借阅的书籍《111》已通过批准,请于借阅日期前往领取！', 1, NULL, NULL, NULL, NULL);
 INSERT INTO `message` VALUES ('b25ae49e1d484cc1bffc87bed4de7cfe', '1', '系统管理员', '2020-03-25 20:52:59', 'admin,您好，你申请借阅的书籍《111》被驳回，驳回理由：111111111111111111111', 1, NULL, NULL, NULL, NULL);
 INSERT INTO `message` VALUES ('b63e85a1752b411cacccd862ff923852', '1', '系统管理员', '2020-03-25 20:57:38', 'admin,您好，你申请借阅的书籍《111》被驳回，驳回理由：123', 1, NULL, NULL, NULL, NULL);
+INSERT INTO `message` VALUES ('bd48e0fd3979474bbfe505cbc27b2c73', '1', 'admin', '2020-04-12 19:08:22', '456789', 1, NULL, NULL, NULL, NULL);
+INSERT INTO `message` VALUES ('c166c1a14b2d40c3aa4cea3781b10b93', '51946cda3a634b25b0c96498a44b89ed', 'admin', '2020-04-12 17:18:01', '11111', 0, NULL, NULL, NULL, NULL);
 INSERT INTO `message` VALUES ('cea616c0a0d34f6f9ac02425367879f2', '1', '系统管理员', '2020-03-25 20:47:01', 'admin,您好，你申请借阅的书籍《111》被驳回，驳回理由：111111', 1, NULL, NULL, NULL, NULL);
 INSERT INTO `message` VALUES ('d11ddsad12xcz', '1', NULL, '2020-03-06 01:10:21', 's', 1, NULL, NULL, NULL, NULL);
 INSERT INTO `message` VALUES ('d141dfs3', '1', NULL, '2020-03-06 01:10:18', 'fs', 1, NULL, NULL, NULL, NULL);
 INSERT INTO `message` VALUES ('e1aa227261c146c1aa58b5643d0de6e0', '1', NULL, '2020-03-08 13:13:07', 'admin,您好，你申请借阅的hello书籍已通过批准', 1, NULL, NULL, NULL, NULL);
 INSERT INTO `message` VALUES ('f1154893bd6944cc8d5d5f7e20af02bd', '1', NULL, '2020-03-10 19:24:11', 'admin,您好，你申请借阅的书籍《hello》被驳回，驳回理由：11222', 1, NULL, NULL, NULL, NULL);
 INSERT INTO `message` VALUES ('fafsafgdhg', '1', NULL, '2020-03-07 01:10:08', 'a', 1, NULL, NULL, NULL, NULL);
+INSERT INTO `message` VALUES ('ff1b14375d264e3385a1b2c5459ddc2d', 'a055f525f65e43efabd7814339212100', 'admin', '2020-04-12 17:18:01', '11111', 0, NULL, NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for permission
@@ -487,16 +585,16 @@ INSERT INTO `message` VALUES ('fafsafgdhg', '1', NULL, '2020-03-07 01:10:08', 'a
 DROP TABLE IF EXISTS `permission`;
 CREATE TABLE `permission`  (
   `user_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户id',
-  `book_r` int(11) NULL DEFAULT NULL COMMENT '书籍信息读权限',
-  `book_w` int(11) NULL DEFAULT NULL COMMENT '书籍信息写权限',
-  `user_r` int(11) NULL DEFAULT NULL COMMENT '用户信息读权限',
-  `user_w` int(11) NULL DEFAULT NULL COMMENT '用户信息写权限',
-  `borrowing_r` int(11) NULL DEFAULT NULL COMMENT '借阅信息读权限',
-  `borrowing_w` int(11) NULL DEFAULT NULL COMMENT '借阅信息写权限',
-  `category_w` int(11) NULL DEFAULT NULL COMMENT '类别信息写权限',
-  `statistics_r` int(11) NULL DEFAULT NULL COMMENT '统计信息读权限',
-  `privilege` int(11) NULL DEFAULT NULL,
-  `admin` int(11) NULL DEFAULT NULL,
+  `book_r` int(0) NULL DEFAULT NULL COMMENT '书籍信息读权限',
+  `book_w` int(0) NULL DEFAULT NULL COMMENT '书籍信息写权限',
+  `user_r` int(0) NULL DEFAULT NULL COMMENT '用户信息读权限',
+  `user_w` int(0) NULL DEFAULT NULL COMMENT '用户信息写权限',
+  `borrowing_r` int(0) NULL DEFAULT NULL COMMENT '借阅信息读权限',
+  `borrowing_w` int(0) NULL DEFAULT NULL COMMENT '借阅信息写权限',
+  `category_w` int(0) NULL DEFAULT NULL COMMENT '类别信息写权限',
+  `statistics_r` int(0) NULL DEFAULT NULL COMMENT '统计信息读权限',
+  `privilege` int(0) NULL DEFAULT NULL,
+  `admin` int(0) NULL DEFAULT NULL,
   `remark1` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `remark2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `remark3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
@@ -510,14 +608,19 @@ INSERT INTO `permission` VALUES ('1', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, NULL, NULL, 
 INSERT INTO `permission` VALUES ('3d982ffe5bae492b941d4f4649a873b5', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL);
 INSERT INTO `permission` VALUES ('4d6d14e1b9e149aa89567a70ad723778', 1, 0, 1, 0, 1, 0, 0, 1, 0, 1, NULL, NULL, NULL);
 INSERT INTO `permission` VALUES ('5184c589a08245268de9b871d26dfd3c', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL);
+INSERT INTO `permission` VALUES ('51946cda3a634b25b0c96498a44b89ed', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL);
 INSERT INTO `permission` VALUES ('5948ecef174e40d3af8be7c5c24cc361', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL);
 INSERT INTO `permission` VALUES ('7067fc3b84804c699f196e383700c393', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL);
+INSERT INTO `permission` VALUES ('72651abb299e47f79451d70775adba63', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL);
 INSERT INTO `permission` VALUES ('79c691410e6e49f793a31842ded42953', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL);
+INSERT INTO `permission` VALUES ('9ae8dc60b6fe454bbfcb5faaf797cd86', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL);
 INSERT INTO `permission` VALUES ('9cb70c525d044739985aa1eeeb2e3e52', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL);
 INSERT INTO `permission` VALUES ('9df68aafa8c14a369b5043b5c80f3e42', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL);
+INSERT INTO `permission` VALUES ('a055f525f65e43efabd7814339212100', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL);
 INSERT INTO `permission` VALUES ('afa6567870834a70bca5690db70b5cc8', 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, NULL, NULL, NULL);
 INSERT INTO `permission` VALUES ('b20109964ed0456688218a6e3ad3d4de', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL);
 INSERT INTO `permission` VALUES ('d5c807fc853347648c4eb8a66d335d77', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL);
+INSERT INTO `permission` VALUES ('e17d0627a3bb4fae95c653ca6c281fcc', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL);
 INSERT INTO `permission` VALUES ('fd5f05cb95bd438781d6c5e3b542a2b3', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, NULL, NULL, NULL);
 
 -- ----------------------------
@@ -531,7 +634,7 @@ CREATE TABLE `record`  (
   `browsing_time` timestamp(0) NOT NULL COMMENT '浏览时间',
   `book_img` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '书籍封面',
   `book_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '书籍名称',
-  `book_page` int(11) NULL DEFAULT NULL COMMENT '电子书行数',
+  `book_page` int(0) NULL DEFAULT NULL COMMENT '电子书行数',
   `descr` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `remark2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `remark3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
@@ -549,6 +652,7 @@ INSERT INTO `record` VALUES ('1a666670bda54596b9c7cf56e69542f3', '1', 'c8dea18c7
 INSERT INTO `record` VALUES ('221403f27f1442a9ab7dbe5d3d176637', '1', '3c40be903534470aa102788712cfe99e', '2020-03-23 20:52:53', '20200309202406690QQ截图20200226194757.jpg', '14141', NULL, '1414', NULL, NULL);
 INSERT INTO `record` VALUES ('2ad4e22324ba4707b991f8415491f19e', '1', 'a135df0ea5014c90bba0e4c6a7c82cab', '2020-03-29 16:09:14', '20200314203719290QQ截图20200310190128.jpg', '狼图腾', NULL, '精装版隆重上市，影响深远的史诗级作品，入选新中国70年70部长篇小说，多所学校列入学生必读书单，不仅是一部好读的长篇小说，其信念、勇气与团队精神更是激励着一代又一代人。', NULL, NULL);
 INSERT INTO `record` VALUES ('2b90429ef36346ef8d098de4d9df341b', '1', 'a135df0ea5014c90bba0e4c6a7c82cab', '2020-03-15 14:20:11', '20200314203719290QQ截图20200310190128.jpg', '狼图腾', NULL, '精装版隆重上市，影响深远的史诗级作品，入选新中国70年70部长篇小说，多所学校列入学生必读书单，不仅是一部好读的长篇小说，其信念、勇气与团队精神更是激励着一代又一代人。', NULL, NULL);
+INSERT INTO `record` VALUES ('3060d78fd0614511a8c1efc0020ee677', '1', '10fb3f', '2020-04-12 13:25:18', '20200329143644797111.jpg', '海贼之我是大', NULL, '不知道', NULL, NULL);
 INSERT INTO `record` VALUES ('30ef4f25623549cbbd12d637300abf4e', '1', 'd80b2ce8a65d438e942b60e0352dda84', '2020-03-18 22:29:01', '20200310201826603QQ截图20200226194757.jpg', '122', NULL, '1', NULL, NULL);
 INSERT INTO `record` VALUES ('3381695d4cc4437bb91a5122ba91a904', '1', '6372631134b64a25941c2f80958b980b', '2020-03-15 15:06:37', '20200310201915779403.png', '真龙真龙', NULL, '真龙真龙真龙真龙', NULL, NULL);
 INSERT INTO `record` VALUES ('33b5b260a6034405b17a2e5d1a678914', '1', 'd80b2ce8a65d438e942b60e0352dda84', '2020-03-23 20:52:24', '20200310201826603QQ截图20200226194757.jpg', '122', NULL, '1', NULL, NULL);
@@ -562,6 +666,7 @@ INSERT INTO `record` VALUES ('42d10395ee5d48298a0d554ea620eef1', '1', '26fd2b762
 INSERT INTO `record` VALUES ('4374c69bf1e8472ea77689a0e063ae7f', '1', '10d88d1b5409433db00d871370ce7fd6', '2020-03-16 23:26:39', '20200310190101380111.jpg', '141', NULL, '1421', NULL, NULL);
 INSERT INTO `record` VALUES ('4e359045bb5a4af6be4268945c62ddaa', '1', 'a135df0ea5014c90bba0e4c6a7c82cab', '2020-03-15 14:15:49', '20200314203719290QQ截图20200310190128.jpg', '狼图腾', NULL, '精装版隆重上市，影响深远的史诗级作品，入选新中国70年70部长篇小说，多所学校列入学生必读书单，不仅是一部好读的长篇小说，其信念、勇气与团队精神更是激励着一代又一代人。', NULL, NULL);
 INSERT INTO `record` VALUES ('50560e44fd6a404184bb122e2876452d', '1', 'bf5d445abd77406fa433c72c683b10f2', '2020-03-28 18:19:19', '20200310201102722QQ截图20200310190128.jpg', 'windows', NULL, 'windows', NULL, NULL);
+INSERT INTO `record` VALUES ('52f02613323d49f9a8f985fbe4a83fe8', '1', 'f65f5a4768694472b70715fd73bca2f5', '2020-04-11 12:47:33', '20200310194929794桌面.jpg', '111', NULL, '111', NULL, NULL);
 INSERT INTO `record` VALUES ('542f40bfb9e7475b9306ba57c1a05aa2', '1', '6372631134b64a25941c2f80958b980b', '2020-03-29 15:52:33', '20200310201915779403.png', '真龙真龙', NULL, '真龙真龙真龙真龙', NULL, NULL);
 INSERT INTO `record` VALUES ('54da97b405b4426690725d18d1455389', '1', '6372631134b64a25941c2f80958b980b', '2020-03-17 20:32:32', '20200310201915779403.png', '真龙真龙', NULL, '真龙真龙真龙真龙', NULL, NULL);
 INSERT INTO `record` VALUES ('5835746e4ed2481a802014f33cdc2184', '1', 'b57a9128631743239a41817936f5d7bb', '2020-03-29 16:09:06', '20200310201513046QQ截图20200226194757.jpg', '1441', NULL, '41', NULL, NULL);
@@ -597,6 +702,24 @@ INSERT INTO `record` VALUES ('f57ee5bc90374ae099be99ec87045fbe', '1', 'bf5d445ab
 INSERT INTO `record` VALUES ('fb5c96f90ab242b1bfaa6c7f63196106', '1', 'f65f5a4768694472b70715fd73bca2f5', '2020-03-25 20:57:28', '20200310194929794桌面.jpg', '111', NULL, '111', NULL, NULL);
 
 -- ----------------------------
+-- Table structure for scheduling_task
+-- ----------------------------
+DROP TABLE IF EXISTS `scheduling_task`;
+CREATE TABLE `scheduling_task`  (
+  `id` int(0) NOT NULL AUTO_INCREMENT COMMENT '任务编号',
+  `task_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '任务名称',
+  `cron_expr` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT 'cron表达式',
+  `excute_method` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '执行方法',
+  `status` int(0) NULL DEFAULT NULL COMMENT '状态',
+  `create_time` timestamp(0) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` timestamp(0) NULL DEFAULT NULL COMMENT '修改时间',
+  `note` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备用字段',
+  `remark2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `remark3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
 -- Table structure for statistics
 -- ----------------------------
 DROP TABLE IF EXISTS `statistics`;
@@ -610,14 +733,14 @@ CREATE TABLE `statistics`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `type`;
 CREATE TABLE `type`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `pid` int(11) NULL DEFAULT NULL,
+  `id` int(0) NOT NULL AUTO_INCREMENT,
+  `pid` int(0) NULL DEFAULT NULL,
   `name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `level` int(11) NULL DEFAULT NULL,
-  `sort` int(11) NULL DEFAULT NULL,
+  `level` int(0) NULL DEFAULT NULL,
+  `sort` int(0) NULL DEFAULT NULL,
   `title` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `icon` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `hidden` int(11) NULL DEFAULT NULL,
+  `hidden` int(0) NULL DEFAULT NULL,
   `create_time` timestamp(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 22 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
@@ -650,7 +773,7 @@ INSERT INTO `type` VALUES (21, 9, NULL, 3, NULL, '恐怖小说', NULL, NULL, '20
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`  (
   `user_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户ID',
-  `class_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '班级编号',
+  `class_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '班级编号',
   `stu_No` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户编号',
   `user_name` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户姓名',
   `password` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户密码',
@@ -659,7 +782,7 @@ CREATE TABLE `user`  (
   `tel` char(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '电话',
   `email` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '邮箱',
   `address` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户地址',
-  `credit` int(11) NULL DEFAULT NULL COMMENT '信用分',
+  `credit` int(0) NULL DEFAULT NULL COMMENT '信用分',
   `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户状态',
   `role` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '角色',
   `register_time` timestamp(0) NULL DEFAULT NULL COMMENT '注册时间',
@@ -675,19 +798,22 @@ CREATE TABLE `user`  (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', '[\"2020\",\"03\",\"0303\",\"01\"]', '1', 'admin', '3a14a4a110d859f1481b142a1a5b4e39', '0', '123456789123456789', '12345678912', '1142170725@qq.com', '[\"120000\",\"120100\",\"120102\"]', 60, '1', '3', '2020-03-07 19:23:04', '2020-03-29 21:29:59', '2020-03-07 19:23:04', '2020-03-07 19:23:04', '20200329154134088桌面.jpg', NULL, NULL);
-INSERT INTO `user` VALUES ('3d982ffe5bae492b941d4f4649a873b5', 'asfsa', '3d982ffe5bae492b941d4f4649a873b5', 'fsafsa', '98548b70813d802a967c5fb3d3780cea', '1', NULL, NULL, NULL, NULL, 80, '1', '0', '2020-03-15 22:08:35', NULL, '2020-03-15 22:08:35', '2020-03-15 22:08:35', 'userDefaultAvatar.png', NULL, NULL);
-INSERT INTO `user` VALUES ('4d6d14e1b9e149aa89567a70ad723778', 'clt', '4d6d14e1b9e149aa89567a70ad723778', 'clt', 'b7d0ff96f3810b7b48cf0b5aad033605', '1', NULL, NULL, NULL, NULL, 80, '1', '2', '2020-03-07 20:08:02', '2020-03-27 20:12:00', '2020-03-07 20:08:02', '2020-03-07 20:08:02', 'userDefaultAvatar.png', NULL, NULL);
-INSERT INTO `user` VALUES ('5184c589a08245268de9b871d26dfd3c', 'asfsa', '5184c589a08245268de9b871d26dfd3c', 'aaaaa', 'b7da50fb58fad358f6c721b9c95b396d', '1', NULL, NULL, NULL, NULL, 80, '1', '0', '2020-03-15 22:08:39', NULL, '2020-03-15 22:08:39', '2020-03-15 22:08:39', 'userDefaultAvatar.png', NULL, NULL);
-INSERT INTO `user` VALUES ('5948ecef174e40d3af8be7c5c24cc361', NULL, '5948ecef174e40d3af8be7c5c24cc361', NULL, '5f7b02e30a73741fb1b9587f8efde83b', '1', NULL, NULL, NULL, NULL, 60, '1', '0', '2020-03-08 19:57:30', NULL, '2020-03-08 19:57:30', '2020-03-08 19:57:30', 'userDefaultAvatar.png', NULL, NULL);
-INSERT INTO `user` VALUES ('7067fc3b84804c699f196e383700c393', 'asfsa', '7067fc3b84804c699f196e383700c393', 'ccccc', '73061789d8d71f99bc993fe98d4392db', '1', NULL, NULL, NULL, NULL, 80, '1', '0', '2020-03-15 22:08:43', NULL, '2020-03-15 22:08:43', '2020-03-15 22:08:43', 'userDefaultAvatar.png', NULL, NULL);
-INSERT INTO `user` VALUES ('79c691410e6e49f793a31842ded42953', 'ddddd', '79c691410e6e49f793a31842ded42953', 'ddddd', '343fb8a5be15e62e8f02eec406659c04', '1', NULL, NULL, NULL, NULL, 80, '1', '0', '2020-03-15 22:08:56', NULL, '2020-03-15 22:08:56', '2020-03-15 22:08:56', 'userDefaultAvatar.png', NULL, NULL);
-INSERT INTO `user` VALUES ('9cb70c525d044739985aa1eeeb2e3e52', NULL, '9cb70c525d044739985aa1eeeb2e3e52', NULL, '5f7b02e30a73741fb1b9587f8efde83b', '1', NULL, NULL, NULL, NULL, 60, '1', '0', '2020-03-08 19:56:06', NULL, '2020-03-08 19:56:06', '2020-03-08 19:56:06', 'userDefaultAvatar.png', NULL, NULL);
-INSERT INTO `user` VALUES ('9df68aafa8c14a369b5043b5c80f3e42', 'asfsa', '9df68aafa8c14a369b5043b5c80f3e42', 'bbbbb', 'b5be7c3351192fb51d80d84f397db91d', '1', NULL, NULL, NULL, NULL, 80, '1', '0', '2020-03-15 22:08:41', NULL, '2020-03-15 22:08:41', '2020-03-15 22:08:41', 'userDefaultAvatar.png', NULL, NULL);
-INSERT INTO `user` VALUES ('afa6567870834a70bca5690db70b5cc8', '123456', 'afa6567870834a70bca5690db70b5cc8', '123456', 'f0ddf8a31c8aaa599125c4204e17a6c2', '1', NULL, NULL, NULL, NULL, 80, '1', '2', '2020-03-07 20:08:14', '2020-03-08 10:15:46', '2020-03-07 20:08:14', '2020-03-07 20:08:14', 'userDefaultAvatar.png', NULL, NULL);
-INSERT INTO `user` VALUES ('b20109964ed0456688218a6e3ad3d4de', 'asfsa', 'b20109964ed0456688218a6e3ad3d4de', 'eeeee', '4fec09c0d052b3a9e3060333ccd50129', '1', NULL, NULL, NULL, NULL, 80, '1', '0', '2020-03-15 22:08:47', NULL, '2020-03-15 22:08:47', '2020-03-15 22:08:47', 'userDefaultAvatar.png', NULL, NULL);
-INSERT INTO `user` VALUES ('d5c807fc853347648c4eb8a66d335d77', '[\"2020\",\"03\",\"0303\",\"01\"]', 'd5c807fc853347648c4eb8a66d335d77', '我擦了', '51979f628067daac381d1838ca768563', '1', NULL, NULL, NULL, NULL, 80, '1', '0', '2020-03-29 21:24:53', NULL, '2020-03-29 21:24:53', '2020-03-29 21:24:53', 'userDefaultAvatar.png', NULL, NULL);
-INSERT INTO `user` VALUES ('fd5f05cb95bd438781d6c5e3b542a2b3', 'asfsa', 'fd5f05cb95bd438781d6c5e3b542a2b3', 'ddddd', '343fb8a5be15e62e8f02eec406659c04', '1', NULL, NULL, NULL, NULL, 80, '1', '0', '2020-03-15 22:08:45', NULL, '2020-03-15 22:08:45', '2020-03-15 22:08:45', 'userDefaultAvatar.png', NULL, NULL);
+INSERT INTO `user` VALUES ('1', '[\"2016\",\"03\",\"03\",\"01\"]', '1', 'admin', '038bdaf98f2037b31f1e75b5b4c9b26e', '0', '123456789123456789', '12345678912', '1142170725@qq.com', '[\"430000\",\"430100\",\"430105\"]', 60, '1', '3', '2020-03-07 19:23:04', '2020-04-12 14:07:50', '2020-03-07 19:23:04', '2020-03-07 19:23:04', '20200329154134088桌面.jpg', NULL, NULL);
+INSERT INTO `user` VALUES ('3d982ffe5bae492b941d4f4649a873b5', '[\"2016\",\"03\",\"03\",\"01\"]', '3d982ffe5bae492b941d4f4649a873b5', 'fsafsa', '98548b70813d802a967c5fb3d3780cea', '1', NULL, NULL, NULL, NULL, 80, '1', '0', '2020-03-15 22:08:35', NULL, '2020-03-15 22:08:35', '2020-03-15 22:08:35', 'userDefaultAvatar.png', NULL, NULL);
+INSERT INTO `user` VALUES ('4d6d14e1b9e149aa89567a70ad723778', '[\"2016\",\"03\",\"03\",\"01\"]', '4d6d14e1b9e149aa89567a70ad723778', 'clt', 'b7d0ff96f3810b7b48cf0b5aad033605', '1', NULL, NULL, NULL, NULL, 80, '1', '2', '2020-03-07 20:08:02', '2020-03-27 20:12:00', '2020-03-07 20:08:02', '2020-03-07 20:08:02', 'userDefaultAvatar.png', NULL, NULL);
+INSERT INTO `user` VALUES ('5184c589a08245268de9b871d26dfd3c', '[\"2016\",\"03\",\"03\",\"01\"]', '5184c589a08245268de9b871d26dfd3c', 'aaaaa', 'b7da50fb58fad358f6c721b9c95b396d', '1', NULL, NULL, NULL, NULL, 80, '1', '0', '2020-03-15 22:08:39', NULL, '2020-03-15 22:08:39', '2020-03-15 22:08:39', 'userDefaultAvatar.png', NULL, NULL);
+INSERT INTO `user` VALUES ('51946cda3a634b25b0c96498a44b89ed', '[\"2016\",\"03\",\"03\",\"01\"]', '51946cda3a634b25b0c96498a44b89ed', '陈留涛', '3665e3289eb9d8b174a94fa25b6204ca', '1', NULL, NULL, NULL, NULL, 80, '1', '0', '2020-04-10 23:30:02', NULL, '2020-04-10 23:30:02', '2020-04-10 23:30:02', 'userDefaultAvatar.png', NULL, NULL);
+INSERT INTO `user` VALUES ('7067fc3b84804c699f196e383700c393', '[\"2016\",\"03\",\"03\",\"01\"]', '7067fc3b84804c699f196e383700c393', 'ccccc', '73061789d8d71f99bc993fe98d4392db', '1', NULL, NULL, NULL, NULL, 80, '1', '0', '2020-03-15 22:08:43', NULL, '2020-03-15 22:08:43', '2020-03-15 22:08:43', 'userDefaultAvatar.png', NULL, NULL);
+INSERT INTO `user` VALUES ('72651abb299e47f79451d70775adba63', '[\"2016\",\"03\",\"04\",\"03\"]', '72651abb299e47f79451d70775adba63', '1111', '687539691d346ddd066421823085603b', '1', NULL, NULL, NULL, NULL, 80, '1', '0', '2020-04-11 12:36:17', NULL, '2020-04-11 12:36:17', '2020-04-11 12:36:17', 'userDefaultAvatar.png', NULL, NULL);
+INSERT INTO `user` VALUES ('79c691410e6e49f793a31842ded42953', '[\"2016\",\"03\",\"03\",\"01\"]', '79c691410e6e49f793a31842ded42953', 'ddddd', '343fb8a5be15e62e8f02eec406659c04', '1', NULL, NULL, NULL, NULL, 80, '1', '0', '2020-03-15 22:08:56', NULL, '2020-03-15 22:08:56', '2020-03-15 22:08:56', 'userDefaultAvatar.png', NULL, NULL);
+INSERT INTO `user` VALUES ('9ae8dc60b6fe454bbfcb5faaf797cd86', '[\"2017\",\"03\",\"05\",\"03\"]', '9ae8dc60b6fe454bbfcb5faaf797cd86', '啊啊书籍啊', 'd6430698a88ac24ccf8b170d1155fc89', '1', NULL, NULL, NULL, NULL, 80, '1', '0', '2020-04-11 12:37:25', NULL, '2020-04-11 12:37:25', '2020-04-11 12:37:25', 'userDefaultAvatar.png', NULL, NULL);
+INSERT INTO `user` VALUES ('9df68aafa8c14a369b5043b5c80f3e42', '[\"2016\",\"03\",\"03\",\"01\"]', '9df68aafa8c14a369b5043b5c80f3e42', 'bbbbb', 'b5be7c3351192fb51d80d84f397db91d', '1', NULL, NULL, NULL, NULL, 80, '1', '0', '2020-03-15 22:08:41', NULL, '2020-03-15 22:08:41', '2020-03-15 22:08:41', 'userDefaultAvatar.png', NULL, NULL);
+INSERT INTO `user` VALUES ('a055f525f65e43efabd7814339212100', '[\"2016\",\"03\",\"03\",\"01\"]', 'a055f525f65e43efabd7814339212100', '陈留涛', '3665e3289eb9d8b174a94fa25b6204ca', '1', NULL, NULL, NULL, NULL, 80, '1', '0', '2020-04-11 10:55:54', NULL, '2020-04-11 10:55:54', '2020-04-11 10:55:54', 'userDefaultAvatar.png', NULL, NULL);
+INSERT INTO `user` VALUES ('afa6567870834a70bca5690db70b5cc8', '[\"2016\",\"03\",\"03\",\"01\"]', 'afa6567870834a70bca5690db70b5cc8', '123456', 'f0ddf8a31c8aaa599125c4204e17a6c2', '1', NULL, NULL, NULL, NULL, 80, '1', '2', '2020-03-07 20:08:14', '2020-03-08 10:15:46', '2020-03-07 20:08:14', '2020-03-07 20:08:14', 'userDefaultAvatar.png', NULL, NULL);
+INSERT INTO `user` VALUES ('b20109964ed0456688218a6e3ad3d4de', '[\"2016\",\"03\",\"03\",\"01\"]', 'b20109964ed0456688218a6e3ad3d4de', 'eeeee', '4fec09c0d052b3a9e3060333ccd50129', '1', NULL, NULL, NULL, NULL, 80, '1', '0', '2020-03-15 22:08:47', NULL, '2020-03-15 22:08:47', '2020-03-15 22:08:47', 'userDefaultAvatar.png', NULL, NULL);
+INSERT INTO `user` VALUES ('d5c807fc853347648c4eb8a66d335d77', '[\"2020\",\"03\",\"03\",\"01\"]', 'd5c807fc853347648c4eb8a66d335d77', '我擦了', '51979f628067daac381d1838ca768563', '1', NULL, NULL, NULL, NULL, 80, '1', '0', '2020-03-29 21:24:53', NULL, '2020-03-29 21:24:53', '2020-03-29 21:24:53', 'userDefaultAvatar.png', NULL, NULL);
+INSERT INTO `user` VALUES ('e17d0627a3bb4fae95c653ca6c281fcc', '[\"2016\",\"03\",\"02\",\"02\"]', 'e17d0627a3bb4fae95c653ca6c281fcc', '啊啊啊', '582a40f80db4174fb02e56b95e6a5ba9', '1', NULL, NULL, NULL, NULL, 80, '1', '0', '2020-04-11 12:36:47', NULL, '2020-04-11 12:36:47', '2020-04-11 12:36:47', 'userDefaultAvatar.png', NULL, NULL);
+INSERT INTO `user` VALUES ('fd5f05cb95bd438781d6c5e3b542a2b3', '[\"2016\",\"03\",\"03\",\"01\"]', 'fd5f05cb95bd438781d6c5e3b542a2b3', 'ddddd', '343fb8a5be15e62e8f02eec406659c04', '1', NULL, NULL, NULL, NULL, 80, '1', '0', '2020-03-15 22:08:45', NULL, '2020-03-15 22:08:45', '2020-03-15 22:08:45', 'userDefaultAvatar.png', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for user_class
@@ -695,10 +821,10 @@ INSERT INTO `user` VALUES ('fd5f05cb95bd438781d6c5e3b542a2b3', 'asfsa', 'fd5f05c
 DROP TABLE IF EXISTS `user_class`;
 CREATE TABLE `user_class`  (
   `class_id` char(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `grade` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `depart` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `major` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `number` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `grade_no` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `depart_no` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `major_no` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `class_number_no` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `create_time` timestamp(0) NULL DEFAULT NULL,
   `update_time` timestamp(0) NULL DEFAULT NULL,
   `remark1` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
@@ -706,6 +832,16 @@ CREATE TABLE `user_class`  (
   `remark3` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   PRIMARY KEY (`class_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of user_class
+-- ----------------------------
+INSERT INTO `user_class` VALUES ('[\"2015\",\"03\",\"04\",\"03\"]', '2015', '03', '04', '03', '2020-04-12 15:57:54', '2020-04-12 15:57:54', NULL, NULL, NULL);
+INSERT INTO `user_class` VALUES ('[\"2016\",\"03\",\"02\",\"02\"]', '2016', '03', '02', '02', '2020-04-11 12:36:47', '2020-04-11 12:36:47', NULL, NULL, NULL);
+INSERT INTO `user_class` VALUES ('[\"2016\",\"03\",\"03\",\"01\"]', '2016', '03', '03', '01', '2020-04-12 15:51:51', '2020-04-12 15:51:53', NULL, NULL, NULL);
+INSERT INTO `user_class` VALUES ('[\"2016\",\"03\",\"04\",\"03\"]', '2016', '03', '04', '03', '2020-04-11 12:36:17', '2020-04-11 12:36:17', NULL, NULL, NULL);
+INSERT INTO `user_class` VALUES ('[\"2017\",\"03\",\"05\",\"03\"]', '2017', '03', '05', '03', '2020-04-11 12:37:25', '2020-04-11 12:37:25', NULL, NULL, NULL);
+INSERT INTO `user_class` VALUES ('[\"2020\",\"03\",\"03\",\"01\"]', '2020', '03', '03', '01', '2020-04-12 16:00:16', '2020-04-12 16:00:16', NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for user_collection
@@ -719,8 +855,8 @@ CREATE TABLE `user_collection`  (
   `book_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '书籍名称',
   `descr` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '书籍描述',
   `book_img` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '书籍图片',
-  `is_like` int(11) NULL DEFAULT NULL COMMENT '赞标志',
-  `is_collect` int(11) NULL DEFAULT NULL COMMENT '收藏标志',
+  `is_like` int(0) NULL DEFAULT NULL COMMENT '赞标志',
+  `is_collect` int(0) NULL DEFAULT NULL COMMENT '收藏标志',
   `group_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '分组名',
   `remark2` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备用字段2',
   `remark3` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备用字段3',

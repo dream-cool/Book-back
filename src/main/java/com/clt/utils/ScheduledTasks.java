@@ -28,7 +28,7 @@ public class ScheduledTasks {
     }
 
     @Async
-    @Scheduled(cron = firstMethodCronExpr)  //间隔1秒
+//    @Scheduled(cron = firstMethodCronExpr)  //间隔1秒
     public void first() throws InterruptedException {
         logger.info("我执行了");
         Thread.sleep(1000 * 10);

@@ -3,6 +3,7 @@ package com.clt.fitter;
 import com.clt.config.IgnoreUrlsConfig;
 import com.clt.dao.UserDao;
 import com.clt.entity.User;
+import com.clt.utils.DateUtils;
 import com.clt.utils.JwtTokenUtil;
 import com.clt.utils.SpringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -17,6 +18,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,24 +58,27 @@ public class ShiroFilter extends AccessControlFilter {
 
         if (StringUtils.isBlank(token)) {
             logger.info("没有token");
-            ((HttpServletResponse) response).sendRedirect("/unauthorized");
+            request.setAttribute("message","没有token");
+            request.getRequestDispatcher("/unauthorized").forward(request, response);
             return false;
         }
         //对当前ID进行SHA256加密
         final String userIdFromToken = JwtTokenUtil.getUserIdFromToken(token);
-        if (userIdFromToken == null) {
+        if (userIdFromToken == null || JwtTokenUtil.isTokenExpired(token)) {
             logger.info("无效token");
-            ((HttpServletResponse) response).sendRedirect("/unauthorized");
+            request.getRequestDispatcher("/unauthorized").forward(request, response);
             return false;
         }
-        if (userDao == null) {
-            userDao = (UserDao) SpringUtils.getBean("userDao");
+        Date expiredTime = JwtTokenUtil.getExpiredDateFromToken(token);
+        if (expiredTime.compareTo(new Date()) < DateUtils.FIVE_MINUTE){
+            ((HttpServletResponse) response).addHeader("token", JwtTokenUtil.refreshToken(token));
+            ((HttpServletResponse) response).addHeader("Access-Control-Expose-Headers", "token");
         }
-        final User user = userDao.queryById(userIdFromToken);
-        if (user != null) {
+        userDao = (UserDao) SpringUtils.getBean("userDao");
+        if (JwtTokenUtil.validateToken(token,userDao)) {
             return true;
         }
-        ((HttpServletResponse) response).sendRedirect("/unauthorized");
+        request.getRequestDispatcher("/unauthorized").forward(request, response);
         return false;
     }
 

@@ -23,7 +23,9 @@ public class DateUtils {
 
     public static final String YEAR = "YEAR";
 
-    public static final long oneDay = 86400000;
+    public static final long FIVE_MINUTE = 300 * 1000;
+
+    public static final long oneDay = 86400000L;
 
     public static long daysToTimestamp(long days){
         return days * 24 * 3600 * 1000;
