@@ -52,10 +52,10 @@
                 and operation = #{operation}
             </if>
             <if test="startTime != null">
-                and start_time = #{startTime}
+                and start_time &lt; #{startTime}
             </if>
             <if test="spendTime != null">
-                and spend_time = #{spendTime}
+                and spend_time > #{spendTime}
             </if>
             <if test="url != null and url != ''">
                 and url = #{url}

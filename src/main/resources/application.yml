@@ -2,6 +2,8 @@ server:
   port: 8090
 spring:
   datasource:
+    database: library
+    IP: 39.97.239.108
     url: jdbc:mysql://39.97.239.108:3306/library?useUnicode=true&characterEncoding=UTF-8
     username: root
     password: 123456

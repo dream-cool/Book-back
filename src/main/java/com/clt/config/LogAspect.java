@@ -4,6 +4,7 @@ import com.clt.annotation.Log;
 import com.clt.dao.UserDao;
 import com.clt.dao.WebLogDao;
 import com.clt.entity.WebLog;
+import com.clt.enums.LogOperationTypeEnum;
 import com.clt.utils.JwtTokenUtil;
 import com.clt.utils.UUIDUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -87,12 +88,17 @@ public class LogAspect {
         webLog.setId(UUIDUtil.getUUID());
         webLog.setIp(request.getRemoteAddr());
         webLog.setUrl(request.getRequestURL().toString());
+        webLog.setStartTime(new Date());
+        webLog.setSpendTime(time);
         final String token = request.getHeader("token");
         if (token != null && !StringUtils.isEmpty(token) && JwtTokenUtil.validateToken(token, userDao)) {
             webLog.setUserName(JwtTokenUtil.getUserNameFromToken(token));
+            logDao.insert(webLog);
+        } else {
+            if (logAnnotation.method().equals(LogOperationTypeEnum.LOGIN)){
+                webLog.setUserName(args[0].toString());
+                logDao.insert(webLog);
+            }
         }
-        webLog.setStartTime(new Date());
-        webLog.setSpendTime(time);
-        logDao.insert(webLog);
     }
 }

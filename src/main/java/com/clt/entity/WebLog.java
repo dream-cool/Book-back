@@ -45,44 +45,44 @@ public class WebLog {
     /**
      * 操作时间
      */
-    @ApiModelProperty("id")
+    @ApiModelProperty("操作时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date startTime;
 
     /**
      * 消耗时间
      */
-    @ApiModelProperty("id")
+    @ApiModelProperty("消耗时间")
     private Long spendTime;
 
     /**
      * URL
      */
-    @ApiModelProperty("id")
+    @ApiModelProperty("URL")
     private String url;
 
     /**
      * 请求类型
      */
-    @ApiModelProperty("id")
+    @ApiModelProperty("请求类型")
     private String method;
 
     /**
      * IP地址
      */
-    @ApiModelProperty("id")
+    @ApiModelProperty("IP地址")
     private String ip;
 
     /**
      *  请求参数
      */
-    @ApiModelProperty("id")
+    @ApiModelProperty("请求参数")
     private String parameter;
 
     /**
      *  返回结果
      */
-    @ApiModelProperty("id")
+    @ApiModelProperty("返回结果")
     private String result;
 
     /**
