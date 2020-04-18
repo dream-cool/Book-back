@@ -3,6 +3,7 @@ package com.clt.service.impl;
 import com.clt.entity.SchedulingTask;
 import com.clt.dao.SchedulingTaskDao;
 import com.clt.service.SchedulingTaskService;
+import org.springframework.scheduling.config.ScheduledTask;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -40,6 +41,11 @@ public class SchedulingTaskServiceImpl implements SchedulingTaskService {
     @Override
     public List<SchedulingTask> queryAllByLimit(int offset, int limit) {
         return this.schedulingTaskDao.queryAllByLimit(offset, limit);
+    }
+
+    @Override
+    public List<SchedulingTask> queryAllByCondition(SchedulingTask schedulingTask) {
+        return schedulingTaskDao.queryAllByCondition(schedulingTask);
     }
 
     /**

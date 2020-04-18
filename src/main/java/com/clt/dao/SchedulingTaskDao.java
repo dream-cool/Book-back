@@ -3,6 +3,8 @@ package com.clt.dao;
 import com.clt.entity.SchedulingTask;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.scheduling.config.ScheduledTask;
+
 import java.util.List;
 
 /**
@@ -26,7 +28,7 @@ public interface SchedulingTaskDao {
      * 查询指定行数据
      *
      * @param offset 查询起始位置
-     * @param limit 查询条数
+     * @param limit  查询条数
      * @return 对象列表
      */
     List<SchedulingTask> queryAllByLimit(@Param("offset") int offset, @Param("limit") int limit);
@@ -38,7 +40,7 @@ public interface SchedulingTaskDao {
      * @param schedulingTask 实例对象
      * @return 对象列表
      */
-    List<SchedulingTask> queryAll(SchedulingTask schedulingTask);
+    List<SchedulingTask> queryAllByCondition(SchedulingTask schedulingTask);
 
     /**
      * 新增数据

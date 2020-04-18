@@ -1,6 +1,8 @@
 package com.clt.service;
 
 import com.clt.entity.SchedulingTask;
+import org.springframework.scheduling.config.ScheduledTask;
+
 import java.util.List;
 
 /**
@@ -28,6 +30,8 @@ public interface SchedulingTaskService {
      */
     List<SchedulingTask> queryAllByLimit(int offset, int limit);
 
+    List<SchedulingTask> queryAllByCondition(SchedulingTask schedulingTask);
+
     /**
      * 新增数据
      *
@@ -51,5 +55,6 @@ public interface SchedulingTaskService {
      * @return 是否成功
      */
     boolean deleteById(Integer id);
+
 
 }
