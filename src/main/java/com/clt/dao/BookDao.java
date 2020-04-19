@@ -75,4 +75,10 @@ public interface BookDao {
 
 
     List<Map> bookBorrowingRatio(Map map);
+
+    List<Book> queryRecommendBook(@Param("userId") String userId, @Param("departNo") String departNo);
+
+    List<Book> queryPopularBook();
+
+    List<Book> queryNewBook();
 }

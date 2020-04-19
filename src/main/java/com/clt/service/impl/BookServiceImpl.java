@@ -1,12 +1,8 @@
 package com.clt.service.impl;
 
 import com.clt.constant.Const;
-import com.clt.dao.BookDao;
-import com.clt.dao.LocationDao;
-import com.clt.dao.TypeDao;
-import com.clt.entity.Book;
-import com.clt.entity.Location;
-import com.clt.entity.Type;
+import com.clt.dao.*;
+import com.clt.entity.*;
 import com.clt.enums.BookEnum;
 import com.clt.service.BookService;
 import com.clt.service.LocationService;
@@ -43,6 +39,12 @@ public class BookServiceImpl implements BookService {
 
     @Resource
     private LocationService locationService;
+
+    @Resource
+    private UserClassDao userClassDao;
+
+    @Resource
+    private UserDao userDao;
 
     @Autowired
     private TypeDao typeDao;
@@ -361,5 +363,26 @@ public class BookServiceImpl implements BookService {
         return map;
     }
 
+    @Override
+    public List<Book> queryRecommendBook(String userName) {
+        final User user = userDao.queryByUserName(userName);
+        if (user == null || user.getClassId() == null){
+            return Collections.emptyList();
+        }
+        final UserClass userClass = userClassDao.queryById(user.getClassId());
+        if (userClass == null || userClass.getDepartNo() == null){
+            return Collections.emptyList();
+        }
+        return bookDao.queryRecommendBook(user.getUserId(), userClass.getDepartNo());
+    }
 
+    @Override
+    public List<Book> queryNewBook() {
+        return bookDao.queryNewBook();
+    }
+
+    @Override
+    public List<Book> queryPopularBook() {
+        return bookDao.queryPopularBook();
+    }
 }

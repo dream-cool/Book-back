@@ -5,6 +5,7 @@ import com.clt.utils.ScheduledTaskUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
@@ -21,6 +22,9 @@ import java.time.LocalDateTime;
 public class BackupDatabaseScheduleTask implements SchedulingConfigurer {
     private  static  Logger logger = LoggerFactory.getLogger(BackupDatabaseScheduleTask.class);
 
+    @Autowired
+    private  ScheduledTaskUtil scheduledTaskUtil;
+
     @Resource
     private SchedulingTaskDao schedulingTaskDao;
 
@@ -30,7 +34,7 @@ public class BackupDatabaseScheduleTask implements SchedulingConfigurer {
         taskRegistrar.addTriggerTask(
                 () -> {
                     logger.info("开始执行数据库备份定时任务: " + LocalDateTime.now().toLocalTime());
-                    ScheduledTaskUtil.backupDatabase("root", "123456", "library", "/data/mysql", "library");
+                    scheduledTaskUtil.backupDatabase("root", "123456", "library", "/data/mysql", "library");
                 },
                 triggerContext -> {
                     String cron = schedulingTaskDao.queryById(4).getCronExpr();

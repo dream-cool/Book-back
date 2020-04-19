@@ -5,10 +5,11 @@ import com.clt.dao.BookDao;
 import com.clt.dao.UserDao;
 import com.clt.entity.Book;
 import com.clt.entity.Borrowing;
+import com.clt.entity.Statistics;
 import com.clt.entity.User;
-import com.clt.enums.BookEnum;
 import com.clt.enums.BorrowingEnum;
 import com.clt.service.BorrowingService;
+import com.clt.service.StatisticsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +17,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author ：clt
@@ -32,13 +35,16 @@ public class ScheduledTaskUtil {
     private static Logger logger = LoggerFactory.getLogger(Scheduled.class);
 
     @Autowired
-    private static UserDao userDao;
+    private UserDao userDao;
 
     @Autowired
-    private static BookDao bookDao;
+    private BookDao bookDao;
 
     @Autowired
-    private static BorrowingService borrowingService;
+    private BorrowingService borrowingService;
+
+    @Autowired
+    private StatisticsService statisticsService;
 
     /**
      * @param userName     数据库的用户名
@@ -48,7 +54,7 @@ public class ScheduledTaskUtil {
      * @param databaseName 需要备份的数据库的名称
      * @return
      */
-    public static void backupDatabase(
+    public void backupDatabase(
             @Value("${spring.datasource.username}") String userName,
             @Value("${spring.datasource.password}") String password,
             @Value("${spring.datasource.database}") String databaseName,
@@ -67,7 +73,7 @@ public class ScheduledTaskUtil {
         }
         StringBuilder stringBuilder = new StringBuilder("docker exec mysql mysqldump -u");
         stringBuilder.append(userName).append(" -p").append(password).append("  ").append(databaseName)
-                .append(" > ").append("/data/mysql/library_$(date +%Y-%m-%d %H:%M:%S).sql");
+                .append(" > ").append("/data/mysql/library_$(date +%Y%m%d%H%M%S).sql");
         InputStream in = null;
         try {
             String[] cmds = {"/bin/bash", "-c", stringBuilder.toString()};
@@ -87,7 +93,7 @@ public class ScheduledTaskUtil {
         }
     }
 
-    public static void bookImgFileCleanup() {
+    public void bookImgFileCleanup() {
         final List<Book> theAllBook = bookDao.queryAllByCondition(null);
         final List<User> theAllUser = userDao.queryAllByCondition(null);
         int cleanupNumber = 0;
@@ -95,46 +101,43 @@ public class ScheduledTaskUtil {
         for (String file : theAllFile.list()) {
             boolean fileIsUsed = false;
             for (Book book : theAllBook) {
-                if (file.equals(book.getImg()) || file.equals(book.getLocation())){
+                if (file.equals(book.getImg()) || file.equals(book.getLocation())) {
                     fileIsUsed = true;
                 }
             }
             for (User user : theAllUser) {
-                if (user.getAvatar() != null && user.getAvatar().equals(file)){
+                if (user.getAvatar() != null && user.getAvatar().equals(file)) {
                     fileIsUsed = true;
                 }
             }
-            if (!fileIsUsed){
-                File fileResources = new File(file);
+            if (!fileIsUsed) {
+                File fileResources = new File(Const.filePath + File.separator + file);
                 fileResources.delete();
+                logger.info("delete file {}", fileResources);
                 cleanupNumber++;
             }
         }
-        logger.info("文件清理完成,共清理{}个文件" + cleanupNumber);
+        logger.info("文件清理完成,共清理{}个文件", cleanupNumber);
     }
 
-    public static void userAvatarFileCleanup(){
+    public void userAvatarFileCleanup() {
         List<User> theAllUser = userDao.queryAllByCondition(null);
         File theAllFile = new File(Const.filePath);
         for (String file : theAllFile.list()) {
             boolean fileIsUsed = false;
             for (User user : theAllUser) {
-                if (user.getAvatar() != null && user.getAvatar().equals(file)){
+                if (user.getAvatar() != null && user.getAvatar().equals(file)) {
                     fileIsUsed = true;
                 }
             }
-            if (!fileIsUsed){
-                File fileResources = new File(file);
+            if (!fileIsUsed) {
+                File fileResources = new File(Const.filePath + File.separator + file);
                 fileResources.delete();
             }
         }
     }
 
-    public static void ebookFileCleanup(){
-
-    }
-
-    public static void integralCalculate() {
+    public void integralCalculate() {
         List<User> theAllUser = userDao.queryAllByCondition(null);
         Borrowing condition = new Borrowing();
         condition.setBorrowingStatus(BorrowingEnum.BORROWING_STATUS_LENT.getCode());
@@ -143,17 +146,19 @@ public class ScheduledTaskUtil {
         Set<String> overReturnUser = new HashSet<>();
         //针对所有已借的书籍，如果存在一条逾期记录，则扣除对应用户1点credit
         theAllLentBorrowingInfo.forEach(borrowing -> {
-            if (borrowing.getOverdueDays() != null){
+            if (borrowing.getOverdueDays() != null) {
                 overReturnUser.add(borrowing.getUserId());
                 final User user = userDao.queryById(borrowing.getUserId());
-                user.decreaseCredit(1);
-                userDao.update(user);
+                if (user != null) {
+                    user.decreaseCredit(1);
+                    userDao.update(user);
+                }
             }
         });
 
         //针对不存在逾期记录的用户且信誉低于90的，给予信誉恢复，即新增1点credit
         theAllUser.stream().forEach(user -> {
-            if (!overReturnUser.contains(user.getUserId())){
+            if (!overReturnUser.contains(user.getUserId())) {
                 user.increaseCredit(1);
                 userDao.update(user);
             }
@@ -161,7 +166,17 @@ public class ScheduledTaskUtil {
         logger.info("积分清算完成");
     }
 
+    public void insertYesterdayStatisticsService(){
+        final Statistics yesterdayInfo = statisticsService.queryYesterdayInfo();
+        if (yesterdayInfo != null){
+            yesterdayInfo.setId(UUIDUtil.getUUID());
+            statisticsService.insert(yesterdayInfo);
+        }
+    }
+
 
     public static void main(String[] args) {
+        File file = new File("C:\\Users\\Mrchen\\Desktop\\aa.txt");
+        file.delete();
     }
 }

@@ -1,18 +1,158 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.clt.dao.StatisticsDao">
+
+    <resultMap type="com.clt.entity.Statistics" id="StatisticsMap">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="period" column="period" jdbcType="VARCHAR"/>
+        <result property="totalUser" column="total_user" jdbcType="INTEGER"/>
+        <result property="totalPaperBook" column="total_paper_book" jdbcType="INTEGER"/>
+        <result property="totalLentBook" column="total_lent_book" jdbcType="INTEGER"/>
+        <result property="yesterdayHandle" column="yesterday_handle" jdbcType="INTEGER"/>
+        <result property="yesterdayReturn" column="yesterday_return" jdbcType="INTEGER"/>
+        <result property="yesterdayApply" column="yesterday_apply" jdbcType="INTEGER"/>
+        <result property="remark1" column="remark1" jdbcType="VARCHAR"/>
+        <result property="remark2" column="remark2" jdbcType="VARCHAR"/>
+        <result property="remark3" column="remark3" jdbcType="VARCHAR"/>
+        <result property="remark4" column="remark4" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="StatisticsMap">
+        select
+          id, period, total_user, total_paper_book, total_lent_book, yesterday_handle, yesterday_return, yesterday_apply, remark1, remark2, remark3, remark4
+        from library.statistics
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="StatisticsMap">
+        select
+          id, period, total_user, total_paper_book, total_lent_book, yesterday_handle, yesterday_return, yesterday_apply, remark1, remark2, remark3, remark4
+        from library.statistics
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllByCondition" resultMap="StatisticsMap">
+        select
+          id, period, total_user, total_paper_book, total_lent_book, yesterday_handle, yesterday_return, yesterday_apply, remark1, remark2, remark3, remark4
+        from library.statistics
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="period != null and period != ''">
+                and period = #{period}
+            </if>
+            <if test="totalUser != null">
+                and total_user = #{totalUser}
+            </if>
+            <if test="totalPaperBook != null">
+                and total_paper_book = #{totalPaperBook}
+            </if>
+            <if test="totalLentBook != null">
+                and total_lent_book = #{totalLentBook}
+            </if>
+            <if test="yesterdayHandle != null">
+                and yesterday_handle = #{yesterdayHandle}
+            </if>
+            <if test="yesterdayReturn != null">
+                and yesterday_return = #{yesterdayReturn}
+            </if>
+            <if test="yesterdayApply != null">
+                and yesterday_apply = #{yesterdayApply}
+            </if>
+            <if test="remark1 != null and remark1 != ''">
+                and remark1 = #{remark1}
+            </if>
+            <if test="remark2 != null and remark2 != ''">
+                and remark2 = #{remark2}
+            </if>
+            <if test="remark3 != null and remark3 != ''">
+                and remark3 = #{remark3}
+            </if>
+            <if test="remark4 != null and remark4 != ''">
+                and remark4 = #{remark4}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert">
+        insert into library.statistics(id ,period, total_user, total_paper_book, total_lent_book, yesterday_handle, yesterday_return, yesterday_apply, remark1, remark2, remark3, remark4)
+        values (#{id}, #{period}, #{totalUser}, #{totalPaperBook}, #{totalLentBook}, #{yesterdayHandle}, #{yesterdayReturn}, #{yesterdayApply}, #{remark1}, #{remark2}, #{remark3}, #{remark4})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update library.statistics
+        <set>
+            <if test="period != null and period != ''">
+                period = #{period},
+            </if>
+            <if test="totalUser != null">
+                total_user = #{totalUser},
+            </if>
+            <if test="totalPaperBook != null">
+                total_paper_book = #{totalPaperBook},
+            </if>
+            <if test="totalLentBook != null">
+                total_lent_book = #{totalLentBook},
+            </if>
+            <if test="yesterdayHandle != null">
+                yesterday_handle = #{yesterdayHandle},
+            </if>
+            <if test="yesterdayReturn != null">
+                yesterday_return = #{yesterdayReturn},
+            </if>
+            <if test="yesterdayApply != null">
+                yesterday_apply = #{yesterdayApply},
+            </if>
+            <if test="remark1 != null and remark1 != ''">
+                remark1 = #{remark1},
+            </if>
+            <if test="remark2 != null and remark2 != ''">
+                remark2 = #{remark2},
+            </if>
+            <if test="remark3 != null and remark3 != ''">
+                remark3 = #{remark3},
+            </if>
+            <if test="remark4 != null and remark4 != ''">
+                remark4 = #{remark4},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from library.statistics where id = #{id}
+    </delete>
+
+    <select id="queryYesterdayInfo" resultMap="StatisticsMap">
+        select
+        (DATE_SUB(curdate(),INTERVAL 1 DAY)) as period,
+        ( SELECT count(*) total_user FROM user ) as total_user ,
+        (SELECT count(*) total_paper_book FROM book where ebook != '1'  ) as total_paper_book,
+        (SELECT count(*) total_lent_book FROM book where book_status = '1') as total_lent_book,
+        (select count(*) yesterday_handle from borrowing where handle_time &gt; DATE_SUB(curdate(),INTERVAL 1 DAY) and handle_time  &lt;  CURDATE() ) as yesterday_handle,
+        (select count(*) yesterday_return from borrowing where return_time &gt; DATE_SUB(curdate(),INTERVAL 1 DAY) and return_time  &lt;  CURDATE() ) as yesterday_return,
+        (select count(*) yesterday_apply from borrowing  where application_time &gt; DATE_SUB(curdate(),INTERVAL 1 DAY) and application_time  &lt;  CURDATE()) as yesterday_apply
+    </select>
+
     <!-- ElementID:bookStorageByTime,Generated=false -->
     <select id="bookStorageByTime" parameterType="java.util.Map" resultType="java.util.Map">
-     select LEFT(input_time,#{timeSlot}) '时间',count(*) '新增书籍数量' from book
-            <where>
-                <if test="ebook != null and ebook != ''">
-                    and ebook = #{ebook}
-                </if>
-                <if test="start != null  and end != null ">
-                    and input_time Between #{start} And #{end}
-                </if>
+        select LEFT(input_time,#{timeSlot}) '时间',count(*) '新增书籍数量' from book
+        <where>
+            <if test="ebook != null and ebook != ''">
+                and ebook = #{ebook}
+            </if>
+            <if test="start != null  and end != null ">
+                and input_time Between #{start} And #{end}
+            </if>
 
-            </where>
+        </where>
         GROUP BY LEFT(input_time,#{timeSlot})
         ORDER BY LEFT(input_time,#{timeSlot})
     </select>
@@ -21,14 +161,14 @@
     <!-- ElementID:readerNumbersByTime,Generated=false -->
     <select id="readerNumbersByTime" parameterType="java.util.Map" resultType="java.util.Map">
         select LEFT(register_time,#{timeSlot}) '时间',count(*) '新增用户数量' from user
-            <where>
-                <if test="role != null and role != ''">
-                    and role = #{role}
-                </if>
-            </where>
+        <where>
+            <if test="role != null and role != ''">
+                and role = #{role}
+            </if>
+        </where>
 
-            GROUP BY LEFT(register_time,#{timeSlot})
-            ORDER BY LEFT(register_time,#{timeSlot})
+        GROUP BY LEFT(register_time,#{timeSlot})
+        ORDER BY LEFT(register_time,#{timeSlot})
     </select>
 
     <!-- ElementID:bookStorageByCategory,Generated=false -->
@@ -42,5 +182,7 @@
     <select id="bookBorrowingRatio" parameterType="java.util.Map" resultType="java.util.Map">
         select book.book_status status, count(*) numbers from book GROUP BY book.book_status
     </select>
+
+
 
 </mapper>

@@ -64,13 +64,14 @@
             and create_time = #{createTime}
         </if>
     </where>
+    order by  level, sort , create_time
   </select>
 
     <select id="queryAll" resultMap="TypeMap">
         select
         id, pid, name, level, sort, title, icon, hidden, create_time
         from library.type
-
+      order by level,  sort , create_time
     </select>
 
     <!--新增所有列-->

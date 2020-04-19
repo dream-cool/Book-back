@@ -23,6 +23,7 @@
         <result property="remark2" column="remark2" jdbcType="VARCHAR"/>
         <result property="remark3" column="remark3" jdbcType="VARCHAR"/>
         <result property="remark4" column="remark4" jdbcType="VARCHAR"/>
+        <result property="totalBrowse" column="total_browse" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--查询单个-->
@@ -64,7 +65,7 @@
                 and category_id = #{categoryId}
             </if>
             <if test="bookName != null and bookName != ''">
-                and book_name like "%"#{bookName}"%"
+                and (book_name like "%"#{bookName}"%" or author like "%"#{bookName}"%")
             </if>
             <if test="bookDescribe != null and bookDescribe != ''">
                 and book_describe = #{bookDescribe}
@@ -203,5 +204,59 @@
         select status, count(*) numbers from book GROUP BY status
     </select>
 
+    <select id="queryRecommendBook" resultMap="BookMap" >
+        select
+          book_id, category_id, book_name, book_describe, author, published, price, book_status, img, ebook, location,
+          zan_number, score, input_time, update_time, borrowing_number, remark1, remark2, remark3, remark4
+        from book
+            where  book_id in (
+                select DISTINCT record.book_id from  record
+                WHERE record.user_id in (
+                    select user_id from `user` , user_class
+                    where user.class_id = user_class.class_id
+                    and depart_no = #{departNo} and user_id != #{userId} )
+                UNION
+                select DISTINCT book_id from `comment`, comment_like
+                WHERE `comment`.comment_id = comment_like.comment_id
+                    and comment_like.is_like = 1
+                    and comment.user_id in (
+                        select user_id from `user` , user_class
+                        where user.class_id = user_class.class_id
+                        and depart_no = #{departNo} and user_id !=  #{userId} )
+                UNION
+                select DISTINCT book_id from user_collection
+                WHERE user_collection.user_id in (
+                    select user_id from `user` , user_class
+                    where user.class_id = user_class.class_id
+                    and depart_no = #{departNo} and user_id !=  #{userId})
+            )
+        ORDER BY zan_number desc, score desc
+
+    </select>
+
+    <select id="queryPopularBook" resultMap="BookMap" >
+        select
+          book.book_id, category_id, book_name, book_describe, author, published, price, book_status, img, ebook, location,
+          zan_number, score, input_time, update_time, borrowing_number, remark1, remark2, remark3, remark4,
+          temp.total_browse
+        from book,
+            (
+                select record.book_id, count(*) as total_browse from record
+                GROUP BY	book_id
+            ) as temp
+        where book.book_id = temp.book_id and input_time &gt; DATE_SUB(curdate(),INTERVAL 30 DAY)
+
+        ORDER BY total_browse desc , zan_number desc, score  desc
+    </select>
+
+    <select id="queryNewBook" resultMap="BookMap" >
+        select
+          book_id, category_id, book_name, book_describe, author, published, price, book_status, img, ebook, location,
+          zan_number, score, input_time, update_time, borrowing_number, remark1, remark2, remark3, remark4
+        from book
+
+        WHERE input_time &gt; DATE_SUB(curdate(),INTERVAL 30 DAY)
+        ORDER BY input_time desc, zan_number desc,score desc
+    </select>
 
 </mapper>

@@ -76,4 +76,10 @@ public interface BookService {
     PageInfo<Book> queryAllByCondition(Integer pageNum, Integer pageSize, Book book);
 
     ResultUtil<Map<String, Object>> getBookDetail(String id);
+
+    List<Book> queryRecommendBook(String userName);
+
+    List<Book> queryNewBook();
+
+    List<Book> queryPopularBook();
 }

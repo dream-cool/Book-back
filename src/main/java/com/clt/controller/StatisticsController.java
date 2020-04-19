@@ -1,16 +1,18 @@
 package com.clt.controller;
 
 import com.clt.entity.IncreaseBook;
+import com.clt.entity.Statistics;
+import com.clt.enums.LogOperationTypeEnum;
 import com.clt.service.StatisticsService;
 import com.clt.utils.ResultUtil;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.SimpleDateFormat;
+import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -19,15 +21,59 @@ import java.util.Map;
  * (Statistics)表控制层
  *
  * @author makejava
- * @since 2020-03-05 09:36:20
+ * @since 2020-04-18 21:05:37
  */
 @RestController
 @RequestMapping("statistics")
 public class StatisticsController {
-
-    @Autowired
+    /**
+     * 服务对象
+     */
+    @Resource
     private StatisticsService statisticsService;
 
+    /**
+     * 通过主键查询单条数据
+     *
+     * @param id 主键
+     * @return 单条数据
+     */
+    @GetMapping("selectOne")
+    public Statistics selectOne(String id) {
+        return this.statisticsService.queryById(id);
+    }
+
+    /**
+     * 获取昨天的统计数据
+     *
+     * @return 单条数据
+     */
+    @GetMapping("query/yesterdayInfo")
+    public ResultUtil<Statistics> queryYesterdayInfo() {
+        final Statistics info = this.statisticsService.queryYesterdayInfo();
+        if (info != null){
+            return ResultUtil.success(info, "查询成功");
+        } else {
+            return ResultUtil.failed("查询信息失败");
+        }
+    }
+
+    /**
+     * 查询所有数据
+     *
+     * @return 多条数据
+     */
+    @PostMapping("/all")
+    @ApiOperation("查询所有数据")
+    public ResultUtil<List<Statistics>> selectAllByLimit(
+    ) {
+        List<Statistics> info = this.statisticsService.queryAllByCondition(null);
+        if (info != null) {
+            return ResultUtil.success(info, "查询成功");
+        } else {
+            return ResultUtil.failed("查询失败");
+        }
+    }
 
     @GetMapping("/bookBorrowingRatio")
     @ApiOperation("统计书籍借阅比例")
@@ -48,8 +94,8 @@ public class StatisticsController {
         Date startTime = null;
         Date endTime = null;
         if (start != null && !start.equals("undefined") && end != null && !end.equals("undefined")){
-             startTime = new Date(Long.valueOf(start));
-             endTime = new Date(Long.valueOf(end));
+            startTime = new Date(Long.valueOf(start));
+            endTime = new Date(Long.valueOf(end));
         }
         return ResultUtil.success(statisticsService.bookStorageByTime(timeSlot, startTime, endTime));
     }
@@ -68,4 +114,5 @@ public class StatisticsController {
                                                                      @RequestParam(value = "timeSlot", required = false) String timeSlot) {
         return ResultUtil.success(statisticsService.readerNumbersByTime(timeSlot));
     }
+
 }

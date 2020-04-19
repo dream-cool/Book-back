@@ -55,22 +55,28 @@ public class ShiroFilter extends AccessControlFilter {
                 return true;
             }
         }
-
         if (StringUtils.isBlank(token)) {
-            logger.info("没有token");
-            request.setAttribute("message","没有token");
+            logger.info("请求为携带token");
+            request.setAttribute("message","请求未携带token");
             request.getRequestDispatcher("/unauthorized").forward(request, response);
             return false;
         }
         //对当前ID进行SHA256加密
         final String userNameFromToken = JwtTokenUtil.getUserNameFromToken(token);
-        if (userNameFromToken == null || JwtTokenUtil.isTokenExpired(token)) {
+        if (userNameFromToken == null ) {
             logger.info("无效token");
+            request.setAttribute("message","无效token");
+            request.getRequestDispatcher("/unauthorized").forward(request, response);
+            return false;
+        }
+        if (JwtTokenUtil.isTokenExpired(token) ) {
+            logger.info("token已过期");
+            request.setAttribute("message","token已过期,请重新登陆");
             request.getRequestDispatcher("/unauthorized").forward(request, response);
             return false;
         }
         Date expiredTime = JwtTokenUtil.getExpiredDateFromToken(token);
-        if (expiredTime.compareTo(new Date()) < DateUtils.FIVE_MINUTE){
+        if (expiredTime.getTime() - System.currentTimeMillis() < DateUtils.FIVE_MINUTE){
             ((HttpServletResponse) response).addHeader("token", JwtTokenUtil.refreshToken(token));
             ((HttpServletResponse) response).addHeader("Access-Control-Expose-Headers", "token");
         }
@@ -78,6 +84,7 @@ public class ShiroFilter extends AccessControlFilter {
         if (JwtTokenUtil.validateToken(token,userDao)) {
             return true;
         }
+        request.setAttribute("message","未知错误");
         request.getRequestDispatcher("/unauthorized").forward(request, response);
         return false;
     }

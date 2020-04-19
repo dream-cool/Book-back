@@ -4,6 +4,7 @@ import com.clt.annotation.Log;
 import com.clt.entity.Book;
 import com.clt.enums.LogOperationTypeEnum;
 import com.clt.service.BookService;
+import com.clt.utils.JwtTokenUtil;
 import com.clt.utils.ResultUtil;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
@@ -13,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -199,6 +201,26 @@ public class BookController {
             @RequestParam(value = "pageSize", required = false) Integer pageSize,
             @ApiParam(value = "电子书id", required = true) @PathVariable(value = "bookId") String bookId) {
         return ResultUtil.success(bookService.getEbookInfo(pageNum, pageSize, bookId));
+    }
+
+    @GetMapping("/query/recommendBook")
+    @ApiOperation("查询推荐书籍")
+    public ResultUtil<List<Book>> queryRecommendBook(HttpServletRequest request){
+        final String token = request.getHeader("token");
+        final String userName = JwtTokenUtil.getUserNameFromToken(token);
+        return ResultUtil.success(bookService.queryRecommendBook(userName));
+    }
+
+    @GetMapping("/query/popularBook")
+    @ApiOperation("查询热门书籍")
+    public ResultUtil<List<Book>> queryPopularBook(){
+        return ResultUtil.success(bookService.queryPopularBook());
+    }
+
+    @GetMapping("/query/newBook")
+    @ApiOperation("查询新书")
+    ResultUtil<List<Book>> queryNewBook(){
+        return ResultUtil.success(bookService.queryNewBook());
     }
 
 

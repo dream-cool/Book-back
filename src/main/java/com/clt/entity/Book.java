@@ -106,6 +106,9 @@ public class Book implements Serializable {
     @ApiModelProperty("借阅次数")
     private Integer borrowingNumber;
 
+    @ApiModelProperty("总浏览量")
+    private Integer totalBrowse;
+
     /**
      * 备用字段1
      */

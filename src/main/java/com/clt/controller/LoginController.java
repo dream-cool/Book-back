@@ -9,6 +9,7 @@ import com.clt.utils.ResultUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
@@ -18,6 +19,7 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -63,14 +65,25 @@ public class LoginController {
 
     @ApiOperation("")
     @GetMapping("/toLogin")
-    public ResultUtil<Map<Object, Object>> toLogin() {
-        return ResultUtil.unauthorized(null, "");
+    public ResultUtil<Map<Object, Object>> toLogin(HttpServletRequest request) {
+        String message = request.getAttribute("message").toString();
+        if (message != null && !StringUtils.isBlank(message)){
+            return ResultUtil.unauthorized(null, request.getAttribute("message").toString());
+        } else {
+            return ResultUtil.unauthorized(null);
+        }
+
     }
 
     @ApiOperation("")
     @GetMapping("/unauthorized")
-    public ResultUtil<Map<Object, Object>> unauthorized() {
-        return ResultUtil.unauthorized(null, "");
+    public ResultUtil<Map<Object, Object>> unauthorized(HttpServletRequest request) {
+        String message = request.getAttribute("message").toString();
+        if (message != null && !StringUtils.isBlank(message)){
+            return ResultUtil.unauthorized(null, request.getAttribute("message").toString());
+        } else {
+            return ResultUtil.unauthorized(null);
+        }
     }
 
 
