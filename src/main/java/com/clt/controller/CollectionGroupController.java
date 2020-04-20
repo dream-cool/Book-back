@@ -74,4 +74,43 @@ public class CollectionGroupController {
         return ResultUtil.failed("已存在相同名称分组");
     }
 
+    /**
+     * 新增单条数据
+     *
+     * @param
+     * @return 单条数据
+     */
+    @PutMapping("")
+    @ApiOperation("用户修改收藏分组名称")
+    @Log(value = "用户修改收藏分组名称", method = LogOperationTypeEnum.INSERT)
+    public ResultUtil<CollectionGroup> update(@RequestBody CollectionGroup collectionGroup) {
+        final List<CollectionGroup> result = collectionGroupService.queryByName(collectionGroup.getName());
+        if (result == null || result.isEmpty()){
+            return ResultUtil.success(this.collectionGroupService.update(collectionGroup), "分组修改成功");
+        }
+        return ResultUtil.failed("已存在相同名称分组");
+    }
+
+
+    /**
+     * 通过主键删除单条数据
+     *
+     * @param id 主键
+     * @return 删除结果
+     */
+    @DeleteMapping("/{id}")
+    @ApiOperation("删除单条数据")
+    @Log(value = "删除用户收藏分组数据", method = LogOperationTypeEnum.DELETE)
+    public ResultUtil<Boolean> delete(@PathVariable String id) {
+        if (this.collectionGroupService.queryById(id) == null) {
+            return ResultUtil.failed("删除失败，没有找到对应信息");
+        }
+        boolean flag = this.collectionGroupService.deleteById(id);
+        if (flag) {
+            return ResultUtil.success(true, "删除成功");
+        } else {
+            return ResultUtil.failed("删除失败");
+        }
+    }
+
 }

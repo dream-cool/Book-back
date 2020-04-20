@@ -83,7 +83,7 @@
             <if test="name != null and name != ''">
                 name = #{name},
             </if>
-            <if test="createTime != null and createTime != ''">
+            <if test="createTime != null">
                 create_time = #{createTime},
             </if>
             <if test="remark2 != null and remark2 != ''">

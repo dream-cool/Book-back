@@ -55,6 +55,8 @@ public interface UserCollectionService {
      */
     boolean deleteById(String collectionId);
 
+    int deleteByUserCollectionGroup(String userId, String groupName);
+
     /**
      * 通过实体作为筛选条件查询
      *

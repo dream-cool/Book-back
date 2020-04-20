@@ -58,7 +58,7 @@ public class BorrowingServiceImpl implements BorrowingService {
         final Borrowing borrowingInfo = this.borrowingDao.queryById(borrowingId);
         long borrowingTime = borrowingInfo.getBorrowingTime().getTime();
         long overdueDays = ((System.currentTimeMillis() - borrowingTime) - (borrowingInfo.getDuration() * DateUtils.oneDay)) / DateUtils.oneDay;
-        if (overdueDays > 1) {
+        if (overdueDays > 1 && BorrowingEnum.BORROWING_STATUS_LENT.getCode().equals(borrowingInfo.getBorrowingStatus())) {
             borrowingInfo.setOverdueDays((int) overdueDays);
         }
         return borrowingInfo;
@@ -149,7 +149,7 @@ public class BorrowingServiceImpl implements BorrowingService {
                     Date now = new Date();
                     long borrowingTime = borrowingInfo.getBorrowingTime().getTime();
                     long overdueDays = ((now.getTime() - borrowingTime) - (borrowingInfo.getDuration() * DateUtils.oneDay)) / DateUtils.oneDay;
-                    if (overdueDays > 1) {
+                    if (overdueDays > 1 && BorrowingEnum.BORROWING_STATUS_LENT.getCode().equals(borrowingInfo.getBorrowingStatus())) {
                         borrowingInfo.setOverdueDays((int) overdueDays);
                     }
                     return borrowingInfo;

@@ -64,4 +64,5 @@ public interface UserCollectionDao {
      */
     int deleteById(String collectionId);
 
+    int deleteByUserCollectionGroup(@Param("userId")String userId, @Param("groupName")String groupName);
 }

@@ -110,6 +110,11 @@ public class UserCollectionServiceImpl implements UserCollectionService {
     }
 
     @Override
+    public int deleteByUserCollectionGroup(String userId, String groupName){
+        return userCollectionDao.deleteByUserCollectionGroup(userId, groupName);
+    }
+
+    @Override
     public List<UserCollection> queryAllByCondition(UserCollection userCollection) {
         return this.userCollectionDao.queryAllByCondition(userCollection);
     }

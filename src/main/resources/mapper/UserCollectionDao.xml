@@ -129,4 +129,10 @@
         delete from library.user_collection where collection_id = #{collectionId}
     </delete>
 
+    <!--通过主键删除-->
+    <delete id="deleteByUserCollectionGroup">
+        delete from library.user_collection where user_id = #{userId}  and group_name = #{groupName}
+    </delete>
+
+
 </mapper>

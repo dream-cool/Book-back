@@ -3,7 +3,9 @@ package com.clt.service.impl;
 import com.clt.constant.Const;
 import com.clt.entity.CollectionGroup;
 import com.clt.dao.CollectionGroupDao;
+import com.clt.entity.UserCollection;
 import com.clt.service.CollectionGroupService;
+import com.clt.service.UserCollectionService;
 import com.clt.utils.UUIDUtil;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,9 @@ import java.util.List;
 public class CollectionGroupServiceImpl implements CollectionGroupService {
     @Resource
     private CollectionGroupDao collectionGroupDao;
+
+    @Resource
+    private UserCollectionService userCollectionService;
 
     /**
      * 通过ID查询单条数据
@@ -78,6 +83,8 @@ public class CollectionGroupServiceImpl implements CollectionGroupService {
      */
     @Override
     public boolean deleteById(String collectionGroupId) {
+        final CollectionGroup collectionGroup = collectionGroupDao.queryById(collectionGroupId);
+        userCollectionService.deleteByUserCollectionGroup(collectionGroup.getUserId(), collectionGroup.getName());
         return this.collectionGroupDao.deleteById(collectionGroupId) > 0;
     }
 
