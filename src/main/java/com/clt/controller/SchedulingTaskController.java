@@ -1,10 +1,8 @@
 package com.clt.controller;
 
 import com.clt.annotation.Log;
-import com.clt.entity.DictionaryData;
 import com.clt.entity.SchedulingTask;
 import com.clt.enums.LogOperationTypeEnum;
-import com.clt.schedule.BackupDatabaseScheduleTask;
 import com.clt.service.SchedulingTaskService;
 import com.clt.utils.ResultUtil;
 import com.github.pagehelper.Page;
@@ -12,8 +10,6 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -73,7 +69,7 @@ public class SchedulingTaskController {
      */
     @PutMapping("")
     @ApiOperation("修改定时任务")
-    @Log(value = "修改定时任务", method = LogOperationTypeEnum.QUERY)
+    @Log(value = "修改定时任务", method = LogOperationTypeEnum.UPDATE)
     public ResultUtil<SchedulingTask> update(@RequestBody SchedulingTask schedulingTask) {
         if (this.schedulingTaskService.queryById(schedulingTask.getId()) == null) {
             return ResultUtil.failed("修改失败，没有找到对应信息");

@@ -5,6 +5,7 @@ import com.clt.dao.UserDao;
 import com.clt.dao.WebLogDao;
 import com.clt.entity.WebLog;
 import com.clt.enums.LogOperationTypeEnum;
+import com.clt.utils.HttpUtil;
 import com.clt.utils.JwtTokenUtil;
 import com.clt.utils.UUIDUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -70,9 +71,10 @@ public class LogAspect {
             webLog.setType(logAnnotation.method().getMessage());
         }
         // 请求的方法名
-        String className = joinPoint.getTarget().getClass().getName();
+        String classFullName = joinPoint.getTarget().getClass().getName();
         String methodName = signature.getName();
-        webLog.setMethod(className + "." + methodName + "()");
+        final String[] classNames = classFullName.split("\\.");
+        webLog.setMethod(classNames[classNames.length - 1] + "." + methodName + "()");
         // 请求的方法参数值
         Object[] args = joinPoint.getArgs();
         // 请求的方法参数名称
@@ -87,7 +89,17 @@ public class LogAspect {
         }
         webLog.setId(UUIDUtil.getUUID());
         webLog.setIp(request.getRemoteAddr());
-        webLog.setUrl(request.getRequestURL().toString());
+        if (webLog.getIp() != null && !StringUtils.isBlank(webLog.getIp())) {
+            String result = HttpUtil.sendGet("http://whois.pconline.com.cn/jsFunction.jsp?ip=" + webLog.getIp());
+            if (result == null || StringUtils.isBlank(result)) {
+                webLog.setAddr("未知");
+            } else {
+                int start = result.indexOf('\'');
+                int end = result.indexOf('\'', start + 1);
+                webLog.setAddr(result.substring(start + 1, end));
+            }
+        }
+        webLog.setUrl(request.getRequestURI());
         webLog.setStartTime(new Date());
         webLog.setSpendTime(time);
         final String token = request.getHeader("token");
@@ -95,10 +107,14 @@ public class LogAspect {
             webLog.setUserName(JwtTokenUtil.getUserNameFromToken(token));
             logDao.insert(webLog);
         } else {
-            if (logAnnotation.method().equals(LogOperationTypeEnum.LOGIN)){
+            if (logAnnotation.method().equals(LogOperationTypeEnum.LOGIN)) {
                 webLog.setUserName(args[0].toString());
                 logDao.insert(webLog);
             }
         }
+    }
+
+    public static void main(String[] args) {
+
     }
 }

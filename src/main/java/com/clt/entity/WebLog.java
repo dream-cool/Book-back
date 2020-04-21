@@ -86,10 +86,10 @@ public class WebLog {
     private String result;
 
     /**
-     * 备用字段2
+     * 地理位置
      */
-    @ApiModelProperty("备用字段2")
-    private String remark2;
+    @ApiModelProperty("地理位置")
+    private String addr;
     /**
      * 备用字段3
      */

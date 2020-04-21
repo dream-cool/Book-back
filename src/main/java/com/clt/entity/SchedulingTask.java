@@ -64,10 +64,10 @@ public class SchedulingTask implements Serializable {
     private String note;
 
     /**
-     * 备用字段2
+     * 任务编码
      */
-    @ApiModelProperty("备用字段2")
-    private String remark2;
+    @ApiModelProperty("任务编码")
+    private String taskCode;
 
     /**
      * 备用字段3
