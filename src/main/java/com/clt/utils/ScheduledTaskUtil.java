@@ -149,7 +149,7 @@ public class ScheduledTaskUtil {
             if (borrowing.getOverdueDays() != null) {
                 overReturnUser.add(borrowing.getUserId());
                 final User user = userDao.queryById(borrowing.getUserId());
-                if (user != null) {
+                if (user != null && user.getCredit() > 0) {
                     user.decreaseCredit(1);
                     userDao.update(user);
                 }
@@ -158,7 +158,7 @@ public class ScheduledTaskUtil {
 
         //针对不存在逾期记录的用户且信誉低于90的，给予信誉恢复，即新增1点credit
         theAllUser.stream().forEach(user -> {
-            if (!overReturnUser.contains(user.getUserId())) {
+            if (!overReturnUser.contains(user.getUserId()) && user.getCredit() < 90) {
                 user.increaseCredit(1);
                 userDao.update(user);
             }

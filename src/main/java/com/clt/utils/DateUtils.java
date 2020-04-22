@@ -31,7 +31,7 @@ public class DateUtils {
         return days * 24 * 3600 * 1000;
     }
 
-    public static SimpleDateFormat format =  new SimpleDateFormat("yyyy-MM-dd");
+    public static SimpleDateFormat format =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public static LocalDate dateToLocalDate(Date date){
         Instant instant = date.toInstant();

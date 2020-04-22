@@ -56,7 +56,7 @@ public class ShiroFilter extends AccessControlFilter {
             }
         }
         if (StringUtils.isBlank(token)) {
-            logger.info("请求为携带token");
+            logger.info("请求未携带token");
             request.setAttribute("message","请求未携带token");
             request.getRequestDispatcher("/unauthorized").forward(request, response);
             return false;

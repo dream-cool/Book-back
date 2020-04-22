@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,9 +35,7 @@ public class FileCleanupScheduleTask {
     @Resource
     private ThreadPoolTaskScheduler threadPoolTaskScheduler;
 
-    private ScheduledFuture<?> future;
-
-    private SchedulingTask schedulingTask;
+    private volatile ScheduledFuture<?> future;
 
 
     /**
@@ -45,18 +44,18 @@ public class FileCleanupScheduleTask {
      *
      * @return
      */
-    @RequestMapping("/fileClean/startTask")
+    @GetMapping("/fileClean/startTask")
     public ResultUtil<Boolean> startTask() {
         /**
          * task:定时任务要执行的方法
          * trigger:定时任务执行的时间
          */
-        schedulingTask = schedulingTaskDao.queryById(Integer.valueOf(ScheduleTaskEnum.CLEANUP_FILE.getCode()));
-        if ("1".equals(schedulingTask.getStatus())) {
+        SchedulingTask schedulingTask = schedulingTaskDao.queryById(Integer.valueOf(ScheduleTaskEnum.CLEANUP_FILE.getCode()));
+        if (Integer.valueOf(1).equals(schedulingTask.getStatus())) {
             future = threadPoolTaskScheduler.schedule(new myRunable(), new CronTrigger(schedulingTask.getCronExpr()));
             return ResultUtil.success(true, "启用成功");
         } else {
-            return ResultUtil.success(false, "该任务已禁用");
+            return ResultUtil.failed( "该任务已禁用");
         }
     }
 
@@ -65,7 +64,7 @@ public class FileCleanupScheduleTask {
      *
      * @return
      */
-    @RequestMapping("/fileClean/endTask")
+    @GetMapping("/fileClean/endTask")
     public ResultUtil<Boolean> endTask() {
         if (future != null) {
             future.cancel(true);
@@ -79,22 +78,18 @@ public class FileCleanupScheduleTask {
      * 1,先停止定时器
      * 2,在启动定时器
      */
-    @RequestMapping("/fileClean/changeTask")
-    public ResultUtil<Boolean> changeTask() {
+    @GetMapping("/fileClean/changeTask")
+    public synchronized ResultUtil<Boolean> changeTask() {
         //停止定时器
         endTask();
-        //定义新的执行时间
-        schedulingTask = schedulingTaskDao.queryById(Integer.valueOf(ScheduleTaskEnum.CLEANUP_FILE.getCode()));
-        if ("1".equals(schedulingTask.getStatus())) {
-            future = threadPoolTaskScheduler.schedule(new myRunable(), new CronTrigger(schedulingTask.getCronExpr()));
-        }
+
         //启动定时器
         startTask();
         return ResultUtil.success(true, "任务调度更改成功");
     }
 
 
-    @RequestMapping("/fileClean/executeOnce")
+    @GetMapping("/fileClean/executeOnce")
     public ResultUtil<Boolean> executeOnceTask() {
         new Thread(new myRunable()).start();
         return ResultUtil.success(true, "任务执行成功");
