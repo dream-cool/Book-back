@@ -93,7 +93,7 @@ public class ScheduledTaskUtil {
         }
     }
 
-    public void bookImgFileCleanup() {
+    public void fileCleanup() {
         final List<Book> theAllBook = bookDao.queryAllByCondition(null);
         final List<User> theAllUser = userDao.queryAllByCondition(null);
         int cleanupNumber = 0;
@@ -112,6 +112,9 @@ public class ScheduledTaskUtil {
             }
             if (!fileIsUsed) {
                 File fileResources = new File(Const.filePath + File.separator + file);
+                if (fileResources.isDirectory()){
+                    continue;
+                }
                 fileResources.delete();
                 logger.info("delete file {}", fileResources);
                 cleanupNumber++;

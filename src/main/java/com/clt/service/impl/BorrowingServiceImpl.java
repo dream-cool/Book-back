@@ -278,7 +278,7 @@ public class BorrowingServiceImpl implements BorrowingService {
         final List<Borrowing> userBorrowing = queryAllByCondition(borrowing);
         Map<String, List<Borrowing>> data = new LinkedHashMap<>(16);
         userBorrowing.stream().forEach(userBorrowingResult -> {
-            String key = DateUtils.standardTimeToStringTime(userBorrowingResult.getApplicationTime());
+            String key = DateUtils.standardTimeToStringDate(userBorrowingResult.getApplicationTime());
             List<Borrowing> userBorrowingsByDay = data.get(key);
             if (userBorrowingsByDay == null || userBorrowingsByDay.isEmpty()) {
                 userBorrowingsByDay = new ArrayList<>();

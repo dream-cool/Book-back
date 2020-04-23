@@ -59,3 +59,8 @@ secure:
     - /swagger.json
     - /swagger-ui.html
     - /favicon.ico
+    - /user/queryUserByUserName
+    - /user/updatePWByVerificationCode
+    - /user/queryUser/
+    - /user/verificationCheck
+    - /user/sendVerificationLogin

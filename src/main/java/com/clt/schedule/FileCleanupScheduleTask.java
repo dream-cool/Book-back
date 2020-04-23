@@ -104,7 +104,7 @@ public class FileCleanupScheduleTask {
         @Override
         public void run() {
             logger.info("开始执行文件清理定时任务: " + LocalDateTime.now().toLocalTime());
-            scheduledTaskUtil.bookImgFileCleanup();
+            scheduledTaskUtil.fileCleanup();
         }
 
     }

@@ -7,10 +7,7 @@ import com.clt.enums.BookEnum;
 import com.clt.service.BookService;
 import com.clt.service.LocationService;
 import com.clt.service.TypeService;
-import com.clt.utils.FileUtil;
-import com.clt.utils.PageUtil;
-import com.clt.utils.ResultUtil;
-import com.clt.utils.UUIDUtil;
+import com.clt.utils.*;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -21,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -238,6 +236,22 @@ public class BookServiceImpl implements BookService {
         Map<String, Object> data = new HashMap<>(16);
         data.put("typeList", ids);
         data.put("book", book);
+        String qrcodePath = Const.filePath + File.separator +"QRCode" + File.separator ;
+        String bookQRcode = qrcodePath +book.getBookId();
+        File bookQRcodeFile = new File(bookQRcode+".jpg");
+        if (!bookQRcodeFile.exists()){
+            String qrcodeFilePath =  qrcodePath + book.getBookId();
+            QRCodeUtils.genQrcodeImage("儿砸，儿砸，我是你爸爸", qrcodeFilePath);
+            try {
+                QRCodeUtils.drawCircle(qrcodeFilePath, qrcodePath + "favicon.jpg",  qrcodeFilePath +".jpg");
+                File srcQrcodeFile = new File(qrcodeFilePath);
+                if (srcQrcodeFile.exists() && !srcQrcodeFile.isDirectory()){
+                    srcQrcodeFile.delete();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         return ResultUtil.success(data, "查询成功");
     }
 

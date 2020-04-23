@@ -107,6 +107,25 @@ public class UserController {
     }
 
     /**
+     * 根据用户名查询用户
+     *
+     * @param userName 用户名
+     * @return 单条数据
+     */
+    @GetMapping("/queryUserByUserName/{userName}")
+    @ApiOperation("根据邮箱查询用户")
+    @Log(value = "根据邮箱查询用户数据", method = LogOperationTypeEnum.QUERY)
+    public ResultUtil<User> queryUserByUserName(
+            @ApiParam("userName") @PathVariable String userName) {
+        final User user = userService.queryByUserName(userName);
+        if (user != null) {
+            return ResultUtil.success(user);
+        } else {
+            return ResultUtil.failed("没有找到对应用户");
+        }
+    }
+
+    /**
      * 分页查询数据
      *
      * @param pageNum  起始

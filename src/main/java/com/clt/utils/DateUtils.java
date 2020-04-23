@@ -31,7 +31,9 @@ public class DateUtils {
         return days * 24 * 3600 * 1000;
     }
 
-    public static SimpleDateFormat format =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static SimpleDateFormat dateTimeFormat =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+    public static SimpleDateFormat dateFormat =  new SimpleDateFormat("yyyy-MM-dd");
 
     public static LocalDate dateToLocalDate(Date date){
         Instant instant = date.toInstant();
@@ -63,13 +65,17 @@ public class DateUtils {
         return (int) seconds;
     }
 
-    public static String standardTimeToStringTime(Date date){
-        return format.format(date);
+    public static String standardTimeToStringDateTime(Date date){
+        return dateTimeFormat.format(date);
+    }
+
+    public static String standardTimeToStringDate(Date date){
+        return dateFormat.format(date);
     }
 
     public static Date stringTimeToStandardTime(String time) {
         try {
-            return format.parse(time);
+            return dateTimeFormat.parse(time);
         } catch (ParseException e) {
             e.printStackTrace();
             return null;
@@ -80,8 +86,8 @@ public class DateUtils {
     public static void main(String[] args) throws ParseException {
 
         System.out.println(System.currentTimeMillis());
-        System.out.println(stringTimeToStandardTime(standardTimeToStringTime(new Date())).getTime());
-        System.out.println(standardTimeToStringTime(new Date()));
+//        System.out.println(stringTimeToStandardTime(standardTimeToStringTime(new Date())).getTime());
+//        System.out.println(standardTimeToStringTime(new Date()));
     }
 
 }

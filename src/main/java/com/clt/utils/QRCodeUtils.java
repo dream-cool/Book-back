@@ -30,7 +30,7 @@ public class QRCodeUtils {
         // 编码方式
         qrcode.setQrcodeEncodeMode('E');
         // 设置拍错率
-        qrcode.setQrcodeErrorCorrect('M');
+        qrcode.setQrcodeErrorCorrect('H');
         // 二维码的版本
         qrcode.setQrcodeVersion(15);
         // 绘制二维码
@@ -65,10 +65,10 @@ public class QRCodeUtils {
 //        genQrcodeImage("123","f:/erweima.png");
         String circleImg = "C:\\Users\\Mrchen\\Desktop\\book\\BackEnd\\fileData\\favicon.jpg";
         String backgroundImg = "f:/erweima.png";
-        drawCircle(backgroundImg, circleImg);
+//        drawCircle(backgroundImg, circleImg);
     }
 
-    public static void drawCircle(String backgroundImg, String circleImg) throws IOException {
+    public static void drawCircle(String backgroundImg, String circleImg, String outputFilePath) throws IOException {
 
         BufferedImage avatarImage = ImageIO.read(new File(circleImg));
         int width = 120;
@@ -111,7 +111,7 @@ public class QRCodeUtils {
 
             graphics.drawImage(formatAvatarImage.getScaledInstance(83,
                     83, Image.SCALE_SMOOTH), 75,75,null);
-            try (OutputStream os = new FileOutputStream("f:/22.jpg")) {
+            try (OutputStream os = new FileOutputStream(outputFilePath)) {
                 ImageIO.write(blankImage, "JPG", os);
             }
         }

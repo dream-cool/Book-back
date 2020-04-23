@@ -124,7 +124,7 @@ public class UserCollectionServiceImpl implements UserCollectionService {
         final List<UserCollection> userCollections = queryAllByCondition(userCollection);
         Map<String, List<UserCollection>> data = new LinkedHashMap<>(16);
         userCollections.stream().forEach(userCollectionResult -> {
-            String key = DateUtils.standardTimeToStringTime(userCollectionResult.getCollectionTime());
+            String key = DateUtils.standardTimeToStringDate(userCollectionResult.getCollectionTime());
             final List<UserCollection> userCollectionsResultByDay = data.get(key);
             if (userCollectionsResultByDay == null || userCollectionsResultByDay.isEmpty()) {
                 List<UserCollection> userCollectionsByDay = new ArrayList<>();
