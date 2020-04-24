@@ -1,6 +1,7 @@
 package com.clt.controller;
 
 import com.clt.annotation.Log;
+import com.clt.data.GenData;
 import com.clt.entity.Book;
 import com.clt.enums.LogOperationTypeEnum;
 import com.clt.service.BookService;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -127,6 +129,15 @@ public class BookController {
         } else {
             return ResultUtil.failed();
         }
+    }
+
+    @GetMapping("/genbookData/reptite")
+    public ResultUtil<Boolean> genBookData() throws IOException {
+        final List<Book> books = GenData.reptiteBookData();
+        books.stream().forEach(book -> {
+            insert(book);
+        });
+        return ResultUtil.success(true);
     }
 
     /**

@@ -82,6 +82,15 @@ public class DateUtils {
         }
     }
 
+    public static Date stringDateToStandardDate(String time) {
+        try {
+            return dateFormat.parse(time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
     public static void main(String[] args) throws ParseException {
 
