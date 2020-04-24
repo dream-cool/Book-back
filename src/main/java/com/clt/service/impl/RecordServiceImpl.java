@@ -70,6 +70,9 @@ public class RecordServiceImpl implements RecordService {
         record.setRecordId(UUIDUtil.getUUID());
         record.setBrowsingTime(new Date());
         final Book bookResult = bookDao.queryById(record.getBookId());
+        if (bookResult == null){
+            return null;
+        }
         record.setBookImg(bookResult.getImg());
         record.setBookName(bookResult.getBookName());
         record.setDescr(bookResult.getBookDescribe());

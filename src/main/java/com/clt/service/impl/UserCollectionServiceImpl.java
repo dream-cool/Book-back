@@ -145,6 +145,9 @@ public class UserCollectionServiceImpl implements UserCollectionService {
         final List<UserCollection> userCollections = queryAllByCondition(userCollection);
         if (userCollections == null || userCollections.isEmpty()) {
             final Book bookResult = bookDao.queryById(userCollection.getBookId());
+            if (bookResult == null){
+                return null;
+            }
             userCollection.setCollectionId(UUIDUtil.getUUID());
             userCollection.setBookImg(bookResult.getImg());
             userCollection.setBookName(bookResult.getBookName());

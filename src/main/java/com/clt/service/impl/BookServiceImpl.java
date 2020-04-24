@@ -8,6 +8,8 @@ import com.clt.service.BookService;
 import com.clt.service.LocationService;
 import com.clt.service.TypeService;
 import com.clt.utils.*;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -110,12 +112,14 @@ public class BookServiceImpl implements BookService {
                 book.setZanNumber(0);
             }
             if (book.getImg() == null){
-                book.setImg(book.getBookName());
+                book.setImg(Const.DEFAULT_BOOK_IMG);
             }
-            if (book.getLocation() != null){
+            if (book.getLocation() != null && BookEnum.BOOK_TYPE_PAPER.getCode().equals(book.getEbook())){
                 Location location = new Location();
                 location.setLocationId(book.getLocation());
                 locationService.insert(location);
+            } else if (book.getLocation() == null && BookEnum.BOOK_TYPE_EBOOK.getCode().equals(book.getEbook())){
+                book.setLocation(Const.DEFAULT_EBOOK_FILE);
             }
             book.setBorrowingNumber(0);
             book.setUpdateTime(new Date());
@@ -209,9 +213,11 @@ public class BookServiceImpl implements BookService {
     public PageInfo<Book> queryAllByCondition(Integer pageNum, Integer pageSize, Book book) {
         pageNum = (pageNum == null || pageNum < 0) ? 1 : pageNum;
         pageSize = (pageSize == null || pageSize < 0) ? 10 : pageSize;
+        Page page = PageHelper.startPage(pageNum, pageSize);
         List<Book> books = beforeAllByCondition(book);
         afterQueryAllByCondition(books);
-        return PageUtil.getPageInfo(pageNum, pageSize, books);
+        PageInfo<Book> pageInfo = new PageInfo<>(page);
+        return pageInfo;
     }
 
     /**
@@ -241,7 +247,8 @@ public class BookServiceImpl implements BookService {
         File bookQRcodeFile = new File(bookQRcode+".jpg");
         if (!bookQRcodeFile.exists()){
             String qrcodeFilePath =  qrcodePath + book.getBookId();
-            QRCodeUtils.genQrcodeImage("儿砸，儿砸，我是你爸爸", qrcodeFilePath);
+            String content = "http://39.97.239.108:8080/front/bookDetail/" + book.getBookId();
+            QRCodeUtils.genQrcodeImage(content, qrcodeFilePath);
             try {
                 QRCodeUtils.drawCircle(qrcodeFilePath, qrcodePath + "favicon.jpg",  qrcodeFilePath +".jpg");
                 File srcQrcodeFile = new File(qrcodeFilePath);

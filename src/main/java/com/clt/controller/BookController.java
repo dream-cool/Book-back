@@ -7,6 +7,8 @@ import com.clt.enums.LogOperationTypeEnum;
 import com.clt.service.BookService;
 import com.clt.utils.JwtTokenUtil;
 import com.clt.utils.ResultUtil;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -216,23 +218,43 @@ public class BookController {
 
     @GetMapping("/query/recommendBook")
     @ApiOperation("查询推荐书籍")
-    public ResultUtil<List<Book>> queryRecommendBook(HttpServletRequest request){
+    public ResultUtil<PageInfo<Book>> queryRecommendBook(
+            HttpServletRequest request,
+            @ApiParam("页码") @RequestParam(value = "pageNum", required = false) Integer pageNum,
+            @ApiParam("每页大小") @RequestParam(value = "pageSize", required = false) Integer pageSize){
+        pageNum = (pageNum == null || pageNum < 0) ? 1 : pageNum;
+        pageSize = (pageSize == null || pageSize < 0) ? 10 : pageSize;
         final String token = request.getHeader("token");
         final String userName = JwtTokenUtil.getUserNameFromToken(token);
-        return ResultUtil.success(bookService.queryRecommendBook(userName));
+        Page<Book> page = PageHelper.startPage(pageNum, pageSize);
+        List<Book> books = bookService.queryRecommendBook(userName);
+        PageInfo<Book> pageInfo = new PageInfo<>(books);
+        if (pageInfo != null){
+            return ResultUtil.success(pageInfo, "查询成功");
+        } else {
+            return ResultUtil.failed("查询失败");
+        }
+
     }
 
     @GetMapping("/query/popularBook")
     @ApiOperation("查询热门书籍")
-    public ResultUtil<List<Book>> queryPopularBook(){
-        return ResultUtil.success(bookService.queryPopularBook());
+    public ResultUtil<PageInfo<Book>> queryPopularBook(
+            @ApiParam("页码") @RequestParam(value = "pageNum", required = false) Integer pageNum,
+            @ApiParam("每页大小") @RequestParam(value = "pageSize", required = false) Integer pageSize){
+        pageNum = (pageNum == null || pageNum < 0) ? 1 : pageNum;
+        pageSize = (pageSize == null || pageSize < 0) ? 10 : pageSize;
+        Page page = PageHelper.startPage(pageNum, pageSize);
+        bookService.queryPopularBook();
+        PageInfo<Book> pageInfo = new PageInfo<>(page);
+        if (pageInfo != null){
+            return ResultUtil.success(pageInfo, "查询成功");
+        } else {
+            return ResultUtil.failed("查询失败");
+        }
     }
 
-    @GetMapping("/query/newBook")
-    @ApiOperation("查询新书")
-    ResultUtil<List<Book>> queryNewBook(){
-        return ResultUtil.success(bookService.queryNewBook());
-    }
+
 
 
 }
