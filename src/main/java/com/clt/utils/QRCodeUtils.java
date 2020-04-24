@@ -30,7 +30,7 @@ public class QRCodeUtils {
         // 编码方式
         qrcode.setQrcodeEncodeMode('E');
         // 设置拍错率
-        qrcode.setQrcodeErrorCorrect('H');
+        qrcode.setQrcodeErrorCorrect('M');
         // 二维码的版本
         qrcode.setQrcodeVersion(15);
         // 绘制二维码
@@ -62,10 +62,10 @@ public class QRCodeUtils {
         }
     }
     public static void main(String[] args) throws IOException {
-//        genQrcodeImage("123","f:/erweima.png");
-        String circleImg = "C:\\Users\\Mrchen\\Desktop\\book\\BackEnd\\fileData\\favicon.jpg";
-        String backgroundImg = "f:/erweima.png";
-//        drawCircle(backgroundImg, circleImg);
+//        genQrcodeImage("123","e:/erweima.png");
+//        String circleImg = "C:\\Users\\mrchen\\Desktop\\project\\book-back\\fileData\\QRCode\\favicon.jpg";
+//        String backgroundImg = "e:/erweima.png";
+//        drawCircle(backgroundImg, circleImg,"e:/aa.png");
     }
 
     public static void drawCircle(String backgroundImg, String circleImg, String outputFilePath) throws IOException {

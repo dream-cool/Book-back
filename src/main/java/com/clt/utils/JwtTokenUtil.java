@@ -30,7 +30,7 @@ public class JwtTokenUtil {
 
     private static String secret = "secret";
 
-    private static Long expiration = 1800L;
+    private static Long expiration = 18000L;
 
     /**
      * 根据负责生成JWT的token
