@@ -29,13 +29,13 @@ public class Type implements Serializable {
      * 分类id
      */
     @ApiModelProperty("分类id")
-    private Integer id;
+    private String id;
 
     /**
      * 父id
      */
     @ApiModelProperty("父id")
-    private Integer pid;
+    private String pid;
 
     /**
      * 类别名称

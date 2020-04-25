@@ -62,7 +62,7 @@
                 and book_id = #{bookId}
             </if>
             <if test="categoryId != null and categoryId != ''">
-                and category_id = #{categoryId}
+                and category_id  like #{categoryId}"%"
             </if>
             <if test="bookName != null and bookName != ''">
                 and (book_name like "%"#{bookName}"%" or author like "%"#{bookName}"%")

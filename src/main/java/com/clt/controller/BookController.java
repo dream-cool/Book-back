@@ -1,8 +1,12 @@
 package com.clt.controller;
 
 import com.clt.annotation.Log;
+import com.clt.dao.TypeDao;
+import com.clt.dao.UserDao;
 import com.clt.data.GenData;
 import com.clt.entity.Book;
+import com.clt.entity.Type;
+import com.clt.entity.User;
 import com.clt.enums.LogOperationTypeEnum;
 import com.clt.service.BookService;
 import com.clt.utils.JwtTokenUtil;
@@ -38,6 +42,9 @@ public class BookController {
      */
     @Resource
     private BookService bookService;
+
+    @Resource
+    private TypeDao typeDao;
 
 
     /**
@@ -106,6 +113,9 @@ public class BookController {
             @ApiParam("每页大小") @RequestParam(value = "pageSize", required = false) Integer pageSize,
             @RequestBody(required = false) Book book
     ) {
+        pageNum = (pageNum == null || pageNum < 0) ? 1 : pageNum;
+        pageSize = (pageSize == null || pageSize < 0) ? 10 : pageSize;
+
         PageInfo<Book> pageInfo = this.bookService.queryAllByCondition(pageNum, pageSize, book);
         if (pageInfo != null) {
             return ResultUtil.success(pageInfo, "查询成功");
@@ -134,10 +144,36 @@ public class BookController {
     }
 
     @GetMapping("/genbookData/reptite")
-    public ResultUtil<Boolean> genBookData() throws IOException {
-        final List<Book> books = GenData.reptiteBookData();
+    public ResultUtil<Boolean> genBookData(
+            @RequestParam("url") String url,
+            @RequestParam("categoryId") String categoryId
+    ) throws IOException {
+        final List<Book> books = GenData.reptiteBookData(url, categoryId);
         books.stream().forEach(book -> {
             insert(book);
+        });
+        return ResultUtil.success(true);
+    }
+
+    @GetMapping("/genTypeData/reptite")
+    public ResultUtil<Boolean> genBookData(
+            @RequestParam("url") String url
+    ) throws IOException {
+        final List<Type> types = GenData.reptiteBookTypeData(url);
+        types.stream().forEach(type -> {
+            typeDao.insert(type);
+        });
+        return ResultUtil.success(true);
+    }
+
+    @Resource
+    private UserDao userDao;
+
+    @GetMapping("/genUserData/random")
+    public ResultUtil<Boolean> genUserData() {
+        final List<User> users = GenData.randomGenUserData();
+        users.stream().forEach(user -> {
+            userDao.insert(user);
         });
         return ResultUtil.success(true);
     }
@@ -221,7 +257,7 @@ public class BookController {
     public ResultUtil<PageInfo<Book>> queryRecommendBook(
             HttpServletRequest request,
             @ApiParam("页码") @RequestParam(value = "pageNum", required = false) Integer pageNum,
-            @ApiParam("每页大小") @RequestParam(value = "pageSize", required = false) Integer pageSize){
+            @ApiParam("每页大小") @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         pageNum = (pageNum == null || pageNum < 0) ? 1 : pageNum;
         pageSize = (pageSize == null || pageSize < 0) ? 10 : pageSize;
         final String token = request.getHeader("token");
@@ -229,7 +265,7 @@ public class BookController {
         Page<Book> page = PageHelper.startPage(pageNum, pageSize);
         List<Book> books = bookService.queryRecommendBook(userName);
         PageInfo<Book> pageInfo = new PageInfo<>(books);
-        if (pageInfo != null){
+        if (pageInfo != null) {
             return ResultUtil.success(pageInfo, "查询成功");
         } else {
             return ResultUtil.failed("查询失败");
@@ -241,20 +277,18 @@ public class BookController {
     @ApiOperation("查询热门书籍")
     public ResultUtil<PageInfo<Book>> queryPopularBook(
             @ApiParam("页码") @RequestParam(value = "pageNum", required = false) Integer pageNum,
-            @ApiParam("每页大小") @RequestParam(value = "pageSize", required = false) Integer pageSize){
+            @ApiParam("每页大小") @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         pageNum = (pageNum == null || pageNum < 0) ? 1 : pageNum;
         pageSize = (pageSize == null || pageSize < 0) ? 10 : pageSize;
         Page page = PageHelper.startPage(pageNum, pageSize);
         bookService.queryPopularBook();
         PageInfo<Book> pageInfo = new PageInfo<>(page);
-        if (pageInfo != null){
+        if (pageInfo != null) {
             return ResultUtil.success(pageInfo, "查询成功");
         } else {
             return ResultUtil.failed("查询失败");
         }
     }
-
-
 
 
 }

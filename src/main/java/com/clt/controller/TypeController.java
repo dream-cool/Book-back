@@ -39,7 +39,7 @@ public class TypeController {
     @ApiOperation("通过主键查询单条数据")
     public ResultUtil<Type> selectOne(
             @ApiParam("id")
-            @PathVariable Integer id) {
+            @PathVariable String id) {
         Type Type = this.typeService.queryById(id);
         if (Type != null) {
             return ResultUtil.success(Type);
@@ -156,7 +156,7 @@ public class TypeController {
      * @return 删除结果
      */
     @DeleteMapping("/{id}")
-    public ResultUtil<Boolean> delete(@PathVariable Integer id) {
+    public ResultUtil<Boolean> delete(@PathVariable String id) {
         if (this.typeService.queryById(id) == null) {
             return ResultUtil.failed("删除失败，没有找到对应信息");
         }

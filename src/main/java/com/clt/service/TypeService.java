@@ -18,7 +18,7 @@ public interface TypeService {
      * @param id 主键
      * @return 实例对象
      */
-    Type queryById(Integer id);
+    Type queryById(String id);
 
     /**
      * 查询多条数据
@@ -53,7 +53,7 @@ public interface TypeService {
      * @param id 主键
      * @return 是否成功
      */
-    boolean deleteById(Integer id);
+    boolean deleteById(String id);
 
     /**
      * 查询所有类别数据

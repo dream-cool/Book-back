@@ -5,6 +5,7 @@ import com.clt.dao.TypeDao;
 import com.clt.entity.Book;
 import com.clt.entity.Type;
 import com.clt.service.TypeService;
+import com.clt.utils.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +34,7 @@ public class TypeServiceImpl implements TypeService {
      * @return 实例对象
      */
     @Override
-    public Type queryById(Integer id) {
+    public Type queryById(String id) {
         return this.typeDao.queryById(id);
     }
 
@@ -67,6 +68,9 @@ public class TypeServiceImpl implements TypeService {
      * @return 处理后的类型实体
      */
     private Type beforeInsertType(Type type){
+        if (type.getId() == null){
+            type.setId(UUIDUtil.getUUID());
+        }
         if (type.getPid() == null){
             type.setLevel(1);
         } else {
@@ -96,7 +100,7 @@ public class TypeServiceImpl implements TypeService {
      * @return 是否成功
      */
     @Override
-    public boolean deleteById(Integer id) {
+    public boolean deleteById(String id) {
         Book book = new Book();
         book.setCategoryId(String.valueOf(id));
         final List<Book> books = bookDao.queryAllByCondition(book);
@@ -112,7 +116,7 @@ public class TypeServiceImpl implements TypeService {
      *
      * @param id 类别id
      */
-    private void beforeDelete(Integer id){
+    private void beforeDelete(String id){
         final Type type = typeDao.queryById(id);
         Type typeCondition = new Type();
         typeCondition.setPid(id);
@@ -141,7 +145,7 @@ public class TypeServiceImpl implements TypeService {
      *
      */
     private void afterQueryType(List<Type> types){
-        Map<Integer, String> map = new HashMap<>(16);
+        Map<String, String> map = new HashMap<>(16);
         map.put(null,"无" );
         final List<Type> allTypes = queryAll();
         for (Type type : allTypes) {
@@ -155,7 +159,7 @@ public class TypeServiceImpl implements TypeService {
 
     @Override
     public List<Type> queryAllByCascade() {
-        List<Type> types = queryAll();
+        List<Type> types = queryAllByCondition(null);
         Iterator<Type> it = types.iterator();
         /**
          * 在所有类别信息中 找到父类不为空的类别

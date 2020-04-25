@@ -121,8 +121,8 @@ public class BookServiceImpl implements BookService {
             } else if (book.getLocation() == null && BookEnum.BOOK_TYPE_EBOOK.getCode().equals(book.getEbook())){
                 book.setLocation(Const.DEFAULT_EBOOK_FILE);
             }
-            book.setBorrowingNumber(0);
-            book.setUpdateTime(new Date());
+//            book.setBorrowingNumber(0);
+//            book.setUpdateTime(new Date());
         }
     }
 
@@ -207,16 +207,15 @@ public class BookServiceImpl implements BookService {
     /**
      * 对应级联Type中child的所有id
      */
-    private Set<Integer> idSet = new HashSet<>();
+    private Set<String> idSet = new HashSet<>();
 
     @Override
     public PageInfo<Book> queryAllByCondition(Integer pageNum, Integer pageSize, Book book) {
-        pageNum = (pageNum == null || pageNum < 0) ? 1 : pageNum;
-        pageSize = (pageSize == null || pageSize < 0) ? 10 : pageSize;
         Page page = PageHelper.startPage(pageNum, pageSize);
-        List<Book> books = beforeAllByCondition(book);
-        afterQueryAllByCondition(books);
+        bookDao.queryAllByCondition(book);
         PageInfo<Book> pageInfo = new PageInfo<>(page);
+//        PageInfo<Book> pageInfo = beforeAllByCondition(book);
+        afterQueryAllByCondition(pageInfo.getList());
         return pageInfo;
     }
 
@@ -236,8 +235,8 @@ public class BookServiceImpl implements BookService {
             return ResultUtil.failed("没有找到书籍信息");
         }
         cascadeTypes = this.typeService.queryAllByCascade();
-        List<Integer> ids = new ArrayList<>(10);
-        ids = hanleCategory(Integer.valueOf(book.getCategoryId()), cascadeTypes, ids);
+        List<String> ids = new ArrayList<>(10);
+        ids = hanleCategory(book.getCategoryId(), cascadeTypes, ids);
         Collections.reverse(ids);
         Map<String, Object> data = new HashMap<>(16);
         data.put("typeList", ids);
@@ -273,7 +272,7 @@ public class BookServiceImpl implements BookService {
      * @param types 在哪些类型里面找
      * @param ids   层级id的数组集合
      */
-    private List<Integer> hanleCategory(Integer id, List<Type> types, List<Integer> ids) {
+    private List<String> hanleCategory(String id, List<Type> types, List<String> ids) {
         if (id == null) {
             return ids;
         }
@@ -300,7 +299,8 @@ public class BookServiceImpl implements BookService {
      *
      * @param book 书籍实体
      */
-    private List<Book> beforeAllByCondition(Book book) {
+    @Deprecated
+    private PageInfo<Book> beforeAllByCondition(Book book) {
         if (book != null && StringUtils.isNotEmpty(book.getCategoryId()) && StringUtils.isNoneBlank(book.getCategoryId())) {
             List<Type> types = this.typeService.queryAllByCascade();
             /**
@@ -314,6 +314,7 @@ public class BookServiceImpl implements BookService {
              * 针对某一类别下的所有类别
              * 逐一寻找满足要求的图书
              */
+            Page page = PageHelper.startPage(1, 12);
             List<Book> books = new ArrayList<>(0);
             logger.info("idSet -------" + idSet);
             idSet.stream().forEach(id -> {
@@ -324,9 +325,14 @@ public class BookServiceImpl implements BookService {
              * 容器处理完后进行销毁
              */
             idSet = new HashSet<>();
-            return books;
+            PageHelper.startPage(1, 12);
+            PageInfo<Book> pageInfo = new PageInfo<>(books);
+            return pageInfo;
         } else {
-            return bookDao.queryAllByCondition(book);
+            Page page = PageHelper.startPage(1, 12);
+            bookDao.queryAllByCondition(book);
+            PageInfo<Book> pageInfo = new PageInfo<>(page);
+            return pageInfo;
         }
     }
 
@@ -338,7 +344,7 @@ public class BookServiceImpl implements BookService {
      * @param typeId
      */
     private void resumeQueryTargetType(Type type, String typeId) {
-        if (type != null && type.getId().equals(Integer.valueOf(typeId))) {
+        if (type != null && type.getId().equals(typeId)) {
             targetType = type;
             logger.info("type----" + type);
         }
@@ -368,15 +374,15 @@ public class BookServiceImpl implements BookService {
     }
 
     private void afterQueryAllByCondition(List<Book> books) {
-        final Map<Integer, String> typeCollection = getTypeTitleById();
+        final Map<String, String> typeCollection = getTypeTitleById();
         books.stream().forEach(book -> {
-            book.setCategoryId(typeCollection.get(Integer.valueOf(book.getCategoryId())));
+            book.setCategoryId(typeCollection.get(book.getCategoryId()));
             handleBookAfterQuery(book);
         });
     }
 
-    private Map<Integer, String> getTypeTitleById() {
-        Map<Integer, String> map = new HashMap<>(16);
+    private Map<String, String> getTypeTitleById() {
+        Map<String, String> map = new HashMap<>(16);
         final List<Type> types = typeDao.queryAll();
         types.stream().forEach(type -> {
             map.put(type.getId(), type.getTitle());
