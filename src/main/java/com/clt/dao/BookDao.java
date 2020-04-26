@@ -58,6 +58,11 @@ public interface BookDao {
     int insert(Book book);
 
     /**
+     *  批量插入
+     */
+    int insertBatch(List<Book> bookList);
+
+    /**
      * 修改数据
      *
      * @param book 实例对象

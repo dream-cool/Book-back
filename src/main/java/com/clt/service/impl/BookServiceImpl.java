@@ -89,6 +89,17 @@ public class BookServiceImpl implements BookService {
     }
 
     /**
+     * 新增数据
+     *
+     * @param bookList 实例对象
+     * @return 实例对象
+     */
+    @Override
+    public int insertBatch(List<Book> bookList) {
+        return this.bookDao.insertBatch(bookList);
+    }
+
+    /**
      * 新增书籍之前对书籍实体数据进行完善
      *
      * @param book 前端书籍实体
@@ -121,8 +132,8 @@ public class BookServiceImpl implements BookService {
             } else if (book.getLocation() == null && BookEnum.BOOK_TYPE_EBOOK.getCode().equals(book.getEbook())){
                 book.setLocation(Const.DEFAULT_EBOOK_FILE);
             }
-//            book.setBorrowingNumber(0);
-//            book.setUpdateTime(new Date());
+            book.setBorrowingNumber(0);
+            book.setUpdateTime(new Date());
         }
     }
 

@@ -130,6 +130,19 @@
         #{borrowingNumber}, #{remark1}, #{remark2}, #{remark3}, #{remark4})
     </insert>
 
+    <!--新增所有列-->
+    <insert id="insertBatch">
+        insert into library.book(book_id, category_id, book_name, book_describe, author, published, price, book_status,
+          img, ebook, location, zan_number, score, input_time, update_time, borrowing_number, remark1, remark2, remark3, remark4)
+        values
+        <foreach collection="list" item="entity" index="index" separator=",">
+        (#{entity.bookId}, #{entity.categoryId}, #{entity.bookName}, #{entity.bookDescribe}, #{entity.author},
+        #{entity.published}, #{entity.price},#{entity.bookStatus}, #{entity.img}, #{entity.ebook},
+        #{entity.location}, #{entity.zanNumber}, #{entity.score}, #{entity.inputTime}, #{entity.updateTime},
+        #{entity.borrowingNumber}, #{entity.remark1}, #{entity.remark2}, #{entity.remark3}, #{entity.remark4})
+        </foreach>
+    </insert>
+
     <!--通过主键修改数据-->
     <update id="update">
         update library.book

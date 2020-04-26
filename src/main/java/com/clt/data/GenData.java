@@ -1,9 +1,14 @@
 package com.clt.data;
 
+import com.clt.constant.Const;
+import com.clt.controller.BookController;
+import com.clt.dao.BookDao;
 import com.clt.entity.Book;
 import com.clt.entity.Type;
 import com.clt.entity.User;
 import com.clt.enums.BookEnum;
+import com.clt.service.BookService;
+import com.clt.service.TypeService;
 import com.clt.utils.DateUtils;
 import com.clt.utils.UUIDUtil;
 import org.apache.commons.lang3.RandomUtils;
@@ -12,7 +17,11 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -25,23 +34,34 @@ import java.util.Map;
  * @author ：clt
  * @Date ：Created in 18:54 2020/04/24
  */
+@Component
 public class GenData {
+    private static final Logger logger = LoggerFactory.getLogger(GenData.class);
+
+    @Resource
+    private BookService bookService;
+
+    @Resource
+    private TypeService typeService;
+
     public static void main(String[] args) throws IOException {
 //        reptiteBookTypeData("http://book.dangdang.com/");
 //        System.out.println(RandomDataUtil.getRandomName());
-        randomGenUserData();
+        System.setProperty("http.proxyHost", "172.16.25.75");
+        System.setProperty("http.proxyPort", "808");
+//        reptiteBookTypeData("http://book.dangdang.com/");
     }
 
-    public static boolean downloadImgByURL(String httpUrl, String fileName) {
+    public boolean downloadImgByURL(String httpUrl, String fileName) {
         URL url;
         BufferedInputStream in;
         FileOutputStream file;
         try {
-            System.out.println("获取网络图片");
-            String filePath = "C:\\Users\\Mrchen\\Desktop\\book\\BackEnd\\fileData\\";
+            logger.info("获取网络图片 {}", httpUrl);
+            String filePath = Const.filePath;
             url = new URL(httpUrl);
             in = new BufferedInputStream(url.openStream());
-            final File fileImg = new File(filePath + fileName);
+            final File fileImg = new File(filePath + File.separator + fileName);
             if (!fileImg.exists()) {
                 fileImg.createNewFile();
             }
@@ -52,7 +72,7 @@ public class GenData {
             }
             file.close();
             in.close();
-            System.out.println("图片获取成功");
+            logger.info("图片获取成功 {}", fileImg);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {
@@ -63,7 +83,7 @@ public class GenData {
         return true;
     }
 
-    public static List<Book> reptiteBookData(String url, String categoryId) throws IOException {
+    public List<Book> reptiteBookData(String url, String categoryId) throws IOException {
         final Connection connect = Jsoup.connect(url);
         final Document document = connect.get();
         Element body = document.body();
@@ -73,8 +93,8 @@ public class GenData {
         final Elements search_book_authors = body.getElementsByClass("search_book_author");
         final Elements details = body.getElementsByClass("detail");
         List<Book> books = new ArrayList<>(60);
-        try {
-            for (int i = 0; i < names.size(); i++) {
+        for (int i = 0; i < names.size(); i++) {
+            try {
                 Book book = new Book();
                 String id = UUIDUtil.getUUID();
                 book.setBookId(id);
@@ -83,8 +103,9 @@ public class GenData {
                 if (!imgUrl.startsWith("http://")) {
                     imgUrl = picture.getElementsByTag("img").get(0).attr("data-original");
                 }
-                downloadImgByURL(imgUrl, id + ".jpg");
-                book.setImg(id + ".jpg");
+//                downloadImgByURL(imgUrl, id + ".jpg");
+//                book.setImg(id + ".jpg");
+                book.setImg(imgUrl);
                 Element name = names.get(i);
                 book.setBookName(picture.attr("title"));
                 Element price = prices.get(i);
@@ -109,14 +130,16 @@ public class GenData {
                 book.setScore(Float.valueOf(RandomDataUtil.getRandomNum(0, 100)) / 20);
                 book.setZanNumber(RandomDataUtil.getRandomNum(10, 10000));
                 books.add(book);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
         return books;
     }
 
-    public static List<Type> reptiteBookTypeData(String url) throws IOException {
+    public List<Type> reptiteBookTypeData(String url) throws IOException {
+        System.setProperty("http.proxyHost", "172.16.25.75");
+        System.setProperty("http.proxyPort", "808");
         final Connection connect = Jsoup.connect(url);
         final Document document = connect.get();
         Element body = document.body();
@@ -157,31 +180,39 @@ public class GenData {
                 secondType.setCreateTime(now);
                 secondType.setSort(Integer.valueOf(i + "" + j));
                 secondType.setTitle(levelTwoName);
-
                 Elements levelThreeElements = levelTwoElement.getElementsByTag("dd").get(0).getElementsByTag("a");
                 for (Element levelThreeElement : levelThreeElements) {
-                    final String levelThreeName = levelThreeElement.attr("title");
-                    k++;
-                    Type thirdType = new Type();
-                    thirdType.setPid(secondType.getId());
-                    thirdType.setPName(secondType.getName());
-                    thirdType.setId((String.format("%3d", i).replace(" ", "0") + String.format("%3d", j).replace(" ", "0") + String.format("%3d", k).replace(" ", "0")));
-                    thirdType.setLevel(3);
-                    thirdType.setCreateTime(now);
-                    thirdType.setSort(Integer.valueOf(i + "" + j + "" + k));
-                    thirdType.setTitle(levelThreeName);
-                    thirdTypes.add(thirdType);
+                    try {
+                        final String levelThreeName = levelThreeElement.attr("title");
+                        final String href = levelThreeElement.attr("href");
+                        k++;
+                        Type thirdType = new Type();
+                        thirdType.setPid(secondType.getId());
+                        thirdType.setPName(secondType.getName());
+                        thirdType.setId((String.format("%3d", i).replace(" ", "0") + String.format("%3d", j).replace(" ", "0") + String.format("%3d", k).replace(" ", "0")));
+                        thirdType.setLevel(3);
+                        thirdType.setCreateTime(now);
+                        thirdType.setSort(Integer.valueOf(i + "" + j + "" + k));
+                        thirdType.setTitle(levelThreeName);
+                        if (href.startsWith("http://category.dangdang.com/")) {
+                            List<Book> books = reptiteBookData(href, thirdType.getId());
+                            bookService.insertBatch(books);
+                            typeService.insert(thirdType);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
-                secondTypes.add(secondType);
+                typeService.insert(secondType);
             }
-            fistTypes.add(firstType);
+            typeService.insert(firstType);
         }
-        fistTypes.addAll(secondTypes);
-        fistTypes.addAll(thirdTypes);
+//        fistTypes.addAll(secondTypes);
+//        fistTypes.addAll(thirdTypes);
         return fistTypes;
     }
 
-    public static List<User> randomGenUserData() {
+    public List<User> randomGenUserData() {
         List<User> users = new ArrayList<>();
         for (int i = 0; i < 100000; i++) {
             User user = new User();
@@ -189,7 +220,7 @@ public class GenData {
             user.setCredit(RandomDataUtil.getRandomNum(30, 90));
             user.setUserName(RandomDataUtil.getChineseFamilyName() + RandomDataUtil.getRandomName());
             final Map<String, String> randomAddressCode = RandomDataUtil.getRandomAddressCode();
-            user.setAddress("[\"430000\",\""+ randomAddressCode.entrySet().iterator().next().getKey() +"\",\""+ randomAddressCode.entrySet().iterator().next().getValue()+"\"]");
+            user.setAddress("[\"430000\",\"" + randomAddressCode.entrySet().iterator().next().getKey() + "\",\"" + randomAddressCode.entrySet().iterator().next().getValue() + "\"]");
             user.setEmail(RandomDataUtil.getRandomEmail());
             user.setRole("0");
             user.setCreateTime(RandomDataUtil.getRandomDate("2019-01-01", "2020-05-01"));

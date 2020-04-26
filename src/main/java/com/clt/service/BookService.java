@@ -41,6 +41,14 @@ public interface BookService {
     Book insert(Book book);
 
     /**
+     * 新增数据
+     *
+     * @param bookList 实例对象
+     * @return 实例对象
+     */
+    int insertBatch(List<Book> bookList);
+
+    /**
      * 修改数据
      *
      * @param book 实例对象

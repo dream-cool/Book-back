@@ -37,7 +37,7 @@ public class LoginController {
 
 
     @ApiOperation("")
-    @GetMapping("/login")
+    @RequestMapping("/login")
     @Log(value = "用户登录", method = LogOperationTypeEnum.LOGIN)
     public ResultUtil<Map<String, Object>> login(
             @ApiParam("用户名") @RequestParam("userName") String userName,
@@ -64,7 +64,7 @@ public class LoginController {
 
 
     @ApiOperation("")
-    @GetMapping("/toLogin")
+    @RequestMapping("/toLogin")
     public ResultUtil<Map<Object, Object>> toLogin(HttpServletRequest request) {
         String message = request.getAttribute("message").toString();
         if (message != null && !StringUtils.isBlank(message)){
@@ -76,7 +76,7 @@ public class LoginController {
     }
 
     @ApiOperation("")
-    @GetMapping("/unauthorized")
+    @RequestMapping("/unauthorized")
     public ResultUtil<Map<Object, Object>> unauthorized(HttpServletRequest request) {
         String message = request.getAttribute("message").toString();
         if (message != null && !StringUtils.isBlank(message)){

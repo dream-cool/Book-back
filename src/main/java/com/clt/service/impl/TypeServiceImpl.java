@@ -58,7 +58,7 @@ public class TypeServiceImpl implements TypeService {
      */
     @Override
     public Type insert(Type type) {
-        beforeInsertType(type);
+//        beforeInsertType(type);
         this.typeDao.insert(type);
         return type;
     }

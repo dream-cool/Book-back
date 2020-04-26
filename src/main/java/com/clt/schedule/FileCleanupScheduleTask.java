@@ -1,6 +1,7 @@
 package com.clt.schedule;
 
 import com.clt.dao.SchedulingTaskDao;
+import com.clt.data.GenData;
 import com.clt.entity.SchedulingTask;
 import com.clt.enums.ScheduleTaskEnum;
 import com.clt.utils.ResultUtil;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.concurrent.ScheduledFuture;
 
@@ -95,6 +97,9 @@ public class FileCleanupScheduleTask {
         return ResultUtil.success(true, "任务执行成功");
     }
 
+    @Resource
+    private GenData genData;
+
     /**
      * 定义定时任务执行的方法
      *
@@ -104,7 +109,11 @@ public class FileCleanupScheduleTask {
         @Override
         public void run() {
             logger.info("开始执行文件清理定时任务: " + LocalDateTime.now().toLocalTime());
-            scheduledTaskUtil.fileCleanup();
+            try {
+                genData.reptiteBookTypeData("http://book.dangdang.com/");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
     }
