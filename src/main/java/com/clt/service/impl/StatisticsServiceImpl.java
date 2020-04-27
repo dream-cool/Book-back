@@ -164,7 +164,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     public List<Map<Object, Object>> readerNumbersByTime(String timeSlot) {
         Map<String, Object> map = new HashMap<>(16);
         if (StringUtils.isEmpty(timeSlot) || StringUtils.equalsIgnoreCase(timeSlot, "DAY")) {
-            map.put(Const.ITME_LEVEL, 10);
+            map.put(Const.ITME_LEVEL, 7);
         } else if (StringUtils.equalsIgnoreCase(timeSlot, "MONTH")) {
             map.put(Const.ITME_LEVEL, 7);
         } else {

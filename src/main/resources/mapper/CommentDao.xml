@@ -88,6 +88,18 @@
         values (#{commentId}, #{bookId}, #{userId}, #{commentTime}, #{content}, #{score}, #{replyFlag}, #{replyId}, #{zanNumber}, #{commentPid}, #{replyUserName})
     </insert>
 
+    <!--新增所有列-->
+    <insert id="insertBatch" >
+        insert into library.comment(comment_id, book_id, user_id, comment_time, content,
+        score, reply_flag, reply_id, zan_number, comment_pid, reply_user_name)
+        values
+        <foreach collection="list" item="entity" index="index" separator=",">
+            (#{entity.commentId}, #{entity.bookId}, #{entity.userId}, #{entity.commentTime}, #{entity.content},
+            #{entity.score}, #{entity.replyFlag}, #{entity.replyId}, #{entity.zanNumber}, #{entity.commentPid},
+            #{entity.replyUserName})
+        </foreach>
+    </insert>
+
     <!--通过主键修改数据-->
     <update id="update">
         update library.comment

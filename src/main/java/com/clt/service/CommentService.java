@@ -37,6 +37,14 @@ public interface CommentService {
     Comment insert(Comment comment);
 
     /**
+     * 新增数据
+     *
+     * @param commentList 实例对象
+     * @return 实例对象
+     */
+    int insertBatch(List<Comment> commentList);
+
+    /**
      * 修改数据
      *
      * @param comment 实例对象

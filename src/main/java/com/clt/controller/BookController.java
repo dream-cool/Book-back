@@ -144,40 +144,6 @@ public class BookController {
     }
 
 
-//    @GetMapping("/genbookData/reptite")
-//    public ResultUtil<Boolean> genBookData(
-//            @RequestParam("url") String url,
-//            @RequestParam("categoryId") String categoryId
-//    ) throws IOException {
-//        final List<Book> books = GenData.reptiteBookData(url, categoryId);
-//        books.stream().forEach(book -> {
-//            insert(book);
-//        });
-//        return ResultUtil.success(true);
-//    }
-//
-//    @GetMapping("/genTypeData/reptite")
-//    public ResultUtil<Boolean> genBookData(
-//            @RequestParam("url") String url
-//    ) throws IOException {
-//        final List<Type> types = GenData.reptiteBookTypeData(url);
-//        types.stream().forEach(type -> {
-//            typeDao.insert(type);
-//        });
-//        return ResultUtil.success(true);
-//    }
-
-//    @Resource
-//    private UserDao userDao;
-//
-//    @GetMapping("/genUserData/random")
-//    public ResultUtil<Boolean> genUserData() {
-//        final List<User> users = GenData.randomGenUserData();
-//        users.stream().forEach(user -> {
-//            userDao.insert(user);
-//        });
-//        return ResultUtil.success(true);
-//    }
 
     /**
      * 通过实体数据更新单条数据

@@ -148,6 +148,18 @@
         values (#{userId},#{classId}, #{stuNo}, #{userName}, #{password}, #{sex}, #{idcard}, #{tel}, #{email}, #{address}, #{credit}, #{status}, #{role}, #{registerTime}, #{lastLoginTime}, #{createTime}, #{updateTime}, #{avatar}, #{remark2}, #{remark3})
     </insert>
 
+    <insert id="insertBatch">
+        insert into library.user(user_id, class_id, stu_No, user_name, password, sex, IDcard, tel,
+        email, address, credit, status, role, register_time, last_login_time, create_time, update_time,
+         avatar, remark2, remark3)
+        values
+        <foreach collection="list" item="entity" index="index" separator=",">
+            (#{entity.userId},#{entity.classId}, #{entity.stuNo}, #{entity.userName}, #{entity.password}, #{entity.sex}, #{entity.idcard},
+            #{entity.tel}, #{entity.email}, #{entity.address}, #{entity.credit}, #{entity.status}, #{entity.role}, #{entity.registerTime},
+            #{entity.lastLoginTime}, #{entity.createTime}, #{entity.updateTime}, #{entity.avatar}, #{entity.remark2}, #{entity.remark3})
+        </foreach>
+    </insert>
+
     <!--通过主键修改数据-->
     <update id="update">
         update library.user

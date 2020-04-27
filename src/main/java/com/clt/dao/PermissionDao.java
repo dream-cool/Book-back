@@ -49,6 +49,14 @@ public interface PermissionDao {
     int insert(Permission permission);
 
     /**
+     * 新增数据
+     *
+     * @param permissionList 实例对象
+     * @return 影响行数
+     */
+    int insertBatch(List<Permission> permissionList);
+
+    /**
      * 修改数据
      *
      * @param permission 实例对象

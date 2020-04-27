@@ -60,6 +60,7 @@ public interface UserDao {
      */
     int insert(User user);
 
+    int insertBatch(List<User> userList);
     /**
      * 修改数据
      *

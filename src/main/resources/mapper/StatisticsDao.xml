@@ -39,6 +39,7 @@
           id, period, total_user, total_paper_book, total_lent_book, yesterday_handle, yesterday_return, yesterday_apply, remark1, remark2, remark3, remark4
         from library.statistics
         <where>
+            period &gt;= DATE_SUB(curdate(),INTERVAL 7 DAY) and period &lt; CURDATE()
             <if test="id != null and id != ''">
                 and id = #{id}
             </if>
@@ -75,7 +76,9 @@
             <if test="remark4 != null and remark4 != ''">
                 and remark4 = #{remark4}
             </if>
+
         </where>
+        ORDER BY period
     </select>
 
     <!--新增所有列-->
@@ -173,9 +176,21 @@
 
     <!-- ElementID:bookStorageByCategory,Generated=false -->
     <select id="bookStorageByCategory" resultType="java.util.Map">
-        select type.title ,count(*) numbers from book
-            left join type on type.id = book.category_id
-            GROUP BY  type.title
+        SELECT
+            type.title,
+            a.numbers
+        FROM
+            library.type, (
+        SELECT LEFT( category_id, 3 ) id,
+            count( * ) numbers
+        FROM
+            book
+        GROUP BY
+            LEFT(category_id, 3 )
+            ) as  a
+        WHERE
+            a.id = type.id
+
     </select>
 
 

@@ -105,6 +105,16 @@
         values (#{userId}, #{bookR}, #{bookW}, #{userR}, #{userW}, #{borrowingR}, #{borrowingW}, #{categoryW}, #{statisticsR}, #{privilege}, #{admin}, #{remark1}, #{remark2}, #{remark3})
     </insert>
 
+    <insert id="insertBatch">
+        insert into library.permission(user_id,book_r, book_w, user_r, user_w, borrowing_r, borrowing_w, category_w,
+        statistics_r, privilege, admin, remark1, remark2, remark3)
+        values
+        <foreach collection="list" item="entity" index="index" separator=",">
+            (#{entity.userId}, #{entity.bookR}, #{entity.bookW}, #{entity.userR}, #{entity.userW}, #{entity.borrowingR},
+            #{entity.borrowingW}, #{entity.categoryW}, #{entity.statisticsR}, #{entity.privilege}, #{entity.admin}, #{entity.remark1}, #{entity.remark2},
+        </foreach>
+    </insert>
+
     <!--通过主键修改数据-->
     <update id="update">
         update library.permission

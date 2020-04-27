@@ -219,10 +219,9 @@
 
     <select id="queryRecommendBook" resultMap="BookMap" >
         select
-          book_id, category_id, book_name, book_describe, author, published, price, book_status, img, ebook, location,
+          book.book_id, category_id, book_name, book_describe, author, published, price, book_status, img, ebook, location,
           zan_number, score, input_time, update_time, borrowing_number, remark1, remark2, remark3, remark4
-        from book
-            where  book_id in (
+        from book,  (
                 select DISTINCT record.book_id from  record
                 WHERE record.user_id in (
                     select user_id from `user` , user_class
@@ -242,7 +241,8 @@
                     select user_id from `user` , user_class
                     where user.class_id = user_class.class_id
                     and depart_no = #{departNo} and user_id !=  #{userId})
-            )
+            ) as a
+        where  book.book_id = a.book_id
         ORDER BY zan_number desc, score desc
 
     </select>

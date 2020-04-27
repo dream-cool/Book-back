@@ -90,6 +90,11 @@ public class CommentServiceImpl implements CommentService {
         return comment;
     }
 
+    @Override
+    public int insertBatch(List<Comment> commentList) {
+        return commentDao.insertBatch(commentList);
+    }
+
     /**
      * 修改数据
      *

@@ -1,15 +1,16 @@
 package com.clt.data;
 
+import com.alibaba.fastjson.JSON;
 import com.clt.constant.Const;
 import com.clt.controller.BookController;
 import com.clt.dao.BookDao;
-import com.clt.entity.Book;
-import com.clt.entity.Type;
-import com.clt.entity.User;
+import com.clt.dao.UserDao;
+import com.clt.entity.*;
 import com.clt.enums.BookEnum;
-import com.clt.service.BookService;
-import com.clt.service.TypeService;
+import com.clt.service.*;
+import com.clt.service.impl.DictionaryDataServiceImpl;
 import com.clt.utils.DateUtils;
+import com.clt.utils.ResultUtil;
 import com.clt.utils.UUIDUtil;
 import org.apache.commons.lang3.RandomUtils;
 import org.jsoup.Connection;
@@ -20,6 +21,10 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.io.*;
@@ -34,7 +39,7 @@ import java.util.Map;
  * @author ：clt
  * @Date ：Created in 18:54 2020/04/24
  */
-@Component
+@RestController
 public class GenData {
     private static final Logger logger = LoggerFactory.getLogger(GenData.class);
 
@@ -44,11 +49,29 @@ public class GenData {
     @Resource
     private TypeService typeService;
 
+    @Resource
+    private UserClassService userClassService;
+
+    @Resource
+    private DictionaryDataService dictionaryDataService;
+
+    @Resource
+    private LocationService locationService;
+
+    @Resource
+    private CommentService commentService;
+
     public static void main(String[] args) throws IOException {
 //        reptiteBookTypeData("http://book.dangdang.com/");
 //        System.out.println(RandomDataUtil.getRandomName());
         System.setProperty("http.proxyHost", "172.16.25.75");
         System.setProperty("http.proxyPort", "808");
+        List<Book> bookList = new ArrayList<>();
+        Book b = new Book();
+        b.setBookId("!11");
+        b.setRemark1("111");
+        bookList.add(b);
+        genBookCommentData(bookList);
 //        reptiteBookTypeData("http://book.dangdang.com/");
     }
 
@@ -83,6 +106,46 @@ public class GenData {
         return true;
     }
 
+    @GetMapping("/genbookData/reptite")
+    public ResultUtil<Boolean> genBookData(
+            @RequestParam("url") String url,
+            @RequestParam("categoryId") String categoryId
+    ) throws IOException {
+        reptiteBookData(url, categoryId);
+        return ResultUtil.success(true);
+    }
+
+    @GetMapping("/genTypeData/reptite")
+    public ResultUtil<Boolean> genBookData(
+            @RequestParam("url") String url
+    ) throws IOException {
+        System.setProperty("http.proxyHost", "172.16.25.75");
+        System.setProperty("http.proxyPort", "808");
+        reptiteBookTypeData(url);
+        return ResultUtil.success(true);
+    }
+
+    @Resource
+    private UserDao userDao;
+
+    @GetMapping("/genUserData/random")
+    public ResultUtil<Boolean> genUserData() {
+        randomGenUserData();
+        return ResultUtil.success(true);
+    }
+
+    @GetMapping("/genClassData/All")
+    public ResultUtil<Boolean> genClassDataAll() {
+        genClassData();
+        return ResultUtil.success(true);
+    }
+
+    @GetMapping("/genBookLocationData/All")
+    public ResultUtil<Boolean> genBookLocationAll() {
+        genBookLocationData();
+        return ResultUtil.success(true);
+    }
+
     public List<Book> reptiteBookData(String url, String categoryId) throws IOException {
         final Connection connect = Jsoup.connect(url);
         final Document document = connect.get();
@@ -108,6 +171,7 @@ public class GenData {
                 book.setImg(imgUrl);
                 Element name = names.get(i);
                 book.setBookName(picture.attr("title"));
+                book.setRemark1(picture.attr("href"));
                 Element price = prices.get(i);
                 book.setPrice(Double.valueOf(price.getElementsByTag("span").get(0).text().substring(1)));
                 book.setBookDescribe(details.get(i).getElementsByTag("p").get(0).text());
@@ -122,12 +186,13 @@ public class GenData {
                 if (author.getElementsByTag("span") != null && author.getElementsByTag("span").get(2).getElementsByTag("a") != null) {
                     book.setPublished(author.getElementsByTag("span").get(2).getElementsByTag("a").get(0).text());
                 }
+
                 book.setCategoryId(categoryId);
                 book.setEbook(0);
                 book.setUpdateTime(new Date());
                 book.setBookStatus(BookEnum.BOOK_STATUS_IN_LIBRARY.getCode());
                 book.setBorrowingNumber(RandomDataUtil.getRandomNum(10, 200));
-                book.setScore(Float.valueOf(RandomDataUtil.getRandomNum(0, 100)) / 20);
+                book.setScore(Float.valueOf(RandomDataUtil.getRandomNum(80, 100)) / 20);
                 book.setZanNumber(RandomDataUtil.getRandomNum(10, 10000));
                 books.add(book);
             } catch (Exception e) {
@@ -137,19 +202,17 @@ public class GenData {
         return books;
     }
 
-    public List<Type> reptiteBookTypeData(String url) throws IOException {
+    public void reptiteBookTypeData(String url) throws IOException {
         System.setProperty("http.proxyHost", "172.16.25.75");
         System.setProperty("http.proxyPort", "808");
         final Connection connect = Jsoup.connect(url);
         final Document document = connect.get();
         Element body = document.body();
-        List<Type> fistTypes = new ArrayList<>();
-        List<Type> secondTypes = new ArrayList<>();
-        List<Type> thirdTypes = new ArrayList<>();
         int i = 0;
         int j = 0;
         int k = 0;
         final Elements level_ones = body.getElementsByClass("level_one");
+        List<Book> books = new ArrayList<>(35000);
         Date now = new Date();
         for (Element levelOneElement : level_ones) {
             i++;
@@ -195,25 +258,29 @@ public class GenData {
                         thirdType.setSort(Integer.valueOf(i + "" + j + "" + k));
                         thirdType.setTitle(levelThreeName);
                         if (href.startsWith("http://category.dangdang.com/")) {
-                            List<Book> books = reptiteBookData(href, thirdType.getId());
-                            bookService.insertBatch(books);
-                            typeService.insert(thirdType);
+                            books.addAll(reptiteBookData(href, thirdType.getId()));
+//                            typeService.insert(thirdType);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
-                typeService.insert(secondType);
+//                typeService.insert(secondType);
             }
-            typeService.insert(firstType);
+//            typeService.insert(firstType);
         }
-//        fistTypes.addAll(secondTypes);
-//        fistTypes.addAll(thirdTypes);
-        return fistTypes;
+        List<Location> locations = locationService.queryAllByLimit(0, 2000);
+        books.stream().forEach(book -> {
+            book.setLocation(locations.get(RandomDataUtil.getRandomNum(0,locations.size()-1)).getLocationId());
+        });
+        bookService.insertBatch(books);
+        return;
     }
 
-    public List<User> randomGenUserData() {
+    public void randomGenUserData() {
         List<User> users = new ArrayList<>();
+        List<UserClass> userClasses = userClassService.queryAllByLimit(0, 2000);
+
         for (int i = 0; i < 100000; i++) {
             User user = new User();
             user.setUserId(UUIDUtil.getUUID());
@@ -229,9 +296,96 @@ public class GenData {
             user.setSex(String.valueOf(RandomDataUtil.getRandomNum(0, 1)));
             user.setStatus("1");
             user.setTel(RandomDataUtil.getRandomTel());
-//            user.setClassId();
+            user.setClassId(userClasses.get(RandomDataUtil.getRandomNum(0,userClasses.size()-1)).getClassId());
             users.add(user);
         }
-        return users;
+        userDao.insertBatch(users);
+        return;
+    }
+
+    public void genClassData(){
+        ResultUtil<List<DictionaryData>> classInfo = dictionaryDataService.getClassInfo();
+        List<String> classInfoArrary = new ArrayList<>(4);
+        classInfoArrary.add(0,"");
+        classInfoArrary.add(1,"");
+        classInfoArrary.add(2,"");
+        classInfoArrary.add(3,"");
+        classInfo.getData().stream().forEach( grade -> {
+
+            classInfoArrary.set(0, grade.getValue());
+            grade.getChildren().stream().forEach(depart -> {
+                classInfoArrary.set(1, depart.getValue());
+                depart.getChildren().stream().forEach(major -> {
+                    classInfoArrary.set(2, major.getValue());
+                    major.getChildren().stream().forEach(classNumber -> {
+                        classInfoArrary.set(3, classNumber.getValue());
+                        String classId = JSON.toJSONString(classInfoArrary);
+                        UserClass userClass = new UserClass();
+                        userClass.setClassId(classId);
+                        userClassService.insert(userClass);
+                    });
+                });
+            });
+        });
+    }
+
+
+    public void genBookLocationData(){
+        ResultUtil<List<DictionaryData>> bookLocation = dictionaryDataService.getLocationInfo();
+        List<String> bookLocationArrary = new ArrayList<>(4);
+        bookLocationArrary.add(0,"");
+        bookLocationArrary.add(1,"");
+        bookLocationArrary.add(2,"");
+        bookLocationArrary.add(3,"");
+        bookLocation.getData().stream().forEach( area -> {
+            bookLocationArrary.set(0, area.getValue());
+            area.getChildren().stream().forEach(floor -> {
+                bookLocationArrary.set(1, floor.getValue());
+                floor.getChildren().stream().forEach(room -> {
+                    bookLocationArrary.set(2, room.getValue());
+                    room.getChildren().stream().forEach(shelf -> {
+                        bookLocationArrary.set(3, shelf.getValue());
+                        String locationId = JSON.toJSONString(bookLocationArrary);
+                        Location location = new Location();
+                        location.setLocationId(locationId);
+                        locationService.insert(location);
+                    });
+                });
+            });
+        });
+    }
+
+    public static void genBookCommentData(List<Book> books){
+        books.stream().forEach( book -> {
+            List<Comment> commentList = new ArrayList<>();
+            if (book.getRemark1() != null){
+//                final Connection connect = Jsoup.connect(book.getRemark1());
+                final Connection connect = Jsoup.connect("http://product.dangdang.com/27925828.html");
+                final Document document;
+                try {
+                    document = connect.get();
+                    Element body = document.getElementsByClass("mbox3 book_comment").first();
+                    Elements comment_items = body.getElementsByClass("comment_items clearfix");
+                    comment_items.stream().forEach( comment -> {
+                        Comment comment_i = new Comment();
+                        String score = comment.getElementsByTag("em").get(0).text();
+                        comment_i.setCommentId(UUIDUtil.getUUID());
+                        comment_i.setReplyFlag(false);
+                        Date comment_time = DateUtils.stringTimeToStandardTime(comment.getElementsByClass("starline clearfix").get(0).getElementsByTag("span").text());
+                        comment_i.setCommentTime(comment_time);
+                        comment_i.setZanNumber(Integer.valueOf(comment.getElementsByClass("support").get(0).getElementsByTag("a").get(0).text()));
+                        comment_i.setContent(comment.getElementsByClass("describe_detail").get(0).getElementsByTag("a").text());
+
+                        comment_i.setBookId(book.getBookId());
+                        comment_i.setReplyUserName("admin");
+                        comment_i.setUserId("1");
+                        commentList.add(comment_i);
+                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+//            commentService.insertBatch(commentList);
+        });
     }
 }

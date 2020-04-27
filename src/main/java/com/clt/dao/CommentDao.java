@@ -76,4 +76,6 @@ public interface CommentDao {
      *  删除某条楼层评论下的所有子评论
      */
     int deleteByCommentPid(String commentPid);
+
+    int insertBatch(List<Comment> commentList);
 }
