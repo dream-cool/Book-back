@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * JwtToken生成的工具类
@@ -135,9 +136,9 @@ public class JwtTokenUtil {
 
     public static void main(String[] args) {
         User user = new User();
-        user.setUserName("123456");
-        user.setPassword("123456");
-        final String s = generateToken(user);
+        user.setPassword("11");
+
+        System.out.println(Optional.ofNullable(user).isPresent());
     }
 
 

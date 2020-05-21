@@ -14,6 +14,7 @@ import com.clt.utils.ResultUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
@@ -34,6 +35,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("book")
+@Api("书籍管理")
 public class BookController {
 
     private static final Logger logger = LoggerFactory.getLogger(BookController.class);

@@ -6,6 +6,7 @@ import com.clt.enums.LogOperationTypeEnum;
 import com.clt.service.CollectionGroupService;
 import com.clt.utils.ResultUtil;
 import com.clt.utils.UUIDUtil;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("collectionGroup")
+@Api("收藏分组管理")
 public class CollectionGroupController {
     /**
      * 服务对象

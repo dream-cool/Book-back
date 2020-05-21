@@ -129,6 +129,21 @@
             <version>3.0.0</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/me.zhyd.oauth/JustAuth -->
+        <dependency>
+            <groupId>me.zhyd.oauth</groupId>
+            <artifactId>JustAuth</artifactId>
+            <version>1.15.4-alpha</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-http</artifactId>
+            <version>5.1.0</version>
+            <scope>provided</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>

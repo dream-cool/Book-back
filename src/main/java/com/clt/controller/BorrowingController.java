@@ -9,6 +9,7 @@ import com.clt.utils.ResultUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
@@ -27,6 +28,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("borrowing")
+@Api("借阅管理")
 public class BorrowingController {
 
     private static final Logger logger = LoggerFactory.getLogger(BorrowingController.class);

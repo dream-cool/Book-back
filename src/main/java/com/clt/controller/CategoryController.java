@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.clt.entity.Category;
 import com.clt.service.CategoryService;
 import com.clt.utils.ResultUtil;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
@@ -22,6 +23,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("category")
+@Api("类别管理")
 public class CategoryController {
 
     private static final Logger logger = LoggerFactory.getLogger(CategoryController.class);
