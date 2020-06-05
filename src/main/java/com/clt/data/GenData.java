@@ -4,15 +4,18 @@ import com.alibaba.fastjson.JSON;
 import com.clt.constant.Const;
 import com.clt.controller.BookController;
 import com.clt.dao.BookDao;
+import com.clt.dao.PermissionDao;
 import com.clt.dao.UserDao;
 import com.clt.entity.*;
 import com.clt.enums.BookEnum;
+import com.clt.enums.UserEnum;
 import com.clt.service.*;
 import com.clt.service.impl.DictionaryDataServiceImpl;
 import com.clt.utils.DateUtils;
 import com.clt.utils.ResultUtil;
 import com.clt.utils.UUIDUtil;
 import org.apache.commons.lang3.RandomUtils;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -60,6 +63,9 @@ public class GenData {
 
     @Resource
     private CommentService commentService;
+
+    @Resource
+    private PermissionDao permissionDao;
 
     public static void main(String[] args) throws IOException {
 //        reptiteBookTypeData("http://book.dangdang.com/");
@@ -131,6 +137,12 @@ public class GenData {
     @GetMapping("/genUserData/random")
     public ResultUtil<Boolean> genUserData() {
         randomGenUserData();
+        return ResultUtil.success(true);
+    }
+
+    @GetMapping("/genUserPermissionData")
+    public ResultUtil<Boolean> genPermissionData() {
+        genUserPermissionData();
         return ResultUtil.success(true);
     }
 
@@ -281,7 +293,7 @@ public class GenData {
         List<User> users = new ArrayList<>();
         List<UserClass> userClasses = userClassService.queryAllByLimit(0, 2000);
 
-        for (int i = 0; i < 100000; i++) {
+        for (int i = 0; i < 10000; i++) {
             User user = new User();
             user.setUserId(UUIDUtil.getUUID());
             user.setCredit(RandomDataUtil.getRandomNum(30, 90));
@@ -289,7 +301,11 @@ public class GenData {
             final Map<String, String> randomAddressCode = RandomDataUtil.getRandomAddressCode();
             user.setAddress("[\"430000\",\"" + randomAddressCode.entrySet().iterator().next().getKey() + "\",\"" + randomAddressCode.entrySet().iterator().next().getValue() + "\"]");
             user.setEmail(RandomDataUtil.getRandomEmail());
-            user.setRole("0");
+            user.setPassword(Const.INITIAL_PASSWORD);
+            Object md5PassWord = new SimpleHash(Const.ENCRYPTION_ALGORITHM, user.getPassword(),
+                    user.getUserName(), Const.ENCRYPTION_TIMES);
+            user.setPassword(md5PassWord.toString());
+            user.setRole(String.valueOf(RandomDataUtil.getRandomNum(0, 3)));
             user.setCreateTime(RandomDataUtil.getRandomDate("2019-01-01", "2020-05-01"));
             user.setLastLoginTime(RandomDataUtil.getRandomDate("2020-04-01", "2020-05-01"));
             user.setRegisterTime(user.getCreateTime());
@@ -300,7 +316,25 @@ public class GenData {
             users.add(user);
         }
         userDao.insertBatch(users);
-        return;
+    }
+
+    public void genUserPermissionData(){
+        List<User> users = userDao.queryAllByLimit(0, 10001);
+        List<Permission> userPermissionList = new ArrayList<>(users.size());
+        for (User user : users) {
+            Permission permissionRecord = new Permission();
+            if ("3".equals(user.getRole())){
+                permissionRecord.setPrivilege(true);
+                permissionRecord.setUserId(user.getUserId());
+                userPermissionList.add(permissionRecord);
+            }
+            if (UserEnum.USER_ROLE_ADMIN.getCode().equals(user.getRole())){
+                permissionRecord.setUserId(user.getUserId());
+                userPermissionList.add(permissionRecord);
+            }
+
+        }
+        permissionDao.insertBatch(userPermissionList);
     }
 
     public void genClassData(){

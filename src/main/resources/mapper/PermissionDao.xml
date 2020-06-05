@@ -51,7 +51,8 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAllByCondition" resultMap="PermissionMap">
         select
-          user_id, book_r, book_w, user_r, user_w, borrowing_r, borrowing_w, category_w, statistics_r, privilege, admin, remark1, remark2, remark3
+        user_id, book_r, book_w, user_r, user_w, borrowing_r, borrowing_w, category_w, statistics_r, privilege, admin,
+        remark1, remark2, remark3
         from library.permission
         <where>
             <if test="userId != null and userId != ''">
@@ -111,7 +112,8 @@
         values
         <foreach collection="list" item="entity" index="index" separator=",">
             (#{entity.userId}, #{entity.bookR}, #{entity.bookW}, #{entity.userR}, #{entity.userW}, #{entity.borrowingR},
-            #{entity.borrowingW}, #{entity.categoryW}, #{entity.statisticsR}, #{entity.privilege}, #{entity.admin}, #{entity.remark1}, #{entity.remark2},
+            #{entity.borrowingW}, #{entity.categoryW}, #{entity.statisticsR}, #{entity.privilege}, #{entity.admin},
+            #{entity.remark1}, #{entity.remark2},#{entity.remark3})
         </foreach>
     </insert>
 
