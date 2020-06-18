@@ -161,15 +161,15 @@ public class BorrowingServiceImpl implements BorrowingService {
     @Override
     public ResultUtil<Borrowing> cancelApplying(String borrowingId) {
         final Borrowing borrowingResult = queryById(borrowingId);
-        if (borrowingResult == null){
+        if (borrowingResult == null) {
             return ResultUtil.failed("没有找到对应借阅信息");
         }
         final Book bookResult = bookDao.queryById(borrowingResult.getBookId());
-        if (bookResult == null){
+        if (bookResult == null) {
             return ResultUtil.failed("没有找到对应书籍信息");
         }
         final User userResult = userDao.queryById(borrowingResult.getUserId());
-        if (userResult == null){
+        if (userResult == null) {
             return ResultUtil.failed("没有找到对应用户信息");
         }
         userResult.decreaseCredit(10);
