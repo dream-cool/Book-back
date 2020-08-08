@@ -29,10 +29,16 @@ public class Message implements Serializable {
     private String messageId;
 
     /**
-     * 用户id
+     * 接收用户id
      */
-    @ApiModelProperty("用户id")
+    @ApiModelProperty("接收用户id")
     private String userId;
+
+    /**
+     * 接收用户名
+     */
+    @ApiModelProperty("接收用户名")
+    private String receiveUserName;
 
     /**
      * 发送用户id
@@ -40,7 +46,17 @@ public class Message implements Serializable {
     @ApiModelProperty("发送用户id")
     private String  sendUserId;
 
+    /**
+     * 发送用户名
+     */
+    @ApiModelProperty("发送用户名")
+    private String  sendUserName;
 
+    /**
+     * sessionId
+     */
+    @ApiModelProperty("sessionId")
+    private String  sessionId;
 
     /**
      * 发送时间

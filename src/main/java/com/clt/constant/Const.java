@@ -105,4 +105,6 @@ public class Const {
 
     public static final int ENCRYPTION_TIMES = 1024;
 
+
+    public static final String MESSAGE_SUFFIX = ":message-list";
 }

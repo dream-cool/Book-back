@@ -22,6 +22,13 @@ spring:
     multipart:
       max-file-size: 100MB
 
+  rabbitmq:
+    host: 39.97.239.108
+    port: 5672
+
+  redis:
+    host: 39.97.239.108
+    port: 6378
 
 mybatis:
   mapper-locations: classpath:/mapper/*Dao.xml
@@ -36,7 +43,7 @@ jwt:
 logging:
   level:
     root: info #日志配置DEBUG,INFO,WARN,ERROR
-    com.clt.dao: debug
+    com.clt.dao: info
 
 
 pagehelper:

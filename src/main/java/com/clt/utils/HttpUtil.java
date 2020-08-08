@@ -1,5 +1,8 @@
 package com.clt.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -11,6 +14,8 @@ import java.net.URLConnection;
  * @Date ：Created in 18:37 2020/04/21
  */
 public class HttpUtil {
+
+    private static final Logger logger = LoggerFactory.getLogger(HttpUtil.class);
 
     public static String sendGet(String url) {
         StringBuilder result = new StringBuilder(200);
@@ -30,7 +35,8 @@ public class HttpUtil {
                 result.append(line);
             }
         } catch (Exception var15) {
-            var15.printStackTrace();
+            logger.error("第三方服务异常， url: [{}]", url);
+            return  null;
         } finally {
             try {
                 if (in != null) {
@@ -40,7 +46,6 @@ public class HttpUtil {
                     ((PrintWriter)out).close();
                 }
             } catch (Exception var14) {
-                var14.printStackTrace();
             }
         }
         return result.toString();

@@ -3,9 +3,13 @@ package com.clt.service.impl;
 import com.clt.entity.Message;
 import com.clt.dao.MessageDao;
 import com.clt.service.MessageService;
+import com.clt.utils.ResultUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,6 +22,9 @@ import java.util.List;
 public class MessageServiceImpl implements MessageService {
     @Resource
     private MessageDao messageDao;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     /**
      * 通过ID查询单条数据
@@ -85,5 +92,22 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public int readMessageByUser(String userId) {
         return this.messageDao.readMessageByUser(userId);
+    }
+
+
+
+    @Override
+    public Long queryUnreadMessageCountByUserName(String userName) {
+        return redisTemplate.opsForList().size(userName);
+    }
+
+    @Override
+    public List<Message> consumeUnreadMessageByUserName(String userName) {
+        int messageSize = Math.toIntExact(redisTemplate.opsForList().size(userName));
+        List<Message> messageList = new ArrayList<>(messageSize);
+        for (int i = 0; i < messageSize; i++) {
+            messageList.add((Message) redisTemplate.opsForList().leftPop(userName));
+        }
+        return messageList;
     }
 }

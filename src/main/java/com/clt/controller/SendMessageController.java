@@ -87,7 +87,6 @@ public class SendMessageController {
         sendEmail = sendEmail == null ? true : sendEmail;
 
         Set<User> users = new HashSet<>();
-
         if (singleSend) {
             final User userResult = userService.queryByUserName(receivers);
             if (userResult == null) {

@@ -2,19 +2,15 @@ package com.clt.data;
 
 import com.alibaba.fastjson.JSON;
 import com.clt.constant.Const;
-import com.clt.controller.BookController;
-import com.clt.dao.BookDao;
 import com.clt.dao.PermissionDao;
 import com.clt.dao.UserDao;
 import com.clt.entity.*;
 import com.clt.enums.BookEnum;
 import com.clt.enums.UserEnum;
 import com.clt.service.*;
-import com.clt.service.impl.DictionaryDataServiceImpl;
 import com.clt.utils.DateUtils;
 import com.clt.utils.ResultUtil;
 import com.clt.utils.UUIDUtil;
-import org.apache.commons.lang3.RandomUtils;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -23,8 +19,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,10 +27,7 @@ import javax.annotation.Resource;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author ：clt
@@ -136,7 +127,7 @@ public class GenData {
 
     @GetMapping("/genUserData/random")
     public ResultUtil<Boolean> genUserData() {
-        randomGenUserData();
+        gen100WUserData();
         return ResultUtil.success(true);
     }
 
@@ -421,5 +412,35 @@ public class GenData {
             }
 //            commentService.insertBatch(commentList);
         });
+    }
+
+
+    public void gen100WUserData(){
+
+        for (int i = 0; i < 1000; i++) {
+            List<User> data = new ArrayList<>(1000);
+            for (int j = 0; j < 1000; j++) {
+                User user = new User();
+                user.setUserId(UUIDUtil.getUUID());
+                user.setCredit(RandomDataUtil.getRandomNum(30, 90));
+                user.setUserName(RandomDataUtil.getChineseFamilyName() + RandomDataUtil.getRandomName());
+                final Map<String, String> randomAddressCode = RandomDataUtil.getRandomAddressCode();
+                user.setAddress("[\"430000\",\"" + randomAddressCode.entrySet().iterator().next().getKey() + "\",\"" + randomAddressCode.entrySet().iterator().next().getValue() + "\"]");
+                user.setEmail(RandomDataUtil.getRandomEmail());
+                user.setPassword(Const.INITIAL_PASSWORD);
+                Object md5PassWord = new SimpleHash(Const.ENCRYPTION_ALGORITHM, user.getPassword(),
+                        user.getUserName(), Const.ENCRYPTION_TIMES);
+                user.setPassword(md5PassWord.toString());
+                user.setRole(String.valueOf(RandomDataUtil.getRandomNum(0, 3)));
+                user.setCreateTime(RandomDataUtil.getRandomDate("2019-01-01", "2020-05-01"));
+                user.setLastLoginTime(RandomDataUtil.getRandomDate("2020-04-01", "2020-05-01"));
+                user.setRegisterTime(user.getCreateTime());
+                user.setSex(String.valueOf(RandomDataUtil.getRandomNum(0, 1)));
+                user.setStatus("1");
+                user.setTel(RandomDataUtil.getRandomTel());
+                data.add(user);
+            }
+            new Thread( () -> userDao.insertBatch(data) ).start();
+        }
     }
 }

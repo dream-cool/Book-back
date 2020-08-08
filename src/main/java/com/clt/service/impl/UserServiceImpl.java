@@ -2,7 +2,6 @@ package com.clt.service.impl;
 
 import com.clt.constant.Const;
 import com.clt.dao.PermissionDao;
-import com.clt.dao.UserClassDao;
 import com.clt.dao.UserDao;
 import com.clt.entity.Email;
 import com.clt.entity.Permission;
@@ -15,15 +14,11 @@ import com.clt.utils.DateUtils;
 import com.clt.utils.MailUtil;
 import com.clt.utils.ResultUtil;
 import com.clt.utils.UUIDUtil;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -116,7 +111,7 @@ public class UserServiceImpl implements UserService {
         if (user.getCredit() == null || user.getCredit() < 0 || user.getCredit() > 100) {
             user.setCredit(60);
         }
-        if (user.getClassId() != null){
+        if (user.getClassId() != null) {
             UserClass userClass = new UserClass();
             userClass.setClassId(user.getClassId());
             userClassService.insert(userClass);
@@ -142,7 +137,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public User update(User user) {
-        if (user.getClassId() != null){
+        if (user.getClassId() != null) {
             UserClass userClass = new UserClass();
             userClass.setClassId(user.getClassId());
             userClassService.insert(userClass);

@@ -2,11 +2,7 @@ package com.clt.controller;
 
 import com.clt.annotation.Log;
 import com.clt.dao.TypeDao;
-import com.clt.dao.UserDao;
-import com.clt.data.GenData;
 import com.clt.entity.Book;
-import com.clt.entity.Type;
-import com.clt.entity.User;
 import com.clt.enums.LogOperationTypeEnum;
 import com.clt.service.BookService;
 import com.clt.utils.JwtTokenUtil;
@@ -23,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -117,7 +112,6 @@ public class BookController {
     ) {
         pageNum = (pageNum == null || pageNum < 0) ? 1 : pageNum;
         pageSize = (pageSize == null || pageSize < 0) ? 10 : pageSize;
-
         PageInfo<Book> pageInfo = this.bookService.queryAllByCondition(pageNum, pageSize, book);
         if (pageInfo != null) {
             return ResultUtil.success(pageInfo, "查询成功");

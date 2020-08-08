@@ -1,5 +1,6 @@
 package com.clt.controller;
 
+import com.clt.constant.Const;
 import com.clt.entity.Message;
 import com.clt.service.MessageService;
 import com.clt.utils.ResultUtil;
@@ -153,6 +154,18 @@ public class MessageController {
         }
         int result = this.messageService.readMessageByUser(userId);
         return ResultUtil.success(result, "消息已读");
+    }
+
+    @GetMapping("/unreadMessageCount/{userName}")
+    @ApiOperation("获取用户未读的消息数量")
+    public ResultUtil<Long> getUnreadMessageCount(@PathVariable String userName) {
+        return ResultUtil.success(messageService.queryUnreadMessageCountByUserName(userName + Const.MESSAGE_SUFFIX));
+    }
+
+    @GetMapping("/consumeUnreadMessage/{userName}")
+    @ApiOperation("消费用户未读的消息")
+    public ResultUtil<List<Message>> consumeUnreadMessageByUserName(@PathVariable String userName) {
+        return ResultUtil.success(messageService.consumeUnreadMessageByUserName(userName + Const.MESSAGE_SUFFIX));
     }
 
 }

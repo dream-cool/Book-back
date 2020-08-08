@@ -1,6 +1,5 @@
 package com.clt.config;
 
-import com.clt.fitter.ShiroFilter;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -9,7 +8,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 
 /**
@@ -36,11 +34,11 @@ public class ShiroConfig {
 
         //设置安全管理器
         shiroFilterFactoryBean.setSecurityManager(securityManager);
-        LinkedHashMap<String, Filter> shiroFilter = new LinkedHashMap<>();
-        shiroFilter.put("authc", new ShiroFilter());
-        shiroFilterFactoryBean.setFilters(shiroFilter);
+//        LinkedHashMap<String, Filter> shiroFilter = new LinkedHashMap<>();
+//        shiroFilter.put("authc", new ShiroFilter());
+//        shiroFilterFactoryBean.setFilters(shiroFilter);
         LinkedHashMap<String, String> filterMap = new LinkedHashMap<>();
-        filterMap.put("/**", "authc");
+        filterMap.put("/**", "anon");
         //修改调整的登录页面
         shiroFilterFactoryBean.setLoginUrl("/toLogin");
         shiroFilterFactoryBean.setUnauthorizedUrl("/unauthorized");

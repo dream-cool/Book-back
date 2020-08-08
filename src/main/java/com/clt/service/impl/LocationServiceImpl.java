@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.clt.entity.Location;
 import com.clt.dao.LocationDao;
 import com.clt.entity.UserClass;
+import com.clt.service.BookService;
 import com.clt.service.LocationService;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,9 @@ import java.util.List;
 public class LocationServiceImpl implements LocationService {
     @Resource
     private LocationDao locationDao;
+
+    @Resource
+    private BookService BookService;
 
     /**
      * 通过ID查询单条数据

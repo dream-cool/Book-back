@@ -97,6 +97,15 @@
         values (#{id}, #{userName}, #{operation}, #{startTime}, #{spendTime}, #{url}, #{method}, #{ip}, #{parameter}, #{result}, #{type}, #{addr}, #{remark3}, #{remark4}, #{remark5})
     </insert>
 
+    <insert id="insertBatch">
+        insert into library.web_log(id, user_name, operation, start_time, spend_time, url, method, ip, parameter, result, type, addr, remark3, remark4, remark5)
+        values
+        <foreach collection="list" item="entity" index="index" separator=",">
+            (#{entity.id}, #{entity.userName}, #{entity.operation}, #{entity.startTime}, #{entity.spendTime}, #{entity.url}, #{entity.method},
+            #{entity.ip}, #{entity.parameter}, #{entity.result}, #{entity.type}, #{entity.addr}, #{entity.remark3}, #{entity.remark4}, #{entity.remark5})
+        </foreach>
+    </insert>
+
     <!--通过主键修改数据-->
     <update id="update">
         update library.web_log

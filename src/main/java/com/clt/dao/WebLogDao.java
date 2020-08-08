@@ -48,6 +48,15 @@ public interface WebLogDao {
      */
     int insert(WebLog webLog);
 
+
+    /**
+     * 新增数据
+     *
+     * @param logList 实例对象列表
+     * @return 影响行数
+     */
+    int insertBatch(List<WebLog> logList);
+
     /**
      * 修改数据
      *

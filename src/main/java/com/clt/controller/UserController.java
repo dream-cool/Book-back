@@ -50,6 +50,7 @@ public class UserController {
      */
     @GetMapping("/{id}")
     @ApiOperation("通过主键查询单条数据")
+    @Log(value = "根据用户id查询用户数据", method = LogOperationTypeEnum.QUERY)
     public ResultUtil<User> selectOne(
             @ApiParam("id")
             @PathVariable String id) {

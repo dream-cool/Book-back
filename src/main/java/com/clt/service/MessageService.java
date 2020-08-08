@@ -1,6 +1,8 @@
 package com.clt.service;
 
 import com.clt.entity.Message;
+import com.clt.utils.ResultUtil;
+
 import java.util.List;
 
 /**
@@ -55,4 +57,15 @@ public interface MessageService {
     List<Message> queryAllByCondition(Message message);
 
     int readMessageByUser(String userId);
+
+
+
+    Long queryUnreadMessageCountByUserName(String userName);
+
+    /**
+     * @param userName 用户名
+     * @return 返回未读消息列表
+     */
+    List<Message> consumeUnreadMessageByUserName(String userName);
+
 }
